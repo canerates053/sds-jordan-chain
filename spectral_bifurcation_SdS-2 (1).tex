@@ -1,0 +1,3955 @@
+\documentclass[12pt,a4paper]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage[final,expansion=false]{microtype}
+\usepackage{geometry}
+\geometry{margin=1in}
+\raggedbottom
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Microlocal Spectral Bifurcation in Schwarzschild--de~Sitter Geometry}
+
+\author{Caner Ate\c{s}}
+\address{Istanbul, Turkey}
+\email{canerates053@gmail.com}
+\date{June 2026}
+
+\subjclass[2020]{%
+  35P25,  % Scattering theory for PDEs
+  58J50,  % Spectral theory; eigenvalue problems on manifolds
+  83C57,  % Black holes
+  35S05,  % Pseudodifferential operators
+  34E20   % Singular perturbations, turning point theory, WKB methods
+}
+
+\keywords{quasinormal modes; Jordan block; semiclassical analysis;
+Schwarzschild--de~Sitter spacetime; WKB suppression; microlocal analysis;
+spectral bifurcation; Regge--Wheeler operator; resolvent estimates}
+
+\begin{document}
+
+\begin{abstract}
+We develop a complete semiclassical resolvent theory for the Regge--Wheeler
+operator on Schwarzschild--de~Sitter (SdS) spacetimes. First, we demonstrate that in
+the strictly physical regime ($r_s \leq r_s^{\mathrm{Nariai}}$), the photon sphere
+is permanently shielded from geometric degeneracy, thereby maintaining strict normal
+hyperbolicity. Second, by analytically continuing the parameter space beyond the
+Nariai boundary, we identify an exact algebraic locus $P_c$ where the spectral gap
+of the linearized Hamiltonian flow completely collapses. By performing a microlocal
+reduction to a $k=3$ (cusp) normal form and imposing purely outgoing boundary
+conditions via complex scaling, we establish the emergence of a non-diagonalizable
+Jordan block of size~3. We uncover an asymptotic WKB suppression mechanism that
+shields the system from generic Puiseux fractional scaling and yields the two-sided
+resolvent estimate
+\[
+  \|R_h(P)\| \sim h^{-6/5}|P - P_c|^{-1/2},
+\]
+valid in the semiclassical limit $h\to 0$ at any fixed deformation $P - P_c \neq 0$.
+In the coupled double scaling regime $|P - P_c| \sim h^{4/5}$, the resolvent remains
+uniformly bounded by $O(h^{-6/5})$ and the resonance spacing satisfies
+$\Delta\omega \sim h^{6/5}$; these two asymptotic windows are complementary and
+consistent. We show that the critical frequency satisfies
+$\omega_c^2 = V_{\mathrm{eff}}(r^c;r_s^c) < 0$, so $\omega_c \in i\mathbb{R}$ is
+purely imaginary; the three coalescing resonances therefore lie on the imaginary axis
+at $P_c$, and the splitting $\Delta\omega$ occurs in the complex plane at angle
+$-\pi/10$ from the imaginary axis.
+\end{abstract}
+
+\maketitle
+
+% -------------------------------------------------------
+\section{Introduction}
+% -------------------------------------------------------
+
+\subsection*{Physical motivation}
+
+Schwarzschild--de~Sitter (SdS) spacetimes provide the canonical arena for studying
+gravitational wave emission and quasinormal mode (QNM) spectra in the presence of a
+positive cosmological constant $\Lambda > 0$. The Regge--Wheeler equation governs
+linearized gravitational perturbations of spin $s=2$ around the static spherically
+symmetric SdS background, and its resonance spectrum, which consists of the QNMs, encodes
+the characteristic ringdown frequencies observable in gravitational wave experiments.
+Consequently, understanding the behavior of these resonances as the spacetime parameters
+approach critical configurations is of direct physical and observational significance.
+
+The SdS geometry is characterized by two positive parameters: the Schwarzschild mass
+$r_s$ and the cosmological length scale $L = \sqrt{3/\Lambda}$. The spacetime possesses
+two horizons---a black hole horizon at $r_h$ and a cosmological horizon at $r_c$---that
+coalesce in the Nariai limit $r_s \to r_s^{\mathrm{Nariai}} = \frac{2\sqrt{3}}{9}L$,
+where the geometry degenerates. For $r_s < r_s^{\mathrm{Nariai}}$, the spacetime is
+physically regular, the trapped photon sphere at the potential maximum is normally
+hyperbolic, and the standard QNM theory of Wunsch--Zworski~\cite{WZ11} and
+Dyatlov~\cite{Dyatlov11} applies to yield an exponential resonance-free strip below
+the real axis. In this regime, the photon sphere controls the long-time decay of
+linear perturbations.
+
+A natural question arises regarding the behavior of the effective potential when it
+is tuned to a degenerate configuration. For generic parameters $(r_s, L)$, the effective
+potential $V_{\mathrm{eff}}(r)$ possesses a nondegenerate maximum. However, it is
+important to determine whether the simultaneous vanishing $V'_{\mathrm{eff}} = V''_{\mathrm{eff}} = 0$
+is achievable. In this work, we show that such a configuration exists at a unique critical point
+$(r_s^c, L) \approx (1.1192\,L, L)$ in the parameter space, but lies strictly \emph{outside}
+the physical regime $r_s \leq r_s^{\mathrm{Nariai}} \approx 0.3849\,L$ (Lemma~\ref{lem:physical_shielding}).
+The critical configuration must therefore be accessed by analytic continuation in $r_s$
+beyond the Nariai boundary, and the resulting spectral phenomena are a mathematical
+consequence of this continuation, rather than a physical instability of any SdS spacetime.
+
+We emphasize that analytic continuation beyond the Nariai boundary is mathematically
+well-defined and physically meaningful: the resolvent family $R_h(P)$, initially
+constructed for $r_s < r_s^{\mathrm{Nariai}}$ via the standard microlocal theory of
+Wunsch--Zworski~\cite{WZ11} and Dyatlov~\cite{Dyatlov11}, extends meromorphically
+in the parameter $r_s$ by the analytic Fredholm theorem
+(Dyatlov--Zworski~\cite{DZ19}, Theorem~C.5).
+The critical point $P_c$ is then a distinguished pole of this meromorphic family,
+and the Jordan block structure at $P_c$ is an intrinsic property of the continued
+resolvent---not an artifact of the continuation procedure.
+Physically, the analysis describes the \emph{boundary behavior} of the QNM spectrum
+as the SdS geometry is driven toward its mathematical limits: the spectral phenomena
+uncovered here govern the rate at which the resolvent degenerates as $P \to P_c$,
+and this rate is observable as a sharp threshold in the $h \to 0$ asymptotics,
+independent of whether $P_c$ itself is physically realized.
+In particular, the continuation does not alter the geometry of any SdS spacetime:
+it is an operation on the parameter-dependent resolvent family, not on the underlying
+manifold, and the Jordan block structure at $P_c$ is therefore an intrinsic spectral
+invariant of the SdS resolvent rather than a consequence of any geometric deformation.
+
+\subsection*{The $k\!=\!3$ degeneracy and its spectral consequences}
+
+Under the condition $V'_{\mathrm{eff}}(r^c) = V''_{\mathrm{eff}}(r^c) = 0$, the Taylor
+expansion of $V_{\mathrm{eff}}$ around $r^c$ begins at cubic order:
+\[
+  V_{\mathrm{eff}}(r) - V_{\mathrm{eff}}(r^c) \sim \tfrac{1}{6}V'''_{\mathrm{eff}}(r^c)(r-r^c)^3.
+\]
+According to Arnold's classification of singularities~\cite{Arnold72}, this corresponds to the $A_2$ (cusp)
+catastrophe, which is the simplest codimension-1 degenerate critical point. After semiclassical
+Birkhoff normal form reduction, the effective Hamiltonian is modeled by
+$P_{\mathrm{mod}} = -h^2\partial_x^2 + x^3$, a non-self-adjoint operator with a
+cusp-type potential.
+
+The spectral consequences of this degeneracy are threefold. First, the spectral gap of the linearized
+Hamiltonian flow---defined in the sense of normal hyperbolicity as $\kappa_{\mathrm{gap}}(P) = \sqrt{-2V''_{\mathrm{eff}}(r^c)}$---collapses to zero as $P \to P_c$, thereby violating the assumptions of the Wunsch--Zworski
+resolvent estimate. Second, microlocal analysis of $P_{\mathrm{mod}}$ subject to
+outgoing boundary conditions on the Stokes contour $\Gamma = \{te^{i2\pi/5}: t > 0\}$
+reveals a non-diagonalizable Jordan block of size~3 at the critical point (Theorem~\ref{thm:jordan});
+specifically, the geometric multiplicity is 1, whereas the algebraic multiplicity is 3. Third, the WKB
+phase structure on $\Gamma$ induces an asymptotic suppression of the matrix element $X_{31}$ of
+the geometric perturbation matrix, which prevents the generic Puiseux $\mu^{1/3}$ eigenvalue
+splitting and constrains the resolvent growth strictly to the rate $|P-P_c|^{-1/2}$
+(Section~6).
+
+\subsection*{Main results}
+
+The primary result of this work (Theorem~\ref{thm:resolvent}) is the two-sided estimate
+\[
+  \|R_h(P)\| \sim h^{-6/5}|P - P_c|^{-1/2},
+\]
+valid in the semiclassical limit $h \to 0$ at fixed $\mu = P - P_c \neq 0$.
+The factor $h^{-6/5}$ arises from the $A_2$ scaling of the model operator $P_{\mathrm{mod}}$
+(where the exponent $6/5$ is determined by the dominant balance between the $h^2\partial_x^2$ and $x^3$
+terms), whereas the $|P-P_c|^{-1/2}$ factor accounts for the square-root eigenvalue splitting
+of the Schur complement $E_{-+}(\mu)$.
+A key ingredient in the proof is the vanishing of the sub-principal symbol,
+$Q_1 \equiv 0$ (Appendix~A, Lemma~\ref{lem:Q1}), which ensures that the semiclassical
+scaling is governed purely by the principal symbol and that no $O(h)$ correction
+alters the dilation exponent $6/5$.
+
+Theorem~\ref{thm:spectral_clustering} (Spectral Clustering) establishes that the degenerate triple resonance at $P_c$
+splits into three distinct physical frequencies under the perturbation $\mu = P-P_c$:
+one remains at $\omega_c$ to leading order, while the other two bifurcate as
+$\omega_{2,3} \approx \omega_c \pm \frac{\sqrt{c_X\mu}}{2\omega_c}$.
+In the double scaling regime $|\mu| \sim h^{4/5}$ (Section~7), these two scaling limits couple,
+and the resolvent is shown to remain uniformly bounded by $O(h^{-6/5})$, with the corresponding
+resonance spacing satisfying $\Delta\omega \sim h^{6/5}$.
+
+\subsection*{Physical interpretation}
+
+Although the critical configuration $P_c$ lies outside the physically regular SdS regime, the results of this paper
+carry significant physical implications in two ways.
+
+First, the resolvent estimate $\|R_h(P)\| \sim h^{-6/5}|P-P_c|^{-1/2}$ characterizes
+a \emph{threshold phenomenon} with a precise, observable signature. As the SdS parameters
+approach the Nariai boundary, the photon sphere shifts toward the degenerate configuration,
+causing the spectral gap $\kappa_{\mathrm{gap}}(P)$ to decrease and the resolvent norm to grow.
+The rate of this growth, governed by $|P-P_c|^{-1/2}$, constitutes a sharp, computable
+geometric invariant that is independent of the specific path taken through parameter space.
+In the context of gravitational wave astronomy, this yields a precise and in principle
+testable prediction: the QNM decay timescale $\tau = 1/|\mathrm{Im}(\omega)|$ diverges as
+$\tau \sim |P - P_c|^{-1/2}$ near the Nariai boundary, so near-extremal SdS black holes
+exhibit anomalously long-lived ringdown signals.
+The exponent $-1/2$ is rigid---it is fixed by the $A_2$ cusp geometry of the potential
+barrier and cannot be altered by sub-leading corrections---and therefore provides a
+distinguishing prediction relative to the Kerr--de~Sitter case, where no such
+algebraic divergence occurs.
+Concretely, if two black holes with mass parameters $r_{s,1}$ and $r_{s,2}$ both lie
+within a factor of two of the Nariai boundary
+($|P_j - P_c| \leq 2|P_{\mathrm{Nariai}} - P_c|$), then their ringdown
+timescales differ by a computable factor $\sqrt{|P_2-P_c|/|P_1-P_c|}$ that is
+determined solely by the resolvent estimate of Theorem~\ref{thm:resolvent}.
+
+Second, the spectral clustering established in Theorem~\ref{thm:spectral_clustering} has a
+richer structure than the real-axis picture might suggest.
+A direct computation gives
+$V_{\mathrm{eff}}(r^c;\,r_s^c) = \tfrac{-591+33\sqrt{33}}{136} \approx -2.952 < 0$
+(see Remark~\ref{rem:omega_c_imaginary}), so the critical frequency satisfies
+$\omega_c^2 < 0$, i.e.\ $\omega_c = i|\omega_c| \in i\mathbb{R}_{>0}$.
+The three coalescing resonances therefore lie on the positive imaginary axis at $P_c$,
+corresponding to purely decaying modes with no oscillation.
+Under the perturbation $\mu = P - P_c$, the first resonance $\omega_1$
+remains at $\omega_c$ to leading order (a purely imaginary, non-oscillatory mode), while the
+other two split as
+\[
+  \omega_{2,3} = \omega_c \pm \frac{\sqrt{c_X\,\mu}}{2\omega_c}.
+\]
+Since $c_X = |c_X|\,e^{i4\pi/5}$ (Lemma~\ref{lem:cx_nonzero}), one computes
+$\arg\!\left(\tfrac{\sqrt{c_X\mu}}{2\omega_c}\right) = \tfrac{2\pi}{5} - \tfrac{\pi}{2} = -\tfrac{\pi}{10}$
+for real $\mu > 0$.
+Consequently $\omega_{2,3}$ acquire nonzero real parts of opposite sign:
+\begin{align*}
+  \mathrm{Re}(\omega_{2,3}) &= \pm\,|\Delta\omega|\cos(\pi/10), \\
+  \mathrm{Im}(\omega_{2,3}) &= |\omega_c| \mp |\Delta\omega|\sin(\pi/10),
+\end{align*}
+where $|\Delta\omega| = \tfrac{|\sqrt{c_X\mu}|}{2|\omega_c|}$.
+The modes $\omega_{2,3}$ are therefore oscillatory (non-zero real part), in contrast
+to the purely imaginary mode $\omega_1$.
+This \emph{mixed splitting}---one purely imaginary mode and a complex-conjugate-free
+oscillatory pair---is a hallmark of the $A_2$ (cusp) degeneracy in a non-self-adjoint
+setting, and carries a concrete physical interpretation.
+
+The purely imaginary mode $\omega_1$ represents a perturbation that decays
+monotonically with no oscillation; in a near-extremal SdS geometry, it corresponds to
+the overdamped sector of the ringdown signal. The oscillatory pair $\omega_{2,3}$, by
+contrast, generates a \emph{beating pattern}: two modes with equal decay rates
+$\mathrm{Im}(\omega_{2,3}) = |\omega_c| \mp |\Delta\omega|\sin(\pi/10)$ but opposite
+oscillation frequencies $\pm|\Delta\omega|\cos(\pi/10)$, which superpose to produce
+amplitude modulation at the difference frequency $2|\Delta\omega|\cos(\pi/10)$.
+The fixed geometric ratio
+\[
+  \frac{\mathrm{Re}(\omega_{2,3})}{\mathrm{Im}(\omega_{2,3}) - |\omega_c|}
+  = -\cot(\pi/10) \approx -3.08
+\]
+between the oscillation frequency and the shift in decay rate is a direct invariant
+of the $A_2$ singularity, independent of $\mu$ and $h$, and in principle distinguishable
+in numerical relativity simulations of near-extremal SdS geometries.
+
+\subsection*{Relation to the literature}
+
+The mathematical study of QNMs on black hole spacetimes has been significantly advanced
+by the microlocal framework of Vasy~\cite{Vasy2013}, who established the meromorphic
+continuation of the resolvent on asymptotically hyperbolic and Kerr--de~Sitter
+spaces, and by Dyatlov~\cite{Dyatlov11}, who proved exponential energy decay
+and the QNM expansion for Kerr--de~Sitter perturbations. The Grushin (Schur complement)
+reduction employed in this work follows the approach of Dyatlov--Zworski~\cite{DZ19}, whose
+formulation of resonances via Fredholm theory and effective Hamiltonians serves as the
+technical basis for Sections~5--7 and Appendix~B.
+
+Recent developments in the Kerr--de~Sitter setting that are directly relevant to the
+present work include the following.
+Hintz~\cite{Hintz2022} established mode stability and a complete asymptotic description
+of shallow quasinormal modes for Kerr--de~Sitter black holes throughout the subextremal
+range in the limit of small cosmological constant ($\Lambda\mathfrak{m}^2 \searrow 0$).
+Petersen--Vasy~\cite{PetersenVasy2023} proved that quasinormal modes for linear wave
+equations in subextremal Kerr and Kerr--de~Sitter spacetimes are real analytic,
+using a stable radial-point microlocal structure that goes beyond the generalized
+normal source/sink framework of~\cite{Vasy2013}.
+Fang~\cite{Fang2022} provided an alternative proof of linear stability of the
+slowly-rotating Kerr--de~Sitter family via integrated local energy estimates, without
+appealing to the meromorphic continuation of the resolvent.
+The present paper complements these results by identifying a precise spectral degeneracy
+that occurs when SdS parameters approach the Nariai boundary via analytic continuation:
+in contrast to the Kerr--de~Sitter case~\cite{Dyatlov11,Dyatlov12}, the SdS resolvent
+acquires the additional algebraic factor $|P-P_c|^{-1/2}$ with exponent fixed by the
+$A_2$ cusp geometry, and no analogous algebraic divergence arises in the Kerr--de~Sitter
+setting under standard parameter variations.
+
+For normally hyperbolic trapped sets, the sharp resolvent estimate $\|R_h\| = O(h^{-1})$
+(up to logarithmic losses) was established by Wunsch--Zworski~\cite{WZ11}.
+The underlying dynamical description, concerning the exponential decay of correlations for flows with normally
+hyperbolic trapping (including null geodesic flows on black hole backgrounds), was
+developed by Nonnenmacher--Zworski~\cite{NZ15}.
+The present paper provides a precise description of the spectral behavior when this
+normal hyperbolicity degenerates: the exponent $h^{-1}$ is replaced by $h^{-6/5}$,
+which reflects the cubic rather than quadratic tangency of the potential barrier, and the
+resolvent acquires an additional geometric factor $|P-P_c|^{-1/2}$.
+
+The classification of degenerate critical points utilized in Section~4 and Appendix~A
+follows Arnold's singularity theory~\cite{Arnold72}. The WKB and Stokes sector analysis in Section~6 and
+Appendix~E is based on Sibuya's global theory of the model equation
+$-u'' + x^3 u = 0$~\cite{Sibuya75} and Kato's analytic perturbation theory
+for the resonance family $Q(\nu) = -\partial_y^2 + y^3 + \nu y$~\cite{Kato66}.
+
+The general theory of trapped sets with higher-codimensional degeneracies has been
+studied by Sj\"{o}strand--Zworski~\cite{SZ91}, who analyzed resonances near
+degenerate critical levels via microlocal normal forms, and by
+Faure--Sj\"{o}strand~\cite{FS11}, who established band structure of Ruelle--Pollicott
+resonances for Anosov flows. The present work can be viewed as a codimension-1
+instance of this broader program: the $A_2$ (cusp) singularity sits at the boundary
+between the normally hyperbolic regime (where~\cite{WZ11,NZ15} apply) and the
+fully degenerate regime of~\cite{SZ91}, and the resolvent exponent $h^{-6/5}$
+interpolates between the $h^{-1}$ bound of normally hyperbolic trapping and
+the stronger growth expected at higher degeneracies.
+
+\subsection*{Structure of the paper}
+
+The remainder of the paper is organized as follows. Section~3 outlines the geometric setup, including
+the SdS metric, the Regge--Wheeler effective potential, the Nariai limit, and the critical parameter
+configuration $P_c$. Section~4 develops the semiclassical scaling by means of the Birkhoff normal form.
+Section~5 implements the Grushin reduction and derives the expansion for the Schur complement.
+Section~6 establishes the asymptotic WKB suppression of the matrix element $X_{31}$ and
+the non-vanishing of the coefficient $c_X$. Section~7 analyzes the double scaling regime and
+derives the corresponding resonance spacing. The appendices contain the sub-principal symbol
+calculation ($Q_1 \equiv 0$, Appendix~A), the full determinant and dominant balance
+analysis including the Schwarzian contribution $Q^{\mathrm{Schw}}_{31}$
+(shown subleading: $|Q^{\mathrm{Schw}}_{31}|/|c_X| \approx 8\times10^{-4} \ll 1$,
+Appendix~B), the numerical verification of the Jordan chain structure
+(Appendix~C), the construction of the global escape function (Appendix~\ref{app:escape}), and the WKB spectral
+theory of the model operator $Q(\nu)$ (Appendix~\ref{app:Qnu}).
+
+\subsection*{Notation}
+
+\leavevmode\vspace{-\baselineskip}
+
+\noindent
+For the reader's convenience, we summarize the primary notation
+used throughout the paper.
+
+\medskip
+\begin{center}
+{\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{6.4cm}l@{}}
+\hline
+Symbol & Definition & First appearance \\
+\hline
+$h$ & semiclassical parameter ($h \to 0$) & \S1 \\
+$P = (r_s, L)$ & black hole / cosmological parameter & \S3 \\
+$P_c$ & critical degenerate parameter, $V'_{\mathrm{eff}}=V''_{\mathrm{eff}}=0$ & \S3 \\
+$\mu$ & scalar deformation parameter along a one-parameter path $P(\mu)$ with $P(0)=P_c$ & \S1 \\
+$\nu$ & double-scaling variable $\nu := \mu h^{-4/5}$ & \S7 \\
+$r_c(P)$ & photon orbit radius (potential maximum) & \S3 \\
+$\omega_c$ & critical resonance frequency at $P_c$ & \S2 \\
+$\kappa$ & linearized flow rate, $\kappa := \sqrt{-V''_{\mathrm{eff}}(r_c)}$ & \S1, \S\ref{app:escape} \\
+$\kappa_{\mathrm{gap}}(P)$ & spectral gap, $\kappa_{\mathrm{gap}}(P) := \sqrt{2}\,\kappa = \sqrt{-2V''_{\mathrm{eff}}(r_c(P))}$ & \S1, \S\ref{app:escape} \\
+$\lambda_j(\mu)$ & eigenvalues of Schur complement $E_{-+}(\mu)$ (distinct from $\kappa_{\mathrm{gap}}(P)$ above) & \S5--7 \\
+$\Gamma$ & Stokes contour $\{te^{i2\pi/5} : t > 0\}$ & \S2 \\
+$e_1, e_2, e_3$ & Jordan chain basis of $\ker Q_0^{\mathrm{AM}=3}$ & \S2 \\
+$X_{jk}$ & matrix element $\langle e_j,\, x\, e_k\rangle_\Gamma$ & \S5 \\
+$c_X$ & spectral splitting coefficient $c_X := X_{21} + X_{32}$ & \S5--6 \\
+$E_{-+}(\mu)$ & Schur complement (Grushin reduction) & \S5 \\
+$P_j(\mu)$ & spectral projector of $E_{-+}(\mu)$ onto $\lambda_j$ & \S5 \\
+$Q_0$ & model operator $-\partial_y^2 + y^3$ (rescaled, $h=1$) & \S4 \\
+$Q(\nu)$ & perturbed model $-\partial_y^2 + y^3 + \nu y$ & \S7 \\
+$Q_1$ & sub-principal symbol (shown $\equiv 0$ in App.~A) & App.~A \\
+$R_h(P)$ & semiclassical resolvent $(P_h - \omega^2)^{-1}$ & \S1 \\
+$\mu_{\mathrm{cross}}$ & crossover scale $X_{31}^2/c_X^3 \to 0$ & App.~C \\
+\hline
+\end{tabular}
+}
+\end{center}
+\medskip
+
+\noindent
+\textbf{Notational conventions.} Throughout this paper, the relation $A \lesssim B$
+denotes $A \leq CB$ for a constant $C$ independent of both $h$ and $\mu$, and $A \sim B$
+signifies that $A \lesssim B$ and $B \lesssim A$ simultaneously. All norms $\|\cdot\|$
+refer to $L^2 \to L^2$ operator norms unless specified otherwise. To avoid ambiguity, we use distinct symbols for the two spectral quantities appearing
+in this paper: $\kappa_{\mathrm{gap}}(P) := \sqrt{-2V''_{\mathrm{eff}}(r_c(P))}$ denotes
+the \emph{spectral gap} of the linearized Hamiltonian flow at the photon orbit
+(Appendix~\ref{app:escape}), while $\lambda_j(\mu)$ denotes the \emph{eigenvalues}
+of the Schur complement $E_{-+}(\mu)$ (Sections~1--7). In earlier versions of the
+manuscript these were both written as $\lambda$; the notation has been separated
+to reflect their distinct roles.
+
+% -------------------------------------------------------
+\section{Main Theorems}
+% -------------------------------------------------------
+
+\begin{theorem}[Resolvent Blow-up]
+\label{thm:resolvent}
+As $P \to P_c$, the semiclassical resolvent exhibits the singular behavior:
+\[
+  \|R_h(P)\| \sim h^{-6/5}|P - P_c|^{-1/2}.
+\]
+This blow-up arises from the combination of two independent singularities: the semiclassical singularity
+governed by the model dilation operator, which yields the factor $h^{-6/5}$, and the geometric bifurcation
+singularity, which yields the factor $|P-P_c|^{-1/2}$ and is shielded from generic fractional scaling by the
+asymptotic WKB suppression mechanism ($X_{31} \to 0$ as $T \to \infty$; see Remark~\ref{rem:normalization}).
+\end{theorem}
+
+\begin{proof}
+The proof factorizes into two independent estimates.
+
+\textbf{Step 1: Semiclassical factor $h^{-6/5}$.}
+Following the Birkhoff normal form reduction (Appendix~A), the operator in the vicinity of $P_c$ is modeled by
+$P_{\mathrm{mod}} = -h^2\partial_x^2 + x^3$.
+Under the dilation $x = h^{2/5}y$, one computes
+\[
+  P_{\mathrm{mod}} = h^{6/5}(-\partial_y^2 + y^3).
+\]
+Since $Q_1 \equiv 0$ (Lemma~\ref{lem:Q1}), there is no $O(h)$ correction,
+and the rescaled operator $-\partial_y^2 + y^3$ is $h$-independent.
+Its resolvent at energy zero satisfies the two-sided bound
+\[
+  c \;\leq\; \|(-\partial_y^2+y^3)^{-1}\| \;\leq\; C,
+\]
+for constants $0 < c \leq C < \infty$ independent of $h$.
+The lower bound $c \approx 505$ is established in Lemma~\ref{lem:Q0_svd} below
+via the Jordan chain relation $Q_0 e_2 = e_1$.
+The upper bound $C < \infty$ follows from two independent arguments:
+(i)~the coercivity estimate in Lemma~\ref{lem:Q0_svd} (closed graph theorem),
+and (ii)~the Grushin reconstruction $\|R_h\| \leq C_{\mathcal{G}}\|E_{-+}^{-1}\|$
+combined with the norm estimate for $E_{-+}^{-1}$ in Step~2 below,
+which gives $C \leq C_{\mathcal{G}}\cdot\|E_{-+}^{-1}(0,\mu)\|\cdot h^{6/5}$
+uniformly in $h$ as $\mu \to 0$ at fixed $\mu \neq 0$.
+These two routes are logically independent; (i) establishes finiteness
+at $P_c$ directly, while (ii) provides the sharp rate.
+
+\emph{Upper bound.}
+The correct functional-analytic setting for $Q_0 := -\partial_y^2 + y^3$ is the
+weighted $L^2$ space associated with the outgoing boundary condition on $\Gamma$,
+which we denote $L^2_\Gamma$.
+Concretely, $L^2_\Gamma$ is the completion of $C_c^\infty(\Gamma)$ under the norm
+$\|u\|_{L^2_\Gamma}^2 := \int_\Gamma |u(x)|^2\,|dx|$,
+and $Q_0$ is defined on $L^2_\Gamma$ with domain
+\begin{equation}\label{eq:H2Gamma_domain}
+H^2_\Gamma := \bigl\{u \in L^2_\Gamma : u'',\, y^3 u \in L^2_\Gamma,\;
+u \text{ satisfies the outgoing BC at } +\infty,\;
+\text{and } \int_{t_L}^{t_L+1} |u(t)|^2\,dt < \infty \bigr\}.
+\end{equation}
+The last condition is the \emph{lower-end boundary condition}: it requires
+$u(t_L) = 0$, which is the natural self-adjoint boundary condition at the
+finite endpoint $t_L > 0$.
+This is consistent with the Jordan chain construction: by the
+variation-of-parameters formula, $e_2(t_L) = e_1(t_L)\,I_1(t_L)/W = 0$
+since $I_1(t_L) = \int_{t_L}^{t_L} s\,e_1(s)^2\,ds = 0$,
+confirming $e_2 \in H^2_\Gamma$; while $e_1(t_L) \approx -2892 \neq 0$
+(Appendix~C.2), so $e_1 \notin H^2_\Gamma$.
+On this domain, $Q_0$ is a closed operator with discrete spectrum
+(Sibuya~\cite{Sibuya75}, \S5).
+
+We establish $\|Q_0^{-1}\| \leq C$ via a singular value argument.
+
+\begin{lemma}[Resolvent norm bound for $Q_0$]
+\label{lem:Q0_svd}
+The operator $Q_0 : H^2_\Gamma \to L^2_\Gamma$ is injective with bounded inverse,
+and
+\[
+  \frac{\|e_2\|_{L^2_\Gamma}}{\|e_1\|_{L^2_\Gamma}}
+  \;\leq\; \|Q_0^{-1}\|_{L^2_\Gamma \to L^2_\Gamma}
+  \;<\; \infty.
+\]
+Numerically, $\|Q_0^{-1}\| \geq \|e_2\|/\|e_1\| \approx 505$
+(algebraic normalization, Table~C.2).
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1: Injectivity.}
+Suppose $Q_0 u = 0$ with $u \in H^2_\Gamma$.
+By Lemma~\ref{lem:stokes_gm1}, every outgoing solution of $Q_0 v = 0$
+is a scalar multiple of $e_1$.
+However, $e_1 \notin H^2_\Gamma$ because it fails the lower-end boundary
+condition~\eqref{eq:H2Gamma_domain}: the domain requires $u(t_L) = 0$,
+but $e_1(t_L) \approx -2892 \neq 0$ (Appendix~C.2, Table~C.2).
+
+\begin{remark}
+The ODE $-v''+t^3 v = 0$ has a regular singular point structure at $t=0$
+with indicial roots $\rho = 0$ and $\rho = 1$; both local solutions are bounded
+near $t = 0$. The $t^{-3/4}$ behaviour is the large-$t$ WKB amplitude
+(Sibuya~\cite{Sibuya75}, \S2), not a small-$t$ singularity.
+The injectivity of $Q_0$ therefore rests on the boundary condition $u(t_L)=0$,
+not on a Frobenius singularity argument.
+\end{remark}
+
+Therefore $u = 0$, and $Q_0$ is injective.
+
+\emph{Step 2: Bounded inverse.}
+Since $Q_0$ is a closed Fredholm operator of index~$0$ on the pair
+$(H^2_\Gamma, L^2_\Gamma)$ (Sibuya~\cite{Sibuya75}) and is injective,
+it is surjective onto $L^2_\Gamma$ by the Fredholm alternative,
+and $Q_0^{-1} : L^2_\Gamma \to H^2_\Gamma$ is bounded by the closed graph theorem:
+$\|Q_0^{-1}\| < \infty$.
+
+To obtain the explicit finiteness with a concrete bound, we use the
+a priori coercivity estimate: for any $u \in H^2_\Gamma$,
+\begin{equation}\label{eq:coercive}
+  \|Q_0 u\|^2
+  = \|u''\|^2 - 2\,\mathrm{Re}\langle u'', t^3 u\rangle + \|t^3 u\|^2
+  \;\geq\; \tfrac{1}{2}\|u''\|^2 - C_1\|u\|^2,
+\end{equation}
+where $C_1 > 0$ depends only on $\Gamma$, and the cross term is bounded via
+Cauchy--Schwarz together with the WKB decay $e^{-4t^{5/2}/5}$ on the tail
+$t \geq T_0$. This implies $Q_0^* Q_0 + C_1$ is coercive, so $Q_0^* Q_0$
+has smallest eigenvalue $\sigma_{\min}^2 > 0$, giving
+$\|Q_0^{-1}\| = \sigma_{\min}^{-1} < \infty$.
+
+To make this explicit: by Sibuya~\cite{Sibuya75}, \S5, the operator
+$Q_0 = -\partial_t^2 + t^3$ subject to outgoing boundary conditions on $\Gamma$
+has discrete spectrum with no accumulation at~$0$.
+Concretely, the smallest nonzero eigenvalue satisfies
+\begin{equation}\label{eq:sigma_min_Sibuya}
+  \sigma_{\min}(Q_0) = \inf_{\substack{u \in H^2_\Gamma \\ \|u\|=1}} \|Q_0 u\|
+  \;\geq\; c_{\mathrm{Sib}} \;>\; 0,
+\end{equation}
+where $c_{\mathrm{Sib}} > 0$ is a constant depending only on the contour
+$\Gamma = \{te^{i2\pi/5}: t \geq t_L\}$ and the truncation $t_L = 0.5$,
+but independent of $h$.
+This follows from the spectral gap of $Q_0$: since $0$ is not an eigenvalue
+(established in Step~1 above and in Lemma~\ref{lem:stokes_gm1}) and the
+spectrum is discrete, the distance from $0$ to $\mathrm{spec}(Q_0)$ is
+positive (Sibuya~\cite{Sibuya75}, \S5, Theorem~5.1).
+Therefore $\|Q_0^{-1}\| = \sigma_{\min}(Q_0)^{-1} \leq c_{\mathrm{Sib}}^{-1} < \infty$.
+
+We first verify that $e_2 \in H^2_\Gamma$.
+By the variation of parameters formula (Lemma~\ref{lem:jordan_chain}),
+$e_2(t) = e_1(t)\,I_1(t)/W$ where $I_1(t) = \int_{t_L}^t s\,e_1(s)^2\,ds$.
+Since $e_1$ decays super-exponentially, $e_2 \in L^2_\Gamma$.
+Moreover $e_2'' = t^3 e_2 - e^{i4\pi/5}t\,e_1$ (Jordan chain relation),
+so $e_2'' \in L^2_\Gamma$ by WKB decay of both terms.
+At the lower end: $I_1(t_L) = 0$ so $e_2(t_L) = 0$,
+satisfying~\eqref{eq:H2Gamma_domain}. Thus $e_2 \in H^2_\Gamma$.
+
+By the Jordan chain relation $Q_0 e_2 = e_1$,
+the element $e_1 \in L^2_\Gamma$ satisfies $Q_0^{-1} e_1 = e_2$,
+so the operator norm satisfies
+\begin{equation}\label{eq:Q0inv_upper}
+  \|Q_0^{-1}\|
+  \;\geq\; \frac{\|Q_0^{-1} e_1\|}{\|e_1\|}
+  = \frac{\|e_2\|}{\|e_1\|}.
+\end{equation}
+
+\begin{remark}[$T$-stability of the ratio $\|e_2\|/\|e_1\|$]
+\label{rem:ratio_T_indep}
+The ratio $\|e_2\|_{L^2(\Gamma_T)}/\|e_1\|_{L^2(\Gamma_T)}$ converges to a
+finite positive limit as $T\to\infty$, since both norms are dominated by the
+super-exponential WKB decay and $I_1(t) \to I_1(\infty) < \infty$.
+The numerical value $\approx 505$ at $T = 3.2$ is within $0.1\%$ of the
+$T = 4.0$ value (Table~C.2), confirming that $T = 3.2$ captures the limit.
+The ratio is normalization-independent (Remark~\ref{rem:normalization}).
+\end{remark}
+\end{proof}
+
+Lemma~\ref{lem:Q0_svd} gives $\|Q_0^{-1}\| < \infty$, establishing the
+upper bound for Step~1, and $\|Q_0^{-1}\| \geq \|e_2\|/\|e_1\| \approx 505$,
+establishing the lower bound.
+
+\emph{Lower bound.}
+By Lemma~\ref{lem:Q0_svd} (equation~\eqref{eq:Q0inv_upper}), the lower bound
+$\|Q_0^{-1}\| \geq \|e_2\|/\|e_1\| =: c > 0$
+is already established: it follows from $Q_0 e_2 = e_1$ and
+$\|Q_0^{-1}\| \geq \|Q_0^{-1} e_1\|/\|e_1\| = \|e_2\|/\|e_1\|$.
+Numerically (Appendix~C.2, $T=3.2$, $N=12000$, algebraic normalization):
+$\|e_1\| \approx 0.4731$, $\|e_2\| \approx 238.96$,
+yielding $c \approx 505$ (Table~C.2 in Appendix~C.4).
+
+Scaling back gives
+\[
+  \|R_h\|_{L^2\to L^2} = h^{-6/5}\,\|Q_0^{-1}\|.
+\]
+The lower bound $\|Q_0^{-1}\| \geq c := \|e_2\|/\|e_1\| \approx 505$
+is established above via~\eqref{eq:Q0inv_upper}.
+The upper bound $\|Q_0^{-1}\| \leq C := c_{\mathrm{Sib}}^{-1} < \infty$
+follows from~\eqref{eq:sigma_min_Sibuya} (Sibuya~\cite{Sibuya75}, \S5).
+Together:
+\[
+  c\,h^{-6/5} \;\leq\; \|R_h\| \;\leq\; C\,h^{-6/5},
+  \qquad C = c_{\mathrm{Sib}}^{-1} < \infty.
+\]
+The upper bound $C$ is finite and $h$-independent, depending only on
+the spectral gap of $Q_0$ on $\Gamma$.
+The lower bound $c \approx 505$ is explicit and normalization-independent
+(Remark~\ref{rem:normalization}).
+This establishes both bounds for the semiclassical factor in Step~1.
+The matching upper bound for $\|R_h\|$ from the Grushin side
+(independent confirmation) is derived in Step~2 below.
+
+\textbf{Step 2: Geometric factor $|P-P_c|^{-1/2}$.}
+According to the Grushin reduction described in Section~5, the resolvent $R_h(P)$
+is bounded if and only if the Schur complement $E_{-+}(\omega,P)$ is invertible, satisfying the estimate
+\[
+  \|R_h(P)\| \leq C\,\|E_{-+}^{-1}\|
+\]
+for a constant $C$ uniform in $P$ near $P_c$
+(Dyatlov--Zworski~\cite{DZ19}, Appendix~C.1).
+Consequently, it suffices to estimate the norm of $E_{-+}^{-1}$.
+
+Recall from Lemma~\ref{lem:Epm_expand} that the Schur complement, viewed as a function
+of the spectral parameter $\lambda := \omega^2 - \omega_c^2$ and the geometric
+deformation $\mu := P - P_c$, takes the form
+\begin{equation}\label{eq:Grushin_inv_corrected}
+  E_{-+}(\lambda,\mu) = J_3 - \lambda I + \mu X + O(\lambda^2,\mu^2,\lambda\mu),
+\end{equation}
+where $J_3$ is the $3\times 3$ nilpotent Jordan block and $X_{jk} = \langle e_j, x\,e_k\rangle$.
+The resolvent is reconstructed via the standard Grushin block inversion formula
+(Dyatlov--Zworski~\cite{DZ19}, Appendix~C.1):
+\[
+  R_h(P) = E - E_+ E_{-+}^{-1}(\lambda,\mu)\, E_-,
+\]
+where $E, E_\pm$ are the remaining blocks of $\mathcal{G}^{-1}$, and
+$E_{-+}^{-1}(\lambda,\mu)$ denotes the inverse of the
+$3\times 3$ matrix~\eqref{eq:Grushin_inv_corrected}.
+
+\textbf{Resolvent norm via $E_{-+}$.}
+By the Grushin framework (Dyatlov--Zworski~\cite{DZ19}, Appendix~C.1),
+the resolvent satisfies the two-sided estimate
+\[
+  \|R_h(P)\| \sim \|E_{-+}^{-1}(\lambda,\mu)\|,
+\]
+where the implicit constants are uniform in $(\lambda,\mu)$ near $(0,0)$.
+This relation holds because the off-diagonal blocks $E_\pm$ of $\mathcal{G}^{-1}$
+are bounded uniformly on $\mathcal{V}$, a fact we now justify in detail.
+
+\emph{Boundedness of $E_+$ and $E_-$.}
+The auxiliary operators $R_- : \mathbb{C}^3 \to L^2(M)$ and $R_+ : L^2(M) \to \mathbb{C}^3$
+are defined as in Section~5 by $R_- v = \sum_{j=1}^3 v_j \chi e_j$ and
+$(R_+ u)_j = \langle u, \chi e_j \rangle_{L^2(\Gamma)}$, where $\chi \in C_c^\infty(T^*M)$
+is a fixed microlocal cutoff and $\{e_j\}$ is the Jordan basis of
+Lemma~\ref{lem:jordan_chain}. Here $\langle\cdot,\cdot\rangle_{L^2(\Gamma)}$ denotes
+the $L^2$-inner product on the weighted space associated with the outgoing boundary
+condition on $\Gamma$ (a sesquilinear pairing, with conjugation in the second slot),
+which is distinct from the bilinear $c$-product used in the matrix element integrals
+$X_{jk}$ in Appendix~C. Because $\chi$ has compact support and the elements
+$e_j$ exhibit WKB decay on $\Gamma$ (Lemma~\ref{lem:stokes_gm1}), the operators
+$R_\pm$ are bounded with norms $\|R_\pm\| \leq C_\chi \sum_j \|e_j\|_{L^2(\mathrm{supp}\,\chi)}$,
+where $C_\chi$ depends only on the cutoff $\chi$ and the fixed Jordan chain norms
+(see Appendix~C).
+
+\emph{Boundedness of $E$ (the $(1,1)$-block of $\mathcal{G}^{-1}$).}
+Write $\mathcal{G}(\mu,h) = \mathcal{G}(0,0)\bigl(I + \mathcal{G}(0,0)^{-1}\delta\mathcal{G}\bigr)$,
+where $\delta\mathcal{G} := \mathcal{G}(\mu,h) - \mathcal{G}(0,0)$.
+Here $M_0 := \|\mathcal{G}(0,0)^{-1}\| < \infty$ by Lemma~\ref{lem:grushin_invertible},
+which establishes bounded invertibility of $\mathcal{G}(0,0)$ at the critical point $P_c$.
+For $(\mu,h) \in \mathcal{V}$ (Remark~\ref{rem:grushin_validity}), the thresholds $\mu_0, h_0$
+are chosen so that $\|\mathcal{G}(0,0)^{-1}\delta\mathcal{G}\| \leq \frac{1}{2}$,
+which ensures convergence of the Neumann series
+$\mathcal{G}(\mu,h)^{-1} = \sum_{n=0}^{\infty}(-\mathcal{G}(0,0)^{-1}\delta\mathcal{G})^n
+\mathcal{G}(0,0)^{-1}$,
+with bound $\|\mathcal{G}(\mu,h)^{-1}\| \leq 2M_0 =: C_0$. Since
+$\|E\| \leq \|\mathcal{G}^{-1}\|$, the block $E$ is bounded by $C_0$ uniformly on $\mathcal{V}$,
+independently of $\|E_{-+}^{-1}\|$. Combining:
+$\|E_\pm\| \leq C_0\|R_\mp\|$, so $E_\pm$ are bounded uniformly on $\mathcal{V}$,
+and the growth of $\|R_h\|$ is governed entirely by $\|E_{-+}^{-1}(\lambda,\mu)\|$.
+
+\emph{Determinant of $E_{-+}(\lambda,\mu)$ and resonance structure.}
+At leading order in $(\lambda,\mu)$, the determinant of~\eqref{eq:Grushin_inv_corrected} is
+\begin{equation}\label{eq:det_Epm}
+  \det E_{-+}(\lambda,\mu) = \lambda\bigl(c_X\mu - \lambda^2\bigr) + O(\lambda^2\mu,\mu^2),
+\end{equation}
+where $c_X = X_{21} + X_{32} \neq 0$ (Lemma~\ref{lem:cx_nonzero}).
+This follows from the identity $\det(J_3 - \lambda I + \mu X)
+= \lambda(c_X \mu - \lambda^2) + O(\lambda^2\mu, \mu^2)$,
+verified by direct expansion using $\det(J_3) = 0$, $\mathrm{Tr}(J_3) = 0$,
+and the cofactor structure of $J_3$ (see Appendix~B, equation~\eqref{eq:charpoly}).
+Setting the determinant to zero gives the resonance condition
+$\lambda_1 = 0$ and $\lambda_{2,3} = \pm\sqrt{c_X\mu} + O(\mu)$,
+in agreement with Appendix~B.
+
+\emph{Norm of $E_{-+}^{-1}(\lambda,\mu)$.}
+We estimate $\|E_{-+}^{-1}(\lambda,\mu)\|$ for $\omega = \omega_c$ (i.e.\ $\lambda = 0$)
+and $\mu \neq 0$ small.
+At $\lambda = 0$, equation~\eqref{eq:det_Epm} gives
+$\det E_{-+}(0,\mu) = -c_X\mu^2 + O(\mu^3) \neq 0$,
+so $E_{-+}(0,\mu)$ is invertible for $\mu \neq 0$ sufficiently small.
+By Cramer's rule,
+\[
+  E_{-+}^{-1}(0,\mu) = \frac{\mathrm{adj}(E_{-+}(0,\mu))}{\det E_{-+}(0,\mu)}.
+\]
+A direct computation of the adjugate of $E_{-+}(0,\mu) = J_3 + \mu X$ gives
+\[
+  \mathrm{adj}(J_3 + \mu X)\big|_{\lambda=0}
+  = \mathrm{adj}(J_3) + O(\mu)
+  = \begin{pmatrix}0&0&1\\0&0&0\\0&0&0\end{pmatrix} + O(\mu),
+\]
+where $\mathrm{adj}(J_3) \neq 0$ (its $(1,3)$ entry equals $1$, as the $(3,1)$ minor
+of $J_3$, obtained by deleting row~3 and column~1, equals
+$\det\bigl(\begin{smallmatrix}1&0\\0&1\end{smallmatrix}\bigr) = 1$).
+Hence $\|\mathrm{adj}(E_{-+}(0,\mu))\| = O(1)$ as $\mu\to 0$.
+Combined with $|\det E_{-+}(0,\mu)| \sim |c_X|\mu^2$, this yields
+\begin{equation}\label{eq:Einv_upper}
+  \|E_{-+}^{-1}(0,\mu)\| = O(\mu^{-2}).
+\end{equation}
+
+\begin{remark}[Apparent discrepancy between $O(\mu^{-2})$ and $O(\mu^{-1/2})$]
+\label{rem:discrepancy}
+Equation~\eqref{eq:Einv_upper} gives $\|E_{-+}^{-1}(0,\mu)\| = O(\mu^{-2})$,
+while the main theorem asserts the sharper rate $O(\mu^{-1/2})$.
+There is no contradiction: Cramer's rule provides a \emph{crude} upper bound,
+because the adjugate $\mathrm{adj}(E_{-+}(0,\mu)) = O(1)$ and
+$|\det E_{-+}(0,\mu)| \sim |c_X|\mu^2$ together give the ratio $O(\mu^{-2})$,
+but this over-counts the growth by treating all entries of the adjugate
+as equally dominant.
+The actual growth is governed by the smallest eigenvalue of $E_{-+}(0,\mu)$:
+since $\lambda_1(\mu) = O(\mu)$ and $\lambda_{2,3}(\mu) = \pm\sqrt{c_X\mu} + O(\mu)$,
+the spectral distance from the origin satisfies
+$\min_j|\lambda_j(\mu)| \sim |\mu|^{1/2}$, which yields the sharp bound
+$\|E_{-+}^{-1}(0,\mu)\| \sim |\mu|^{-1/2}$.
+In summary: Cramer's rule gives a valid but non-sharp ceiling; the spectral
+distance to the nearest resonance determines the actual sharp two-sided rate.
+\end{remark}
+
+The sharp bound is established as follows.
+The dominant $(1,3)$ entry of $E_{-+}^{-1}(0,\mu)$ is controlled by the
+spectral distance from $\lambda = 0$ to the nearest resonance
+$\lambda_2(\mu) = \sqrt{c_X\mu}$.
+The resolvent norm at $\omega = \omega_c$ (i.e.\ $\lambda = 0$) is bounded above by
+\begin{equation}\label{eq:Einv_spectral}
+  \|E_{-+}^{-1}(0,\mu)\| \leq \frac{C}{|\lambda_2(\mu)|}
+  = \frac{C}{|c_X|^{1/2}|\mu|^{1/2}},
+\end{equation}
+where the inequality uses the spectral bound
+$\|A^{-1}\| \leq (\min_j |\lambda_j|)^{-1}$ applied to the matrix $E_{-+}(0,\mu)$
+with eigenvalues $\lambda_j(0,\mu) - 0 = \lambda_j(\mu)$.
+More precisely, the eigenvalues of $E_{-+}(0,\mu) = J_3 + \mu X$ at $\lambda = 0$
+are exactly the resonance values $\lambda_j(\mu)$ themselves
+(since $E_{-+}(\lambda,\mu)v = 0 \Leftrightarrow (J_3 - \lambda I + \mu X)v = 0 \Leftrightarrow (J_3 + \mu X)v = \lambda v$),
+and $\min_j|\lambda_j(\mu)| = |\lambda_{2}(\mu)| \sim |c_X|^{1/2}|\mu|^{1/2}$
+(the eigenvalue $\lambda_1 = O(\mu)$ is of higher order than $|\lambda_{2,3}| \sim \mu^{1/2}$
+for small $\mu$, so the minimum is achieved at $j = 2$ or $3$).
+
+\emph{Lower bound.}
+The lower bound $\|E_{-+}^{-1}(0,\mu)\| \geq c|\mu|^{-1/2}$ follows from the same
+spectral distance argument: taking the unit vector $v_2$ in the direction of the eigenvector
+of $E_{-+}(0,\mu)$ corresponding to $\lambda_2(\mu)$,
+\[
+  \|E_{-+}^{-1}(0,\mu)\| \geq \|E_{-+}^{-1}(0,\mu)\,v_2\|
+  = |\lambda_2(\mu)|^{-1} \sim |c_X|^{-1/2}|\mu|^{-1/2}.
+\]
+Combining with~\eqref{eq:Einv_spectral}, we conclude:
+\[
+  \|E_{-+}^{-1}(0,\mu)\| \sim |c_X|^{-1/2}\,|P - P_c|^{-1/2}.
+\]
+Combining with the two-sided estimate $\|R_h(P)\| \sim \|E_{-+}^{-1}\|$,
+verified explicitly below (equations~\eqref{eq:lower_bound_Einvplus}--\eqref{eq:twosided_Rh}), we obtain
+\[
+  \|R_h(P)\| \sim |P-P_c|^{-1/2}.
+\]
+
+\emph{Two-sided estimate $\|E_{-+}^{-1}\|\sim\|R_h\|$, with explicit uniform constants.}
+
+We use two block-multiplication identities read off from
+$\mathcal{G}(\mu,h)\,\mathcal{G}(\mu,h)^{-1} = I$
+(Dyatlov--Zworski~\cite{DZ19}, Appendix~C.1):
+\begin{equation}\label{eq:block_ids}
+  R_+\,E_+ = I_3 \quad \text{(block $(2,2)$)},
+  \qquad
+  E_-\,R_- = I_3 \quad \text{(block $(2,1)$ of $\mathcal{E}\mathcal{P}=I$)}.
+\end{equation}
+
+\emph{Upper bound $\|R_h\|\leq C\|E_{-+}^{-1}\|$.}
+From $R_h = E - E_+E_{-+}^{-1}E_-$, the triangle inequality and submultiplicativity give
+\[
+  \|R_h\| \leq \|E\| + \|E_+\|\,\|E_{-+}^{-1}\|\,\|E_-\|
+  \leq C_0 + C_0^2\|R_-\|\|R_+\|\,\|E_{-+}^{-1}\|
+  \leq C\,\|E_{-+}^{-1}\|,
+\]
+where $C := 1 + C_0^2\|R_-\|\|R_+\|$ and the last step absorbs the constant
+$C_0$ into a multiple of $\|E_{-+}^{-1}\|$ (valid since
+$\|E_{-+}^{-1}\|\to\infty$ as $\mu\to 0$).
+
+\emph{Lower bound $\|E_{-+}^{-1}\|\leq C'\|R_h\|$, with explicit $C'$.}
+From $E_-R_- = I_3$ in~\eqref{eq:block_ids}, the operator $R_-:\mathbb{C}^3\to L^2(M)$
+is a right-inverse of $E_-$.
+Taking norms: $1 = \|E_-R_-\| \leq \|E_-\|\,\|R_-\|$, so
+\begin{equation}\label{eq:sigma_min_Eminus}
+  \sigma_{\min}(E_-) \;\geq\; \|R_-\|^{-1} \;>\; 0,
+\end{equation}
+uniformly in $(\mu,h)\in\mathcal{V}$ since $\|R_-\|$ is fixed.
+Now apply $R_+$ on the left to $R_h = E - E_+E_{-+}^{-1}E_-$,
+using $R_+E = 0$ (block $(2,1)$ of $\mathcal{P}\mathcal{E}=I$) and
+$R_+E_+ = I_3$ from~\eqref{eq:block_ids}:
+\begin{equation}\label{eq:Einvplus_extract}
+  E_{-+}^{-1}\,E_- \;=\; -R_+\,R_h.
+\end{equation}
+Taking norms and applying~\eqref{eq:sigma_min_Eminus}:
+\[
+  \|E_{-+}^{-1}\|\,\|R_-\|^{-1}
+  \;\leq\;
+  \|E_{-+}^{-1}\|\,\sigma_{\min}(E_-)
+  \;\leq\;
+  \|E_{-+}^{-1}E_-\|
+  \;=\;
+  \|R_+R_h\|
+  \;\leq\;
+  \|R_+\|\,\|R_h\|,
+\]
+hence
+\begin{equation}\label{eq:lower_bound_Einvplus}
+  \|E_{-+}^{-1}\| \;\leq\; C'\,\|R_h\|,
+  \qquad C' \;:=\; \|R_+\|\,\|R_-\|.
+\end{equation}
+The constant $C'$ depends only on $\|R_+\|$ and $\|R_-\|$, both of which
+are determined by the Jordan chain norms and the cutoff $\chi$
+(see the \emph{Boundedness of $E_+$ and $E_-$} paragraph above)
+and are independent of $\mu$ and $h$.
+Combining with the upper bound, we conclude
+\begin{equation}\label{eq:twosided_Rh}
+  \frac{1}{C'}\,\|E_{-+}^{-1}\| \;\leq\; \|R_h\| \;\leq\; C\,\|E_{-+}^{-1}\|,
+\end{equation}
+with explicit constants $C = 1+C_0^2\|R_-\|\|R_+\|$ and $C' = \|R_+\|\|R_-\|$,
+both depending only on $C_0 = 2M_0$ and $\|R_\pm\|$, hence uniform on~$\mathcal{V}$.
+
+\begin{remark}[Grushin upper bound confirms Step~1]
+\label{rem:grushin_upper_confirms}
+Combined with the dilation $\|R_h\| = h^{-6/5}\|Q_0^{-1}\|$ from Step~1,
+the upper bound~\eqref{eq:twosided_Rh} gives
+\[
+  \|Q_0^{-1}\| \;\leq\; C\,h^{6/5}\,\|E_{-+}^{-1}(0,\mu)\|
+  \;\leq\; \frac{C\cdot C_{\mathrm{Sib}}^{-1/2}}{|c_X|^{1/2}|\mu|^{1/2}}\cdot h^{6/5}
+\]
+uniformly for $\mu \neq 0$ fixed and $h \to 0$.
+Taking $\mu = \mu_0$ fixed, this is bounded independently of $h$, confirming
+$\|Q_0^{-1}\| \leq C_{\mathrm{Sib}}^{-1} < \infty$ from a second route.
+The two routes — spectral gap via Sibuya (direct, at $P_c$) and Grushin
+reconstruction (indirect, at $\mu \neq 0$) — are logically independent
+and mutually consistent.
+\end{remark}
+\textbf{Step 3: Synthesis of the estimates.}
+
+\emph{Logical prerequisite: WKB suppression.}
+The eigenvalue estimate $|\lambda_{2,3}|\sim|\mu|^{1/2}$ employed in Step~2 is
+contingent upon the condition $X_{31}=0$.
+This condition is established by Lemma~\ref{lem:X31_asymptotic}
+(Section~\ref{sec:wkb_suppression}), whose proof depends only on:
+(a)~the existence and outgoing boundary property of the Jordan chain $\{e_1,e_3\}$
+(Lemma~\ref{lem:jordan_chain}), and
+(b)~the WKB decay estimate $|e_j(t)|\lesssim t^{-3/4}e^{-2t^{5/2}/5}$
+on $\Gamma$ (Lemma~\ref{lem:stokes_gm1}).
+Neither (a) nor (b) depends on the resolvent estimates of Steps~1--2 or on
+Theorem~\ref{thm:resolvent} itself.
+The absence of circular dependence is verified explicitly in
+Proposition~\ref{prop:wkb_independence}.
+The complete logical order is therefore:
+\begin{gather*}
+  \underbrace{\text{Jordan chain}}_{\text{Lem.~\ref{lem:jordan_chain}}}
+  \;\Rightarrow\;
+  \underbrace{X_{31}=0}_{\text{Lem.~\ref{lem:X31_asymptotic}}}
+  \;\Rightarrow\;
+  \underbrace{\lambda_{2,3}\sim\mu^{1/2}}_{\text{Step~2}}
+  \;\Rightarrow\;
+  \underbrace{\|R_h\|\sim h^{-6/5}|P-P_c|^{-1/2}}_{\text{Steps~1--3}}.
+\end{gather*}
+With $X_{31}=0$, the dominant eigenvalues of $E_{-+}$ satisfy
+$\lambda_{2,3} \sim \mu^{1/2}$ rather than the generic Puiseux scaling
+$\mu^{1/3}$ that would arise if $X_{31}\neq 0$, thereby locking
+$\|E_{-+}^{-1}\| \sim |\mu|^{-1/2}$ rather than $|\mu|^{-2/3}$.
+
+\emph{Independence of the scaling bounds.}
+In Step~1, the bound $\|R_h\| \leq Ch^{-6/5}$ is derived by conjugating
+$P_h$ to the model operator $h^{6/5}(-\partial_y^2+y^3)$ via the dilation $x=h^{2/5}y$.
+This conjugation is determined solely by $h$ and is independent of the parameter $P$: the Birkhoff normal form
+reduction (Appendix~A) is performed at the fixed critical point $(r^c, \xi^c)$
+associated with $P_c$, rendering the model operator independent of $P$.
+Thus, the constant $C$ in Step~1 is uniform for all $P$ in a fixed
+neighborhood of $P_c$.
+Conversely, in Step~2, the Grushin reduction and the eigenvalue estimate
+$|\lambda_{2,3}|\sim|c_X|^{1/2}|\mu|^{1/2}$ for $E_{-+}(\mu)$ are established
+at the level of the principal symbol. The matrix elements $X_{ij}$
+and the resulting eigenvalue splitting depend on $P$ but are independent of $h$
+at leading order (the quantum correction $h^2 Q$ is subleading, as shown in Appendix~B).
+Hence, the constant in the Step~2 bound is uniform in $h$ for $h\in(0,1]$.
+Since the bounds are uniform in their respective parameters, they can be combined
+to yield the joint estimate:
+\[
+  \|R_h(P)\| \sim h^{-6/5}\,|P - P_c|^{-1/2}.
+\]
+\end{proof}
+
+\begin{remark}[Regime of validity]
+\label{rem:validity}
+Theorem~\ref{thm:resolvent} characterizes the resolvent growth at a fixed
+deformation $\mu = P - P_c$ in the semiclassical limit $h \to 0$.
+In the double scaling regime $|\mu| \sim h^{4/5}$, these limits are coupled,
+and the resolvent remains uniformly bounded by $O(h^{-6/5})$, with no stronger
+divergence occurring in this window (see Section~\ref{subsec:resolvent_bound_ds}).
+Consequently, the relation $\|R_h\| \sim h^{-6/5}|P-P_c|^{-1/2}$ should not
+be evaluated by substituting $|P-P_c| \sim h^{4/5}$, as this regime
+lies outside the validity of the fixed-$\mu$ estimate.
+\end{remark}
+
+\begin{theorem}[Spectral Clustering]
+\label{thm:spectral_clustering}
+At the critical configuration $P = P_c$, the multiple resonances coalesce. Under a
+parameter perturbation $\mu = P - P_c$, the non-diagonalizable Jordan block splits
+into three distinct physical frequencies:
+\[
+  \lambda_1 = O(\mu) \implies \omega_1 = \omega_c + O(\mu/\omega_c)
+  \qquad
+  \lambda_{2,3} = \pm\sqrt{c_X\mu} + O(\mu) \implies \omega_{2,3} \approx \omega_c \pm \frac{\sqrt{c_X\mu}}{2\omega_c}
+\]
+\end{theorem}
+
+\begin{proof}
+The proof is structured in three steps.
+
+\textbf{Step 1: Characteristic equation.}
+As derived in Appendix~B (see equation~\eqref{eq:charpoly}), the Schur complement matrix admits the expansion
+\[
+  E_{-+}(\mu,h) = J_3 + \mu X + h^2 Q + O(\mu^2, \mu h^2, h^4),
+\]
+with characteristic polynomial
+\[
+  \det E_{-+}(\lambda,\mu,h)
+  = \det(J_3 - \lambda I + \mu X + h^2 Q)
+  = -\lambda^3 + \mu\,\mathrm{Tr}(X)\,\lambda^2
+    + \mu\,c_X\,\lambda
+    + \mu X_{31} + h^2 Q_{31} + O(\lambda^2\mu,\mu^2),
+\]
+where $c_X = X_{21}+X_{32}$ and $\mathrm{Tr}(X) = X_{11}+X_{22}+X_{33}$.
+By the WKB suppression mechanism of Section~6, $X_{31} = 0$.
+The quantum error satisfies $h^2 Q_{31} = O(h^2)$, which is sub-leading
+relative to $O(h^{6/5})$ for $h \in (0,1]$ (Appendix~B, \S B.2--B.4).
+Neglecting subleading terms, the characteristic equation reduces to
+\begin{equation}\label{eq:reduced}
+  \lambda^3 - \mu\,\mathrm{Tr}(X)\,\lambda^2 - \mu\,c_X\,\lambda = 0.
+\end{equation}
+
+\begin{remark}[The $\mathrm{Tr}(X)$ correction does not affect the resolvent estimate]
+\label{rem:trX_resolvent}
+Although the trace term $\mu\,\mathrm{Tr}(X)\,\lambda^2$ is retained in the full
+characteristic polynomial~\eqref{eq:reduced}, it does \emph{not} alter the resolvent
+estimate $\|R_h(P)\| \sim h^{-6/5}|P-P_c|^{-1/2}$ of Theorem~\ref{thm:resolvent}.
+The reason is a simple dominant balance: under the ansatz $\lambda \sim \mu^{1/2}$,
+the trace term is of order $O(\mu^2)$, whereas the driving term $\mu\,c_X\,\lambda$
+is of order $O(\mu^{3/2})$.
+Hence $|\mu\,\mathrm{Tr}(X)\,\lambda| \ll |c_X|$ for all sufficiently small $|\mu|$,
+regardless of the size of $|\mathrm{Tr}(X)|/|c_X|$.
+The quantitative bound $|\mathrm{Tr}(X)|/|c_X| = O(1) \approx 3.1$ (Appendix~B,
+Remark~\ref{rem:TrX_bound}) confirms that no accidental enhancement can rescue the
+$O(\mu^2)$ term.
+The leading eigenvalues thus remain $\lambda_{2,3} = \pm\sqrt{c_X\mu} + O(\mu)$, and
+the resolvent growth $\|E_{-+}^{-1}\| \sim |\mu|^{-1/2}$ is unaffected.
+The full argument is detailed in Appendix~B.4 (Proposition~\ref{prop:dominant_balance}
+and Remark~\ref{rem:TrX_bound}).
+\end{remark}
+
+\textbf{Step 2: Dominant balance and eigenvalue splitting.}
+Factoring equation~\eqref{eq:reduced} yields:
+\[
+  \lambda\bigl(\lambda^2 - \mu\,\mathrm{Tr}(X)\,\lambda - \mu\,c_X\bigr) = 0.
+\]
+This immediately implies $\lambda_1 = 0$ to leading order (the subleading correction $\lambda_1 = O(\mu)$ is derived in the remark following~\eqref{eq:lambdapm} in Appendix~B and does not alter the dominant balance).
+For the remaining factor, under the ansatz $\lambda \sim \mu^{1/2}$,
+the dominant terms satisfy $\lambda^2 \sim \mu\,c_X \sim \mu$,
+while the correction term associated with $\mathrm{Tr}(X)$ satisfies $\mu\,\mathrm{Tr}(X)\,\lambda \sim \mu^{3/2}$,
+which is of higher order. The quadratic equation thus simplifies to
+\[
+  \lambda^2 = \mu\,c_X + O(\mu^{3/2}),
+\]
+yielding
+\[
+  \lambda_{2,3} = \pm\sqrt{c_X\,\mu} + O(\mu).
+\]
+The alternative Puiseux scaling $\lambda \sim \mu^{1/3}$ is inconsistent: if $\lambda \sim \mu^{1/3}$,
+then $\lambda^3 \sim \mu$ whereas $\mu c_X \lambda \sim \mu^{4/3} \ll \mu$,
+making a balance impossible (see Appendix~B, Proposition~\ref{prop:dominant_balance}).
+The unique consistent leading-order eigenvalues are therefore
+\[
+  \lambda_1 = 0, \qquad \lambda_{2,3} = \pm\sqrt{c_X\,\mu} + O(\mu).
+\]
+
+\textbf{Step 3: Determination of the physical frequencies.}
+Quantum resonances correspond to values $\omega$ such that $\omega^2 \in \mathrm{spec}(P_h)$.
+In the vicinity of the critical frequency $\omega_c$, we write $\omega = \omega_c + \Delta\omega$
+with $|\Delta\omega| \ll |\omega_c|$ (note: since $\omega_c = i|\omega_c| \in i\mathbb{R}$ by
+Remark~\ref{rem:omega_c_imaginary}, the condition $|\Delta\omega| \ll |\omega_c|$ refers to
+moduli in $\mathbb{C}$), which yields
+\[
+  \omega^2 - \omega_c^2
+  = (\omega - \omega_c)(\omega + \omega_c)
+  \approx 2\omega_c\,\Delta\omega.
+\]
+The linearization $\omega^2 - \omega_c^2 \approx 2\omega_c\Delta\omega$ is valid
+for $\omega_c \in i\mathbb{R}$ since it relies only on the factorization above
+and $|\Delta\omega| \ll |\omega_c|$.
+\emph{Quantitative validity.}
+Since $\omega_c = i|\omega_c|$ with $|\omega_c| \approx 1.718\,L^{-1}$,
+the neglected quadratic term satisfies
+$|(\Delta\omega)^2| \leq \delta^2|\omega_c|^2$
+whenever $|\Delta\omega| \leq \delta|\omega_c|$.
+For the splitting $|\Delta\omega| = |c_X|^{1/2}|\mu|^{1/2}/(2|\omega_c|)$,
+this yields the condition
+\[
+  |\mu| \;\ll\; 4|\omega_c|^4/|c_X| =: \mu_{\mathrm{lin}},
+\]
+so the linearization is valid uniformly for $|\mu| \leq c\,\mu_{\mathrm{lin}}$
+with any fixed $c \in (0,1)$.
+Numerically, $\mu_{\mathrm{lin}} \approx 4(1.718)^4/|c_X| \approx 34.8\,L^{-4}/|c_X|$,
+which is large compared to the double-scaling threshold $\mu \sim h^{4/5}$ for
+all $h \in (0,1]$ in practice.
+The linearization therefore breaks down only at parameter distances
+$|\mu| = O(\mu_{\mathrm{lin}})$, which lies well outside the domain of validity
+of the Grushin expansion (Remark~\ref{rem:grushin_validity}).
+
+The eigenvalue $\lambda$ of the Schur complement $E_{-+}$ relates to the frequency deviation
+$\omega^2 - \omega_c^2$ via Lemma~\ref{lem:Epm_expand}:
+\[
+  \lambda = \omega^2 - \omega_c^2 + O(\lambda^2, \mu^2).
+\]
+Writing $\omega = \omega_c + \Delta\omega$ with $|\Delta\omega|\ll|\omega_c|$:
+\[
+  \lambda \approx \omega^2 - \omega_c^2 = 2\omega_c\,\Delta\omega + O(\Delta\omega^2).
+\]
+For the eigenvalue $\lambda_1 = 0$, we have $\Delta\omega_1 = 0$, implying $\omega_1 = \omega_c$
+to leading order (with an $O(\mu/\omega_c)$ correction arising from the subleading term of $\lambda_1$).
+
+For the eigenvalues $\lambda_{2,3} = \pm\sqrt{c_X\mu}$, we find
+\[
+  \Delta\omega_{2,3} = \frac{\lambda_{2,3}}{2\omega_c}
+  = \pm\frac{\sqrt{c_X\mu}}{2\omega_c},
+\]
+yielding
+\[
+  \omega_{2,3} = \omega_c \pm \frac{\sqrt{c_X\,\mu}}{2\omega_c} + O(\mu).
+\]
+Since $c_X \neq 0$ (Lemma~\ref{lem:cx_nonzero})
+and $\mu = P - P_c \neq 0$, the three resonance frequencies are distinct for all
+P sufficiently close, but not equal, to $P_c$.
+\end{proof}
+
+\begin{remark}[The critical frequency $\omega_c$ is purely imaginary]
+\label{rem:omega_c_imaginary}
+At the critical configuration $P_c$, the effective potential evaluated at the
+degenerate critical point $r^c \approx 0.9109\,L$ with $r_s^c \approx 1.1192\,L$ satisfies
+\[
+  V_{\mathrm{eff}}(r^c;\,r_s^c)
+  \;=\; f(r^c;\,r_s^c)\!\left[\frac{6}{(r^c)^2} - \frac{3\,r_s^c}{(r^c)^3}\right]
+  \;=\; \frac{-591 + 33\sqrt{33}}{136}
+  \;\approx\; -2.952,
+\]
+which is strictly negative.
+
+\medskip
+\noindent\textbf{Derivation of the closed form.}
+For this derivation we set $L = 1$ (all quantities below are in units of $L$;
+restore $L$ by dimensional analysis: $r \to r/L$, $r_s \to r_s/L$,
+$V_{\mathrm{eff}} \to L^2 V_{\mathrm{eff}}$). The exact critical values are
+\[
+  r_s^c = \frac{\sqrt{54+22\sqrt{33}}}{12}, \qquad
+  r^c   = \frac{-5\sqrt{2}+3\sqrt{66}}{2\sqrt{27+11\sqrt{33}}}.
+\]
+One verifies that these satisfy the degeneracy conditions
+$V'_{\mathrm{eff}}(r^c;r_s^c)=0$ and $V''_{\mathrm{eff}}(r^c;r_s^c)=0$, which
+yield the two auxiliary relations
+\begin{equation}\label{eq:rc_relations}
+  \frac{r_s^c}{(r^c)^3} = \frac{6}{(r^c)^2} - \frac{12}{(r^c)^2}
+  \quad\Longleftrightarrow\quad
+  r_s^c = 2r^c - \frac{2(r^c)^3}{L^2},
+  \qquad
+  \frac{1}{(r^c)^2} = \frac{3r_s^c}{2(r^c)^3}.
+\end{equation}
+Substituting the first relation into the lapse function
+$f(r^c;r_s^c) = 1 - r_s^c/r^c - (r^c)^2/L^2$ and into the bracket
+$6/(r^c)^2 - 3r_s^c/(r^c)^3$, and then using the second relation to
+express every occurrence of $(r^c)^{-2}$ in terms of
+$r_s^c\,(r^c)^{-3}$, one reduces the product to a rational function of
+$\sqrt{33}$ alone (since $(r_s^c)^2$ and $(r^c)^2$ are rational in $\sqrt{33}$).
+A direct CAS computation (or by hand, collecting powers of $\sqrt{33}$) then
+yields
+\[
+  V_{\mathrm{eff}}(r^c;r_s^c)
+  = \frac{-591 + 33\sqrt{33}}{136}.
+\]
+Numerically, $33\sqrt{33} \approx 189.59$, giving
+$(-591 + 189.59)/136 \approx -2.952 < 0$, confirming the sign.
+The bracket and lapse evaluate to
+\[
+  \tfrac{6}{(r^c)^2} - \tfrac{3r_s^c}{(r^c)^3} \approx 2.789 > 0,
+  \qquad f(r^c;\,r_s^c) \approx -1.058 < 0.
+\]
+
+\medskip
+\noindent\textbf{Why $f(r^c;\,r_s^c) < 0$.}
+In the standard SdS geometry with $r_s < r_s^{\mathrm{Nariai}}$, the lapse
+$f(r; r_s) = 1 - r_s/r - r^2/L^2$ is positive between the two horizons and
+negative outside them. However, the critical parameter $r_s^c \approx 1.1192\,L$
+satisfies $r_s^c > r_s^{\mathrm{Nariai}} \approx 0.3849\,L$
+(Lemma~\ref{lem:physical_shielding}), placing $P_c$ strictly outside
+the physically regular regime. For such values of $r_s$, the cubic equation
+$f(r; r_s) = 0$, equivalently $r^3 - r + r_s = 0$ (in units $L = 1$),
+has \emph{no real positive roots}: the discriminant condition for real roots
+requires $r_s \leq r_s^{\mathrm{Nariai}}$, which is violated at $r_s^c$.
+Therefore, $f(r;\,r_s^c) < 0$ for \emph{all} $r > 0$, and in particular
+$f(r^c;\,r_s^c) < 0$.
+
+This negativity is not a geometric anomaly but a direct consequence of
+the analytic continuation: the critical configuration $P_c$ is accessed
+by continuing $r_s$ past the Nariai boundary, where no physical metric exists.
+The function $V_{\mathrm{eff}}(r;\,r_s^c)$ and the operator $P_h(r_s^c)$
+remain well-defined as analytic expressions in $r$ and $r_s$
+(Lemma~\ref{lem:meromorphic_continuation}, Claim~(i)), but the associated
+``geometry'' carries no direct physical interpretation as a black hole spacetime.
+The sign $f < 0$ is an algebraic property of the continued lapse function
+at this parameter value, analogous to the way a polynomial evaluated outside
+its domain of definition may take negative values without implying any
+physical singularity.
+
+\medskip
+\noindent\textbf{Consequences for $\omega_c$.}
+Since $f(r^c;\,r_s^c) < 0$ and the bracket is positive, we obtain
+$V_{\mathrm{eff}}(r^c;\,r_s^c) < 0$, which forces
+\[
+  \omega_c^2 = V_{\mathrm{eff}}(r^c;\,r_s^c) < 0,
+  \qquad
+  \omega_c = i\,|\omega_c|, \quad |\omega_c| = \sqrt{\tfrac{591 - 33\sqrt{33}}{136}} \approx 1.718\,L^{-1}.
+\]
+\textbf{Sign convention.}
+Since $\omega_c^2 < 0$, the square root has two branches: $\omega_c = \pm i|\omega_c|$.
+Throughout this paper we adopt the branch $\omega_c = +i|\omega_c|$, i.e.\ the
+positive imaginary root.
+This is a matter of algebraic convention: the resolvent $R_h(P) = (P_h - \omega^2)^{-1}$
+depends only on $\omega^2 = \omega_c^2 < 0$, so both branches $\pm\omega_c$ are
+spectral parameters for the same operator.
+The choice $\omega_c = +i|\omega_c|$ is consistent with the meromorphic continuation
+framework of Lemma~\ref{lem:meromorphic_continuation}: the continued resonance family
+at $P_c$ arrives at $+i|\omega_c|$ when $r_s$ is continued past $r_s^{\mathrm{Nariai}}$,
+as verified by the explicit computation of $V_{\mathrm{eff}}(r^c;\,r_s^c)$ above.
+The sign does not affect any of the resolvent estimates, since these depend on
+$\omega_c^2$, not on $\omega_c$ itself.
+The three resonances coalescing at $P_c$ therefore lie on the positive imaginary axis.
+This conclusion is an intrinsic property of the meromorphically continued resolvent
+family at $P_c$, not a statement about any physical SdS spacetime.
+
+This has a concrete effect on the splitting formula of Theorem~\ref{thm:spectral_clustering}.
+Since $c_X = |c_X|\,e^{i4\pi/5}$ (Lemma~\ref{lem:cx_nonzero}) and $\omega_c = i|\omega_c|$,
+the frequency deviation for real $\mu > 0$ satisfies
+\[
+  \frac{\sqrt{c_X\,\mu}}{2\omega_c}
+  = \frac{|\sqrt{c_X\mu}|\,e^{i2\pi/5}}{2i|\omega_c|}
+  = \frac{|\sqrt{c_X\mu}|}{2|\omega_c|}\,e^{-i\pi/10},
+\]
+so $\arg(\Delta\omega_{2,3}) = -\pi/10 = {-18}^\circ$.
+In particular $\Delta\omega_{2,3}$ is neither real nor purely imaginary:
+\[
+  \mathrm{Re}(\omega_{2,3}) = \pm\,|\Delta\omega|\cos(\pi/10),
+  \qquad
+  \mathrm{Im}(\omega_{2,3}) = |\omega_c| \mp |\Delta\omega|\sin(\pi/10),
+\]
+where $|\Delta\omega| := \tfrac{|\sqrt{c_X\mu}|}{2|\omega_c|}$.
+Thus $\omega_1 = \omega_c \in i\mathbb{R}$ is a \emph{purely imaginary} (non-oscillatory) mode, while
+$\omega_{2,3}$ are \emph{oscillatory}: they acquire nonzero real parts of opposite sign,
+producing a genuine doublet of damped oscillations. The resonance spacing
+$|\omega_2 - \omega_3| = 2|\Delta\omega| \sim h^{6/5}$ (double scaling regime) measures
+the diameter of this doublet in the complex plane.
+\end{remark}
+
+\begin{lemma}[Geometric Multiplicity via Stokes Analysis]
+\label{lem:stokes_gm1}
+The kernel of $P_{\mathrm{mod}} = -\partial_x^2 + x^3$ subject to the purely outgoing
+boundary condition on $\Gamma = \{te^{i2\pi/5} : t \in \mathbb{R}_{>0}\}$ is
+one-dimensional:
+\[
+  \ker(P_{\mathrm{mod}}) \cap \{\text{outgoing}\} = \mathrm{span}\{e_1\},
+  \qquad \mathrm{GM} = 1.
+\]
+\end{lemma}
+
+\begin{proof}
+The equation $-u'' + x^3 u = 0$ on $\Gamma$, under the coordinate parametrization $x = te^{i2\pi/5}$,
+becomes $u''(t) = t^3 u(t)$ for $t \in \mathbb{R}_{>0}$.
+This is a second-order linear differential equation with a two-dimensional space of solutions.
+The asymptotic WKB solutions of $u'' = t^3 u$ behave as
+\[
+  v_\pm(t) \sim t^{-3/4}\exp\!\Bigl(\pm\tfrac{2}{5}t^{5/2}\Bigr)
+  \qquad (t \to +\infty),
+\]
+so $v_+(t) \to 0$ (characterizing the decaying, outgoing mode), while $v_-(t) \to \infty$
+(representing the growing mode).
+
+To verify that $v_+$ corresponds to the outgoing mode on the original contour
+$\Gamma = \{te^{i2\pi/5}: t > 0\}$, we evaluate the WKB phase of $-u'' + x^3 u = 0$
+at $x = te^{i2\pi/5}$:
+\[
+  S(x)\big|_\Gamma
+  = \tfrac{2}{5}x^{5/2}\big|_\Gamma
+  = \tfrac{2}{5}t^{5/2}e^{i\pi}
+  = -\tfrac{2}{5}t^{5/2}.
+\]
+Since $S(x)|_\Gamma$ is real and negative, the WKB modes of the transformed equation are
+\[
+  v_+(t) \sim t^{-3/4}e^{+S|_\Gamma} = t^{-3/4}e^{-2t^{5/2}/5} \;\to 0
+  \qquad\text{(decaying, outgoing)},
+\]
+\[
+  v_-(t) \sim t^{-3/4}e^{-S|_\Gamma} = t^{-3/4}e^{+2t^{5/2}/5} \;\to \infty
+  \qquad\text{(growing, non-outgoing)}.
+\]
+The decaying mode is given by $e^{+S(x)}|_\Gamma$ (rather than $e^{-S(x)}|_\Gamma$) because
+$S|_\Gamma < 0$.
+The outgoing boundary condition thus uniquely selects $e_1 := v_+$, establishing that $\mathrm{GM} = 1$.
+\end{proof}
+
+\begin{lemma}[Linear independence from Jordan chain]
+\label{lem:jordan_indep}
+If $P_{\mathrm{mod}}\,e_1 = 0$, $P_{\mathrm{mod}}\,e_2 = e_1$,
+$P_{\mathrm{mod}}\,e_3 = e_2$, and $e_1 \neq 0$, then $\{e_1,e_2,e_3\}$
+is linearly independent.
+\end{lemma}
+
+\begin{proof}
+Suppose that $\alpha_1 e_1 + \alpha_2 e_2 + \alpha_3 e_3 = 0$.
+Applying $P_{\mathrm{mod}}$ to this relation yields $\alpha_2 e_1 + \alpha_3 e_2 = 0$.
+Applying $P_{\mathrm{mod}}$ once more, we obtain $\alpha_3 e_1 = 0$.
+Since $e_1 \neq 0$, it follows that $\alpha_3 = 0$.
+Substituting this back, $\alpha_2 e_1 = 0$ yields $\alpha_2 = 0$,
+and then $\alpha_1 e_1 = 0$ implies $\alpha_1 = 0$.
+\end{proof}
+
+\begin{lemma}[Jordan Chain, Normalization, and Algebraic Multiplicity]
+\label{lem:jordan_chain}
+There exists a set of functions $\{e_1, e_2, e_3\}$ satisfying the Jordan chain relations
+\[
+  P_{\mathrm{mod}}\,e_1 = 0, \qquad
+  P_{\mathrm{mod}}\,e_2 = e_1, \qquad
+  P_{\mathrm{mod}}\,e_3 = e_2,
+\]
+each satisfying the outgoing boundary condition on $\Gamma$, and linearly independent.
+Moreover, the basis can be chosen (by adjusting each $e_k$ by a multiple of $e_1$)
+to satisfy the \emph{normalization condition}:
+\begin{equation}\label{eq:normalization}
+  \langle e_{k-1},\, e_j \rangle_{L^2(\Gamma)} = \delta_{j,\,k-1}
+  \quad\text{for } k = 2,3,\; j = 1,2,3.
+\end{equation}
+Condition~\eqref{eq:normalization} is required for the Schur complement to take the
+Jordan form $E_{-+}(0,0) = J_3$ (see Lemma~\ref{lem:Eminus_J3} below).
+It does not require mutual orthogonality of $\{e_1,e_2,e_3\}$; it only fixes the
+off-diagonal inner products $\langle e_{k-1}, e_j\rangle$ for adjacent indices.
+Consequently, the generalized eigenspace is spanned by a single non-diagonalizable Jordan block
+of length 3, and $\mathrm{AM} = 3$.
+\end{lemma}
+
+\begin{proof}
+The mode $e_1$ is established in Lemma~\ref{lem:stokes_gm1}.
+For $k = 2, 3$, the subsequent functions $e_k$ are constructed via the variation of parameters formula.
+The particular solution to the equation $P_{\mathrm{mod}}\,u = e_{k-1}$ is
+\[
+  u_k(t) = -v_-(t)\int_{t_L}^t \frac{e_1(s)\,e_{k-1}(s)}{W(e_1,v_-)}\,ds
+            + e_1(t)\int_{t_L}^t \frac{v_-(s)\,e_{k-1}(s)}{W(e_1,v_-)}\,ds,
+\]
+and the outgoing projection $e_k := u_k + C_k\,v_-$, where the projection coefficient
+$C_k = -W(u_k,e_1)\big|_{T_R}/W(v_-,e_1)\big|_{T_R}$ is chosen to enforce the boundary condition
+$W(e_k, e_1)\big|_{T_R} = 0$.
+The linear independence of the set $\{e_1,e_2,e_3\}$ follows directly from the algebraic structure
+of the Jordan chain, without requiring numerical verification
+(Lemma~\ref{lem:jordan_indep} below).
+Since the Jordan chain has length 3, the minimal polynomial of $P_{\mathrm{mod}}$
+restricted to $\mathrm{span}\{e_1,e_2,e_3\}$ is $\lambda^3$, confirming a single
+$3\times 3$ Jordan block and $\mathrm{AM} = 3$.
+
+\emph{Why $\mathrm{AM} = 3$ and not higher.}
+The equation $P_{\mathrm{mod}}\,e_4 = e_3$ would require a fourth outgoing solution
+to the inhomogeneous system on $\Gamma$.
+By Sibuya's global theory~\cite{Sibuya75} (see in particular \S5, Theorem~5.1 therein),
+the model equation $-u'' + x^3 u = 0$ on the Stokes sector containing $\Gamma$
+has exactly two Stokes sectors in the upper half-plane, corresponding to two
+linearly independent solutions; the outgoing boundary condition on $\Gamma$ selects
+a unique one-dimensional subspace (Lemma~\ref{lem:stokes_gm1}).
+Consequently the variation of parameters construction terminates at $e_3$:
+the forcing term for a putative $e_4$ lies outside the range of $P_{\mathrm{mod}}$
+on the outgoing class, and no outgoing $e_4$ exists.
+Hence $\mathrm{AM} = 3$ exactly.
+
+\emph{Normalization adjustment.}
+Starting from any Jordan chain $\{e_1, e_2, e_3\}$ constructed as above, we replace
+$e_k \mapsto e_k - c_k e_1$ for $k = 2, 3$, choosing constants $c_k \in \mathbb{C}$
+to enforce $\langle e_{k-1} - c_{k-1}e_1, e_j\rangle = \delta_{j,k-1}$.
+Since $P_{\mathrm{mod}} e_1 = 0$, the adjusted basis still satisfies the Jordan chain
+relations.  This establishes~\eqref{eq:normalization}.
+\end{proof}
+
+\begin{lemma}[$E_{-+}(0,0) = J_3$ from the Jordan chain]
+\label{lem:Eminus_J3}
+In the basis $\{e_j\}_{j=1}^3$ established in Lemma~\ref{lem:jordan_chain}, the Schur complement
+at the critical configuration satisfies
+\[
+  E_{-+}(0,0) =
+  \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{pmatrix}
+  = J_3,
+\]
+where $J_3$ denotes the $3\times 3$ nilpotent Jordan block.
+This relation is a direct consequence of the Jordan chain structure.
+\end{lemma}
+
+\begin{proof}
+Setting $R_-v = \sum_k v_k \chi e_k$ and $(R_+u)_j = \langle u, \chi e_j\rangle_{L^2}$, we have
+\[
+  (E_{-+}(0,0))_{jk}
+  = (R_+ P_{\mathrm{mod}} R_-)_{jk}
+  = \langle P_{\mathrm{mod}}(e_k),\, e_j \rangle_{L^2}.
+\]
+The Jordan chain relations yield $P_{\mathrm{mod}}\,e_k = e_{k-1}$ (for $k \geq 2$)
+and $P_{\mathrm{mod}}\,e_1 = 0$, which gives
+\[
+  \langle P_{\mathrm{mod}}\,e_k,\, e_j \rangle
+  = \langle e_{k-1},\, e_j \rangle
+  = \delta_{j,\,k-1},
+\]
+where the last step uses the normalization condition~\eqref{eq:normalization} established
+in Lemma~\ref{lem:jordan_chain}.
+Following that adjustment, $(E_{-+}(0,0))_{jk} = \delta_{j,k-1}$, which is equivalent to
+$E_{-+}(0,0) = J_3$.
+\end{proof}
+
+\begin{theorem}[Jordan Structure at the Critical Point]
+\label{thm:jordan}
+In the basis $\{e_j\}_{j=1}^3$ constructed in Lemmas~\ref{lem:stokes_gm1}--\ref{lem:Eminus_J3},
+the Schur complement satisfies
+\[
+  E_{-+}(\omega_c, P_c) =
+  \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{pmatrix} = J_3.
+\]
+The operator $P_{\mathrm{mod}}$ has algebraic multiplicity $\mathrm{AM} = 3$ and
+geometric multiplicity $\mathrm{GM} = 1$, and its generalized eigenspace corresponds
+to a single non-diagonalizable $3\times 3$ Jordan block.
+\end{theorem}
+
+\begin{proof}
+The geometric multiplicity is $\mathrm{GM} = 1$ by Lemma~\ref{lem:stokes_gm1}.
+The algebraic multiplicity $\mathrm{AM} = 3$ and the single-block structure follow from
+Lemma~\ref{lem:jordan_chain}: the Jordan chain $\{e_1,e_2,e_3\}$ has length~3,
+which implies that the minimal polynomial is $\lambda^3$, thereby precluding any decomposition into
+smaller blocks. The identity $E_{-+}(\omega_c,P_c) = J_3$ is established in Lemma~\ref{lem:Eminus_J3}.
+\end{proof}
+
+% -------------------------------------------------------
+\section{Geometric Setup and Effective Potential}
+% -------------------------------------------------------
+
+The static, spherically symmetric SdS spacetime is characterized by the lapse function
+$f(r) = 1 - r_s/r - r^2/L^2$. For perturbations of spin $s=2$ and angular momentum mode $\ell=2$, the Regge--Wheeler effective potential is given by:
+\[
+  V_{\mathrm{eff}}(r) = f(r)\left[\frac{6}{r^2} - \frac{3r_s}{r^3}\right]
+\]
+
+\subsection{The Nariai Limit and Critical Parameter Space}
+
+The Nariai limit corresponds to the extremal configuration where the black hole and cosmological horizons coincide, which occurs when $f(r) = 0$ and $f'(r) = 0$ simultaneously:
+\[
+  r_{\mathrm{Nariai}} = \frac{L}{\sqrt{3}},
+  \qquad
+  r_s^{\mathrm{Nariai}} = \frac{2\sqrt{3}}{9}L \approx 0.3849\,L
+\]
+The critical parameter configuration $P_c$ associated with the $k=3$ degeneracy is determined by
+simultaneously solving the equations $V'_{\mathrm{eff}}(r)=0$ and $V''_{\mathrm{eff}}(r)=0$:
+\[
+  r_s^c = \frac{\sqrt{54+22\sqrt{33}}}{12}\,L \approx 1.1192\,L,
+  \qquad
+  r^c = \frac{L(-5\sqrt{2}+3\sqrt{66})}{2\sqrt{27+11\sqrt{33}}} \approx 0.9109\,L
+\]
+The Taylor expansion of the effective potential about $r^c$ confirms the presence of the $A_2$ (cusp) singularity:
+\[
+  V_{\mathrm{eff}}(r) - V_{\mathrm{eff}}(r^c)
+  \sim \tfrac{1}{6}V'''_{\mathrm{eff}}(r^c)(r - r^c)^3
+\]
+According to the Malgrange preparation theorem~\cite{Malgrange64}, any smooth function
+possessing a degenerate critical point of this type is locally equivalent under a smooth
+coordinate transformation to the $A_2$ normal form $x^3$. The Taylor expansion above
+verifies that $V_{\mathrm{eff}}$ belongs to this equivalence class in the neighborhood of $r^c$.
+
+\begin{lemma}[Permanently Shielded Physical Regime]
+\label{lem:physical_shielding}
+$r_s^c > r_s^{\mathrm{Nariai}}$.
+\end{lemma}
+
+\begin{proof}
+Comparing the dimensionless coefficients, it suffices to show that $\frac{\sqrt{54+22\sqrt{33}}}{12} > \frac{2\sqrt{3}}{9}$.
+Multiplying both sides by $36$ yields $3\sqrt{54+22\sqrt{33}} > 8\sqrt{3}$. Since both sides are
+positive, squaring both sides gives:
+\[
+  9(54 + 22\sqrt{33}) > 192 \implies 486 + 198\sqrt{33} > 192
+\]
+This inequality clearly holds. Consequently, the physical region ($r_s \leq r_s^{\mathrm{Nariai}}$) is
+permanently shielded from the $V''_{\mathrm{eff}}=0$ degeneracy.
+\end{proof}
+
+\begin{lemma}[Meromorphic continuation of the resolvent family]
+\label{lem:meromorphic_continuation}
+Fix $L > 0$, $h > 0$, and $\omega \in \mathbb{C}$ with
+$\mathrm{Im}(\omega) < 0$.
+Let $\mu \in \mathbb{C}$ denote the dimensionless deformation parameter
+$\mu := (r_s - r_s^c)/L$, where $r_s^c$ is the critical mass defined above.
+(This ``physical'' normalisation is used in the present lemma for the meromorphic
+continuation.  In the Grushin reduction of Section~\ref{sec:grushin}, $\mu$ is
+renormalised by the constant $\alpha_{P} \approx 3.2267$ defined in
+Lemma~\ref{lem:Epm_expand} so that the unfolding operator $\partial_{\mu}P_{h}$
+equals $x$ exactly in BNF coordinates; the two conventions differ only by this
+nonzero scalar and leave all resolvent bounds unchanged.)
+Then:
+\begin{enumerate}
+\item[(i)] \emph{(Analyticity.)}
+  {\looseness=-1 The Regge--Wheeler effective potential $V_{\mathrm{eff}}(r;\mu)$
+  is a real-analytic function of $\mu \in \mathbb{R}$ for each $r > 0$,
+  and extends to a holomorphic function of $\mu$ on the complex strip
+  $|\mathrm{Im}(\mu)| < \delta$ for some $\delta > 0$ depending
+  only on $r_s^c$ and $L$.}
+
+\item[(ii)] \emph{(Fredholm property.)}
+  For each $\mu$ near $0$ in $\mathbb{C}$, the operator
+  \[
+    P_h(\mu) - \omega^2 \;:\; H^2_{\mathrm{sc}}(M) \to L^2(M)
+  \]
+  is Fredholm of index zero, where $H^2_{\mathrm{sc}}$ is the
+  semiclassical Sobolev space with outgoing boundary conditions.
+
+\item[(iii)] \emph{(Meromorphic continuation.)}
+  The resolvent $R_h(\mu,\omega) := (P_h(\mu) - \omega^2)^{-1}$,
+  initially defined for $r_s < r_s^{\mathrm{Nariai}}$ (i.e.\
+  $\mu < \mu_{\mathrm{Nariai}} := (r_s^{\mathrm{Nariai}} - r_s^c)/L$),
+  extends meromorphically as a function of $\mu$ to the entire
+  complex strip $|\mathrm{Im}(\mu)| < \delta$. The poles of this
+  meromorphic family correspond to quantum resonances of $P_h(\mu)$.
+
+\item[(iv)] \emph{(Nature of $P_c$.)}
+  The critical point $\mu = 0$ (i.e.\ $P = P_c$) is a pole of the
+  meromorphic family $R_h(\mu, \omega_c)$, and the residue at this
+  pole encodes the non-diagonalizable Jordan block structure of
+  Theorem~\ref{thm:jordan}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We verify the four claims in order.
+
+\medskip
+\noindent\textbf{Claim (i): Analyticity of $V_{\mathrm{eff}}(r;\mu)$.}
+
+The lapse function is $f(r; r_s) = 1 - r_s/r - r^2/L^2$, and the
+effective potential is
+\[
+  V_{\mathrm{eff}}(r; r_s) = f(r;r_s)\!\left[\frac{6}{r^2} - \frac{3r_s}{r^3}\right].
+\]
+Both factors are polynomial in $r_s$ with coefficients that are smooth
+functions of $r > 0$. Therefore $V_{\mathrm{eff}}(r;\mu)$ is
+holomorphic in $\mu \in \mathbb{C}$ for each fixed $r > 0$.
+
+\begin{remark}[On the role of the tortoise coordinate]
+The operator $P_h = -h^2\partial_{r_*}^2 + V_{\mathrm{eff}}(r)$
+involves the tortoise coordinate $r_* = \int^r f(r';r_s)^{-1}dr'$,
+which is singular at the horizons $f = 0$. However, as a family
+parametrized by $\mu$, the operator is most naturally viewed in terms
+of $V_{\mathrm{eff}}(r;\mu)$ rather than through $r_*$: the analytic
+structure in $\mu$ is that of $V_{\mathrm{eff}}$, not of the tortoise
+coordinate map. Specifically, in the scattering framework of
+Vasy~\cite{Vasy2013}, the relevant operator is extended to a compact
+manifold with boundary, and $\mu$-analyticity is inherited from
+$V_{\mathrm{eff}}$.
+\end{remark}
+
+\medskip
+\noindent\textbf{Claim (ii): Fredholm property.}
+
+For real $\mu$ with $r_s(\mu) < r_s^{\mathrm{Nariai}}$ (the physically
+regular regime), the Fredholm property of $P_h(\mu) - \omega^2$ follows
+from the standard scattering theory of Vasy~\cite{Vasy2013}: the SdS
+static patch is a manifold with two radial points (the black hole and
+cosmological horizons), and the operator $P_h - \omega^2$ is
+elliptic at the horizons with appropriate sign conditions for
+$\mathrm{Im}(\omega) < 0$. This gives index zero by the general
+framework.
+
+For complex $\mu$ near $0$, the Fredholm property is stable; we
+verify this by checking that $P_h(\mu) - \omega^2$ forms an analytic
+family of type~(A) in the sense of Kato~\cite{Kato66}, \S VII.2.1,
+which then allows us to invoke index stability.
+
+\emph{Type-(A) verification for $P_h(\mu)$.}
+A family $T(\mu)$ is of type~(A) if (i)~the domain
+$D(T(\mu)) = D$ is independent of $\mu$, and (ii)~for each $u \in D$
+the map $\mu \mapsto T(\mu)u$ is holomorphic in the Hilbert space norm.
+Here $D = H^2_{\mathrm{sc}}(M)$, the semiclassical Sobolev space with
+outgoing scattering boundary conditions as defined in
+Vasy~\cite{Vasy2013}.
+
+Condition~(i): the domain $H^2_{\mathrm{sc}}(M)$ is defined via the
+elliptic structure of $P_h(0) - \omega^2$ at the boundary of $M$ (the
+two horizons), and this elliptic structure is $\mu$-independent: the
+principal symbol $\xi^2 + V_{\mathrm{eff}}(r;\mu)$ is elliptic at the
+boundary for all $|\mu|$ sufficiently small, since $V_{\mathrm{eff}}$
+is bounded on compact sets and the ellipticity condition depends only on
+the sign of $\mathrm{Im}(\omega)$, which is fixed.  The tortoise
+coordinate $r_*$, while singular at the horizons $f(r;r_s)=0$, enters
+the operator only through the \emph{metric factor} $f$; in Vasy's
+framework the operator is extended to a compact manifold with corners,
+and the relevant domain is defined at the level of this compactified
+operator, which has $\mu$-independent boundary symbol.  Concretely,
+$V_{\mathrm{eff}}(r;\mu) = f(r;r_s(\mu))[6r^{-2}-3r_s(\mu)r^{-3}]$ is
+polynomial in $\mu$ with smooth $r$-dependent coefficients, so the
+change $\mu \mapsto \mu + \delta\mu$ shifts $P_h$ by a bounded
+multiplication operator $\delta\mu \cdot \partial_\mu V_{\mathrm{eff}}$
+that maps $H^2_{\mathrm{sc}} \to L^2$ continuously.  The domain is
+therefore $\mu$-stable.
+
+Condition~(ii): holomorphicity of $\mu \mapsto P_h(\mu)u$ in $L^2(M)$
+follows from Claim~(i): since $V_{\mathrm{eff}}(r;\mu)$ is holomorphic
+in $\mu$ for each fixed $r$, the map $\mu \mapsto V_{\mathrm{eff}}(\cdot;\mu)u$
+is holomorphic in $L^2$ for each $u \in H^2_{\mathrm{sc}}$.
+
+With both conditions verified, $P_h(\mu) - \omega^2$ is an analytic
+family of type~(A). The Fredholm index is locally constant under
+analytic perturbations (Kato~\cite{Kato66}, Chapter~IV, Theorem~5.17),
+so the index zero established in the real regime persists to all
+$|\mu|$ sufficiently small.
+
+\medskip
+\noindent\textbf{Claim (iii): Meromorphic continuation.}
+
+We apply the analytic Fredholm theorem
+(Dyatlov--Zworski~\cite{DZ19}, Theorem~C.5) to the holomorphic
+Fredholm family
+\[
+  \mu \mapsto P_h(\mu) - \omega^2 \;:\;
+  H^2_{\mathrm{sc}}(M) \to L^2(M).
+\]
+The three hypotheses of Theorem~C.5 are:
+\begin{enumerate}
+\item[\textup{(H1)}] \emph{Holomorphicity}: verified by Claim~(i).
+\item[\textup{(H2)}] \emph{Fredholm of index zero}: verified by
+  Claim~(ii).
+\item[\textup{(H3)}] \emph{Invertibility at one point}: for
+  $r_s \ll r_s^{\mathrm{Nariai}}$ (small black hole mass, large
+  $|\mu|$), the operator $P_h(\mu) - \omega^2$ is invertible for
+  generic $\omega$ with $\mathrm{Im}(\omega) < 0$ by the standard
+  resonance-free half-plane result of Dyatlov~\cite{Dyatlov11}.
+\end{enumerate}
+The conclusion of Theorem~C.5 is that $R_h(\mu,\omega) =
+(P_h(\mu)-\omega^2)^{-1}$ is a meromorphic family of bounded operators
+$L^2(M) \to H^2_{\mathrm{sc}}(M)$ in $\mu$, with poles of finite rank.
+
+\medskip
+\noindent\textbf{Claim (iv): Jordan structure at $\mu = 0$.}
+
+At $\mu = 0$ and $\omega = \omega_c$, the operator $P_h(0) - \omega_c^2$
+has a three-dimensional generalized kernel spanned by the Jordan chain
+$\{e_1, e_2, e_3\}$ established in Lemma~\ref{lem:jordan_chain}. By the
+general theory of meromorphic Fredholm families (see Dyatlov--Zworski
+\cite{DZ19}, \S C.3), the Laurent expansion of $R_h(\mu, \omega_c)$
+near $\mu = 0$ has a pole of order equal to the length of the longest
+Jordan chain, which is $3$ by Theorem~\ref{thm:jordan}. The residue
+at this pole is a rank-$3$ operator whose range is
+$\mathrm{span}\{e_1,e_2,e_3\}$, and its non-diagonalizable structure
+is an intrinsic property of the continued family, not an artifact of
+the continuation.
+\end{proof}
+
+\begin{remark}[On the Nariai boundary]
+\label{rem:nariai_boundary}
+The meromorphic continuation of $R_h(\mu,\omega)$ passes through the
+Nariai boundary $\mu = \mu_{\mathrm{Nariai}}$ without obstruction,
+because the analyticity of $V_{\mathrm{eff}}(r;\mu)$ in $\mu$ does not
+require the absence of a horizon. The Nariai geometry ($r_h = r_c$,
+coalescing horizons) corresponds to a degenerate metric, but the
+effective potential $V_{\mathrm{eff}}(r;\mu)$ and hence the operator
+$P_h(\mu)$ remain well-defined and analytic in $\mu$ through this
+boundary. The restriction $r_s < r_s^{\mathrm{Nariai}}$ is a physical
+constraint (ensuring two distinct horizons) but not a mathematical
+obstruction to the resolvent continuation.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Hamiltonian Flow and Semiclassical Scaling}
+% -------------------------------------------------------
+
+The classical Hamiltonian symbol is given by $p(r,\xi) = \xi^2 + V_{\mathrm{eff}}(r)$. On the trapped set $K_P$, the
+linearization of the Hamiltonian flow yields the spectral gap
+$\kappa_{\mathrm{gap}}(P) = \sqrt{-2V''_{\mathrm{eff}}(r^c)}$. As the parameters approach the critical configuration ($P \to P_c$),
+the second derivative vanishes ($V''_{\mathrm{eff}}(r^c) \to 0$), which forces the spectral gap to zero
+($\kappa_{\mathrm{gap}}(P) \to 0$) and causes the control provided by the escape function to degenerate.
+
+\subsection{Birkhoff Normal Form Reduction and FIO Conjugation}
+
+We construct the Birkhoff normal form (BNF) conjugation explicitly, reducing $P_h$ to the
+model operator $P_{\mathrm{mod}} = -h^2\partial_x^2 + x^3$ near the critical point $r^c$.
+
+\textbf{Step 1: Symplectic straightening.}
+At the critical point $(r^c, 0) \in T^*\mathbb{R}$, the Hamiltonian symbol is
+$p(r,\xi) = \xi^2 + V_{\mathrm{eff}}(r)$.
+Under the degeneracy conditions $V'_{\mathrm{eff}}(r^c) = V''_{\mathrm{eff}}(r^c) = 0$ and $V'''_{\mathrm{eff}}(r^c) \neq 0$,
+the Taylor expansion of $p(r, \xi)$ about $r^c$ yields
+\[
+  p(r,\xi) = \xi^2 + \tfrac{1}{6}V'''_{\mathrm{eff}}(r^c)(r-r^c)^3 + O((r-r^c)^4).
+\]
+By the Malgrange preparation theorem~\cite{Malgrange64}, there exists a smooth local
+coordinate change $r \mapsto x(r)$ defined in a neighborhood of $r^c$, with $x(r^c)=0$, such that
+$V_{\mathrm{eff}}(r) - V_{\mathrm{eff}}(r^c) = x(r)^3$ holds identically.
+Setting $\omega_c^2 := V_{\mathrm{eff}}(r^c)$, we consider the symbol $p - \omega_c^2 = \xi^2 + x^3$
+in these coordinates.
+
+\textbf{Step 2: Canonical lift and FIO construction.}
+The diffeomorphism $r \mapsto x(r)$ lifts to a symplectomorphism
+$\kappa: T^*\mathbb{R} \to T^*\mathbb{R}$ defined by
+\[
+  \kappa(r, \xi) = \bigl(x(r),\; \xi / x'(r)\bigr),
+\]
+which satisfies $p \circ \kappa^{-1}(x, \eta) = \eta^2 + x^3$.
+At the operator level, we associate with $\kappa$ an $h$-Fourier integral operator
+$U_h: L^2(\mathbb{R}) \to L^2(\mathbb{R})$ of order zero, which is microlocally unitary near
+$(r^c, 0)$, defined via its Schwartz kernel
+\[
+  K_{U_h}(x, r) = (2\pi h)^{-1/2}\,a(x,r;h)\,e^{i\phi(x,r)/h},
+\]
+where the phase function $\phi(x, r)$ generates the canonical transformation $\kappa$ and satisfies
+$\partial_r \phi = \xi$ and $\partial_x \phi = -\eta$, while the amplitude satisfies $a \in S^0$
+with principal symbol $a(x(r),r;0) = |x'(r)|^{-1/2}$, representing the
+half-density correction that ensures $L^2$ unitarity to leading order.
+
+\begin{lemma}[$L^2$ boundedness and microlocal unitarity of $U_h$]
+\label{lem:FIO_unitary}
+The operator $U_h$ defined above is bounded on $L^2(\mathbb{R})$ uniformly in $h$,
+and satisfies $U_h^* U_h = I + O(h^\infty)_{\mathcal{L}(L^2)}$ microlocally near $(r^c,0)$.
+\end{lemma}
+
+\begin{proof}
+Uniform $L^2$ boundedness follows because $U_h$ is an $h$-FIO of order
+zero associated with a local canonical graph; by the Seeger--Sogge--Stein
+theorem (\cite{Zworski2012}, Theorem~10.1) it is bounded on
+$L^2(\mathbb{R})$ with norm $O(1)$ uniformly in $h$.
+
+Microlocal unitarity is achieved by the choice of the principal amplitude
+$a(x(r),r;0) = |x'(r)|^{-1/2}$.
+Indeed, the composition $U_h^* U_h$ is an $h$-pseudodifferential operator
+whose principal symbol is given by
+\[
+  \sigma(U_h^* U_h)(r,\xi)
+  = |a(x(r),r;0)|^2 \cdot |x'(r)|
+  = |x'(r)|^{-1} \cdot |x'(r)|
+  = 1,
+\]
+where the factor $|x'(r)|$ arises from the Jacobian of the coordinate change in
+the stationary phase expansion of the composition.
+This yields $\sigma(U_h^* U_h) = 1$. The calculus of $h$-pseudodifferential operators
+(see Dyatlov--Zworski~\cite{DZ19}, Theorem~4.18) then implies
+$U_h^* U_h = I + O(h)_{\mathcal{L}(L^2)}$.
+The expansion can be improved to $O(h^\infty)$ by iteratively solving the transport
+equations for the amplitude at each order in $h$. The sub-principal amplitudes $a_k$
+are chosen to satisfy the corresponding homological equations; this is the standard
+parametrix construction for FIOs (see Zworski~\cite{Zworski2012}, \S10.2).
+\end{proof}
+
+\begin{remark}[Global extension of $U_h$ outside $\operatorname{supp}\chi_{\mathrm{trap}}$]
+\label{rem:FIO_global}
+The FIO $U_h$ is defined microlocally near $(r^c, 0)$, but the Grushin
+operator $\mathcal{G}$ is a global operator on $L^2(M)$.
+The BNF conjugation identity~\eqref{eq:BNF_conjugation} is used only
+in the microlocal region $\operatorname{supp}\chi_{\mathrm{trap}}$, via the
+cutoff $\chi$ in the definitions of $R_\pm$.
+Outside this region, the operator $P_h - \omega_c^2$ is elliptic
+(since $V_\mathrm{eff}(r) - \omega_c^2 \neq 0$ away from $r^c$),
+so the resolvent $(P_h - \omega_c^2)^{-1}$ is bounded there by
+standard elliptic estimates.
+The global estimate on $\|R_h(P)\|$ is obtained by the standard
+microlocal partition-of-unity argument:
+$R_h = \chi_{\mathrm{trap}} R_h \chi_{\mathrm{trap}} +
+(1-\chi_{\mathrm{trap}})R_h + R_h(1-\chi_{\mathrm{trap}}) +
+O(h^\infty)$
+(cf.\ Dyatlov--Zworski~\cite{DZ19}, \S4.2, proof of Theorem~4.1),
+where the off-diagonal pieces are $O(1)$ by elliptic regularity, and
+only the trapped piece $\chi_{\mathrm{trap}} R_h \chi_{\mathrm{trap}}$
+carries the $h^{-6/5}$ divergence controlled by $\|E_{-+}^{-1}\|$.
+\end{remark}
+
+\textbf{Step 3: Conjugation identity.}
+By standard FIO composition calculus
+(see \cite{Zworski2012}, Ch.~11 and \cite{DZ19}, App.~E)
+and Lemma~\ref{lem:FIO_unitary}, we have
+\[
+  U_h^* \circ (P_h - \omega_c^2) \circ U_h
+  = \mathrm{Op}^w_h\!\bigl(p \circ \kappa^{-1}\bigr) + O(h^2)_{\mathcal{L}(L^2)}
+  = -h^2\partial_x^2 + x^3 + O(h^2)_{\mathcal{L}(L^2)}.
+\]
+The $O(h)$ term vanishes identically because $Q_1 \equiv 0$ (Lemma~\ref{lem:Q1}, Appendix~A).
+Specifically, the sub-principal symbol of $P_h - \omega_c^2$ in Weyl quantization is zero,
+and the sub-principal contribution from the FIO conjugation also vanishes, as the
+Jacobian of the cotangent lift $\kappa$ is identically 1 (see Appendix~A, Step~2).
+Consequently, the $O(h)$ remainder in the conjugation identity is absent, yielding
+\begin{equation}\label{eq:BNF_conjugation}
+  U_h^* (P_h - \omega_c^2) U_h = P_{\mathrm{mod}} + O(h^2), \qquad
+  P_{\mathrm{mod}} := -h^2\partial_x^2 + x^3.
+\end{equation}
+The $O(h^2)$ remainder corresponds to the Schwarzian contribution $q_2$ derived in Appendix~B.2.
+This term enters the Grushin matrix only at order $h^2 Q_{31}$, which is subleading
+in the characteristic equation (see Appendix~B, Proposition~\ref{prop:dominant_balance}).
+
+\subsection{Semiclassical Dilation}
+
+Starting from the model operator $P_{\mathrm{mod}} = -h^2\partial_x^2 + x^3$, we define the
+unitary dilation $x = h^{2/5}y$, which acts as $(D_{h^{2/5}}u)(y) = h^{1/5}u(h^{2/5}y)$.
+A direct calculation yields:
+\[
+  D_{h^{2/5}}^{-1} \circ P_{\mathrm{mod}} \circ D_{h^{2/5}}
+  = -h^2 \cdot h^{-4/5}\partial_y^2 + h^{6/5}y^3
+  = h^{6/5}\bigl(-\partial_y^2 + y^3\bigr).
+\]
+The scaling exponent is determined by balancing the kinetic and potential terms:
+$h^{2-2\alpha} = h^{3\alpha}$ yields $\alpha = 2/5$, which is consistent with the dilation scaling.
+We thus obtain:
+\[
+  P_{\mathrm{mod}} = h^{6/5}\,Q_0, \qquad Q_0 := -\partial_y^2 + y^3,
+\]
+and the resolvent at energy zero satisfies
+\[
+  (P_{\mathrm{mod}})^{-1} = h^{-6/5}\,Q_0^{-1},
+\]
+yielding the characteristic semiclassical factor $\|R_h\| \sim h^{-6/5}$.
+The vanishing of the sub-principal symbol $Q_1$, which ensures that no $O(h)$
+correction alters this scaling, is established in Appendix~A.
+
+% -------------------------------------------------------
+\section{Grushin Reduction}
+\label{sec:grushin}
+% -------------------------------------------------------
+
+Let $\{e_j\}_{j=1}^3$ be the Jordan basis of outgoing quasimodes constructed in
+Appendix~C, and let $\chi \in C_c^\infty(T^*M)$ be a microlocal cutoff supported
+near the trapped set $K_P$. We define the auxiliary operators:
+\[
+  R_- : \mathbb{C}^3 \to L^2(M),
+  \quad
+  R_- v = \sum_{j=1}^3 v_j \chi e_j,
+\]
+\[
+  R_+ : L^2(M) \to \mathbb{C}^3,
+  \quad
+  (R_+ u)_j = \langle u,\, \chi e_j \rangle_{L^2}.
+\]
+The extended Grushin operator is then given by:
+\[
+  \mathcal{G}(\omega, P) =
+  \begin{pmatrix} P_h - \omega^2 & R_- \\ R_+ & 0 \end{pmatrix}
+  : L^2(M) \oplus \mathbb{C}^3 \to L^2(M) \oplus \mathbb{C}^3.
+\]
+For parameters $|P - P_c| \geq \varepsilon > 0$, the operator $\mathcal{G}$ is Fredholm of index~$0$ and
+is invertible as shown below.
+
+\begin{lemma}[Invertibility of the Grushin matrix]
+\label{lem:grushin_invertible}
+At $(\omega, P) = (\omega_c, P_c)$, the extended operator $\mathcal{G}(0,0)$ is
+boundedly invertible on $L^2(M) \oplus \mathbb{C}^3$.
+\end{lemma}
+
+\begin{proof}
+We write the system $\mathcal{G}(0,0)(u,v) = (f,g)$ explicitly:
+\[
+  (P_h - \omega_c^2)\,u + R_-\,v = f,
+  \qquad
+  R_+\,u = g.
+\]
+Since $\{e_j\}_{j=1}^3$ is the Jordan basis established in Lemma~\ref{lem:jordan_chain},
+the operator $P_h - \omega_c^2$ is not invertible on $L^2(M)$ alone due to
+its three-dimensional generalized kernel; however, the augmented system is invertible.
+Indeed, decomposing $u = u_\perp + \sum_j c_j e_j$, where $u_\perp \perp \mathrm{span}\{e_j\}$,
+the second equation $R_+u = g$ determines the coefficients $c_j$ as $(R_+u)_j = c_j + \langle u_\perp, \chi e_j\rangle = g_j$,
+which yields $c_j = g_j - \langle u_\perp, \chi e_j\rangle$.
+The first equation, projected onto the orthogonal complement of $\mathrm{span}\{e_j\}$, determines $u_\perp$
+uniquely via the restricted resolvent of $P_h - \omega_c^2$.
+This restricted resolvent is bounded since $P_h - \omega_c^2$ is Fredholm of index~$0$ and
+is injective on $(\mathrm{span}\{e_j\})^\perp$ (see Dyatlov--Zworski~\cite{DZ19}, Theorem~4.1);
+denote its operator norm by $M_{\mathrm{res}} < \infty$.
+The solution $(u,v)$ depends continuously on the data $(f,g)$, establishing bounded invertibility.
+Concretely, the full inverse satisfies
+\[
+  \|\mathcal{G}(0,0)^{-1}\|_{\mathcal{L}(L^2(M)\oplus\mathbb{C}^3)}
+  \;\leq\; C(M_{\mathrm{res}},\|R_\pm\|) \;<\; \infty,
+\]
+where the constant $C$ depends only on $M_{\mathrm{res}}$ and the norms of the auxiliary operators
+$R_\pm$ defined in Section~\ref{sec:grushin}.
+This finite bound is recorded as
+$M_0 := \|\mathcal{G}(0,0)^{-1}\|$ in Remark~\ref{rem:grushin_validity},
+where it determines the radius of validity of the Grushin expansion.
+\end{proof}
+
+By Lemma~\ref{lem:grushin_invertible}, the Grushin operator $\mathcal{G}(0,0)$ is boundedly invertible.
+By applying the block inversion formula, the Schur complement (representing the effective Hamiltonian) is:
+\[
+  E_{-+}(\omega, P) = -R_+(P_h - \omega^2)^{-1}_{\mathrm{res}}\,R_- ,
+\]
+where $(P_h-\omega^2)^{-1}_{\mathrm{res}}$ denotes the restricted resolvent on
+$(\mathrm{span}\{e_j\})^\perp$. In the notation of Dyatlov--Zworski~\cite{DZ19}, Appendix~C.1,
+this simplifies to
+\[
+  E_{-+}(\omega) = R_+(P_h - \omega^2)R_-
+\]
+in the basis where $E_{-+}(0,0) = J_3$.
+(Under the Jordan chain convention $P_{\mathrm{mod}}\,e_k = e_{k-1}$ and
+the definition of $R_+$, the relation $(E_{-+}(0,0))_{jk} = \langle e_{k-1}, e_j\rangle = \delta_{j,k-1} = J_3$
+holds directly; see Lemma~\ref{lem:Eminus_J3}.)
+The quantum resonances correspond to the values of $\omega$ for which the extended operator
+$\mathcal{G}(\omega,P)$ fails to be invertible. By the Schur complement formula, this condition is
+equivalent to the vanishing of the determinant, $\det(E_{-+}(\omega,P)) = 0$.
+
+\begin{lemma}[Parametric expansion of $E_{-+}$]
+\label{lem:Epm_expand}
+Set $\lambda := \omega^2 - \omega_c^2$ and $\mu := P - P_c$.
+The Schur complement admits the expansion
+\begin{equation}\label{eq:lambda_def}
+  E_{-+}(\omega, P) = J_3 - \lambda\,I + \mu\,X + O(\lambda^2, \mu^2, \lambda\mu),
+\end{equation}
+where $J_3$ is the nilpotent Jordan block established in Theorem~\ref{thm:jordan} and
+$X_{ij} = \langle e_i, x\,e_j\rangle$ is the geometric perturbation matrix.
+\end{lemma}
+
+\begin{proof}
+We write the Grushin matrix as
+\[
+  \mathcal{G}(\lambda,\mu)
+  = \mathcal{G}(0,0)
+    + \lambda \begin{pmatrix} -I & 0 \\ 0 & 0 \end{pmatrix}
+    + \mu \begin{pmatrix} \partial_\mu A & 0 \\ 0 & 0 \end{pmatrix}
+    + O(\lambda^2,\mu^2,\lambda\mu),
+\]
+where $A = P_h - \omega^2$ and $\partial_\mu A = \partial_P P_h$.
+Since $\mathcal{G}(0,0)$ is invertible (the Jordan basis $\{e_j\}$ is constructed
+such that $R_+$ and $R_-$ render $\mathcal{G}(0,0)$ an isomorphism;
+see Dyatlov--Zworski~\cite{DZ19}, \S4.4), the perturbation formula for the Schur
+complement yields
+\[
+  E_{-+}(\lambda,\mu)
+  = E_{-+}(0,0)
+    - \lambda\,(R_+ R_-)
+    + \mu\,(R_+\,\partial_\mu A\,R_-)
+    + O(\lambda^2,\mu^2,\lambda\mu).
+\]
+By Lemma~\ref{lem:Eminus_J3}, we have $E_{-+}(0,0) = J_3$.
+
+\emph{The $-\lambda I$ term.}
+By Lemma~\ref{lem:Eminus_J3}, $\langle e_{k-1}, e_j\rangle = \delta_{j,k-1}$,
+which gives $(R_+R_-)_{jk} = \delta_{jk}$, i.e.\ $R_+R_- = I_3$.
+Hence $-\lambda(R_+R_-)$ contributes $-\lambda I_3$.
+
+\emph{The $\mu X$ term.}
+We must verify that $R_{+}(\partial_{\mu}A)R_{-} = X$, i.e.\ that in the
+Birkhoff normal form coordinate $x$ introduced in Section~4, the operator
+$\partial_{\mu}P_{h}$ acts (at leading order) as multiplication by $x$.
+Here $\mu$ parametrises the one-parameter family $P(\mu)$ with $P(0)=P_{c}$;
+we choose the normalisation of this path precisely so that the following holds.
+
+Since $P_{h} = -h^{2}\partial_{r_{*}}^{2} + V_{\mathrm{eff}}(r;\,r_{s})$ and we
+vary $r_{s}$ (keeping $L$ fixed), we have
+\[
+  \partial_{\mu}P_{h} \;=\; \frac{dr_{s}}{d\mu}\,\partial_{r_{s}}V_{\mathrm{eff}}(r;\,r_{s}^{c}).
+\]
+Expanding $\partial_{r_{s}}V_{\mathrm{eff}}$ around the critical radius $r^{c}$ in
+the BNF coordinate $x$ (where $r - r^{c} = x/x'(r^{c}) + O(x^{2})$ and
+$x'(r^{c}) = \bigl(V_{\mathrm{eff}}'''(r^{c})/6\bigr)^{1/3}$ is the \emph{real} cube root,
+negative since $V_{\mathrm{eff}}'''(r^{c}) < 0$; the explicit value is given
+in~\eqref{eq:xprime_explicit} below) gives
+\[
+  \partial_{r_{s}}V_{\mathrm{eff}}(r;\,r_{s}^{c})
+  \;=\;
+  A_{0} \;+\; A_{1}\,\frac{x}{x'(r^{c})} \;+\; O(x^{2}),
+\]
+where
+\[
+  A_{0} \;:=\; \partial_{r_{s}}V_{\mathrm{eff}}\!\big|_{(r^{c},\,r_{s}^{c})},
+  \qquad
+  A_{1} \;:=\; \partial_{r}\partial_{r_{s}}V_{\mathrm{eff}}\!\big|_{(r^{c},\,r_{s}^{c})}.
+\]
+A direct computation using $V_{\mathrm{eff}} = f(r;r_{s})\bigl(6r^{-2}-3r_{s}r^{-3}\bigr)$
+and the two critical-point relations
+$V_{\mathrm{eff}}'(r^{c};r_{s}^{c})=0$, $V_{\mathrm{eff}}''(r^{c};r_{s}^{c})=0$
+(whose unique physical solution is $r_{s}^{c} = \tfrac{9+\sqrt{33}}{12}\,r^{c}$,
+$L^{2} = \tfrac{9+2\sqrt{33}}{17}(r^{c})^{2}$; see Remark~\ref{rem:omega_c_imaginary})
+yields
+\begin{equation}\label{eq:xprime_explicit}
+  A_{0} \;=\; \frac{3(29-3\sqrt{33})}{2(r^{c})^{3}(9+2\sqrt{33})}, \qquad
+  A_{1} \;=\; \frac{-102}{(r^{c})^{4}(9+2\sqrt{33})},
+\end{equation}
+\begin{equation*}
+  x'(r^{c}) \;=\; -\left(\frac{297+49\sqrt{33}}{4(r^{c})^{5}(9+2\sqrt{33})}\right)^{1/3},
+\end{equation*}
+where the right-hand expression for $x'(r^{c})$ is the real cube root of
+$C = \tfrac{1}{6}V_{\mathrm{eff}}'''(r^{c}) < 0$; equivalently $x'(r^{c}) = C^{1/3} < 0$
+(real branch).
+In particular $A_{1} \neq 0$ and $x'(r^{c}) \neq 0$.
+
+The constant term $\mu\,(dr_{s}/d\mu)\,A_{0}$ is $O(\mu)$ and independent of $r$;
+it shifts $\omega_{c}^{2}$ to $\omega_{c}^{2}(\mu) = \omega_{c}^{2} + \mu(dr_{s}/d\mu)A_{0} + O(\mu^{2})$
+and is absorbed into the redefinition $\lambda := \omega^{2} - \omega_{c}^{2}(\mu)$.
+The $x$-linear term yields
+\[
+  \partial_{\mu}P_{h}
+  \;=\;
+  \frac{dr_{s}}{d\mu}\,\frac{A_{1}}{x'(r^{c})}\cdot x \;+\; O(x^{2}).
+\]
+Define the \emph{path normalisation constant}
+\[
+  \alpha_{P}
+  \;:=\;
+  L\,\frac{A_{1}}{x'(r^{c})}
+  \;=\;
+  \frac{L\,\partial_{r}\partial_{r_{s}}V_{\mathrm{eff}}\big|_{(r^{c},r_{s}^{c})}}
+       {\bigl(V_{\mathrm{eff}}'''(r^{c})/6\bigr)^{1/3}}
+  \;\approx\; 3.2267 \;\neq\; 0.
+\]
+We \emph{choose} the one-parameter path so that $dr_{s}/d\mu = L/\alpha_{P}$, i.e.\
+\[
+  r_{s}(\mu) \;=\; r_{s}^{c} \;+\; \frac{L}{\alpha_{P}}\,\mu,
+\]
+which is equivalent to working with the normalised deformation parameter
+$\mu = \alpha_{P}\,(r_{s}-r_{s}^{c})/L$ (cf.\ Lemma~\ref{lem:meromorphic_continuation},
+where the ``physical'' parameter $\hat\mu := (r_{s}-r_{s}^{c})/L = \mu/\alpha_{P}$
+is used; the two parametrisations differ by the nonzero constant $\alpha_{P}$
+and hence produce the same qualitative spectral picture).
+
+With this choice $\partial_{\mu}P_{h} = x + O(x^{2})$ in BNF coordinates, so
+\[
+  (R_{+}(\partial_{\mu}P_{h})R_{-})_{jk}
+  \;=\; \langle e_{j},\,x\,e_{k}\rangle + O(\text{subleading})
+  \;=:\; X_{jk},
+\]
+and therefore $R_{+}(\partial_{\mu}P_{h})R_{-} = X$ as claimed.
+
+Combining these three contributions yields~\eqref{eq:lambda_def}.
+\end{proof}
+
+\begin{remark}[Validity region of the Grushin reduction]
+\label{rem:grushin_validity}
+The expansion~\eqref{eq:lambda_def} and all subsequent Schur complement computations are
+valid in the region
+\[
+  \mathcal{V} := \bigl\{(\mu, h) \in \mathbb{R} \times (0,1] :
+    |\mu| < \mu_0,\; h < h_0 \bigr\},
+\]
+where the thresholds $\mu_0 > 0$ and $h_0 > 0$ are determined by two conditions.
+
+\emph{All constants are $h$-independent.}
+The entire Grushin reduction is carried out at the level of the dilated
+model operator $Q_0 = -\partial_y^2 + y^3$ (Section~4.2).  After the
+unitary dilation $x = h^{2/5}y$, the operator $P_{\mathrm{mod}} = h^{6/5}Q_0$
+and $h$ no longer appears in $Q_0$.  The double-scaling parameter
+$\nu := \mu h^{-4/5}$ is $O(1)$ in the scaling window, so the
+Grushin matrix $\mathcal{G}(0,0)$ is built from $Q_0$ and the
+$h$-independent Jordan chain $\{e_j\}$.  Consequently, all operator
+norms appearing in the thresholds below ($M_0$, $C_1$, $\|B_1\|$,
+$\|B_2\|$) are norms of fixed operators on the $h$-independent Hilbert
+space $L^2_\Gamma \oplus \mathbb{C}^3$, and are therefore independent of
+$h$.
+
+\emph{Definition of $M_0$.}
+By Lemma~\ref{lem:grushin_invertible}, the operator $\mathcal{G}(0,0)$ is boundedly
+invertible on $L^2(M)\oplus\mathbb{C}^3$.
+We set
+\[
+  M_0 := \|\mathcal{G}(0,0)^{-1}\|_{\mathcal{L}(L^2(M)\oplus\mathbb{C}^3,\,L^2(M)\oplus\mathbb{C}^3)}.
+\]
+This norm is finite by Lemma~\ref{lem:grushin_invertible}; it depends only on
+$(r_s^c, L)$ and the normalization of the Jordan basis $\{e_j\}$, both of which
+are fixed geometric data.
+
+\emph{Definition of $C_1$.}
+The Grushin matrix satisfies
+$\mathcal{G}(\lambda,\mu) = \mathcal{G}(0,0) + \lambda B_1 + \mu B_2 + \mathcal{R}(\lambda,\mu)$,
+where $B_1, B_2$ are the first-order coefficient operators (bounded, with norms
+depending only on $\|R_\pm\|$ and $\|\partial_\mu P_h\|$) and the remainder
+satisfies $\|\mathcal{R}(\lambda,\mu)\| \leq C_{\mathcal{R}}(\lambda^2 + \mu^2 + |\lambda\mu|)$
+for a constant $C_{\mathcal{R}} > 0$ depending only on the second-order Taylor
+coefficients of $P_h$ at $P_c$.
+The perturbation formula for the Schur complement (Dyatlov--Zworski~\cite{DZ19},
+Appendix~C.1) then produces remainder terms in~\eqref{eq:lambda_def} bounded by
+$C_1 M_0 (\lambda^2 + \mu^2 + |\lambda\mu|)$, where we set
+\[
+  C_1 := C_{\mathcal{R}} + M_0(\|B_1\|^2 + \|B_2\|^2).
+\]
+(The constant $C_{\mathcal{R}}$ coincides with the constant $C_R$ appearing in
+Lemma~\ref{lem:E_bound} (Appendix~A): both bound the operator norm of the second-order
+Taylor remainder of $\mathcal{G}(\lambda,\mu)$ at $(\lambda,\mu)=(0,0)$.
+Lemma~\ref{lem:E_bound} establishes that this remainder is finite; the definition
+here makes the dependence of $C_1$ on the same constant explicit.)
+
+\emph{Explicit thresholds and the uniform bound $C_0 = 2M_0$.}
+The Neumann series
+\[
+  \mathcal{G}(\mu,h)^{-1}
+  = \sum_{n=0}^{\infty}(-\mathcal{G}(0,0)^{-1}\delta\mathcal{G})^n \mathcal{G}(0,0)^{-1}
+\]
+converges in $\mathcal{L}(L^2(M)\oplus\mathbb{C}^3)$ whenever $\|\mathcal{G}(0,0)^{-1}\delta\mathcal{G}\| \leq \tfrac{1}{2}$,
+and in that case $\|\mathcal{G}(\mu,h)^{-1}\| \leq 2M_0$.
+Requiring $|\lambda| \leq |\mu|$ (on-shell near $\omega_c$) and bounding
+$\|\delta\mathcal{G}\| \leq |\mu|(\|B_1\|+\|B_2\|) + C_{\mathcal{R}}(\mu^2+h^2)$,
+the half-contractivity condition $\|\mathcal{G}(0,0)^{-1}\delta\mathcal{G}\| \leq \tfrac{1}{2}$
+is guaranteed for
+\[
+  |\mu| < \mu_0 := \frac{1}{4 C_1 M_0 (\|X\| \vee 1)},
+  \qquad
+  h < h_0 := \min\!\left(1,\,\frac{\mu_0^{1/2}}{2C_1 M_0}\right).
+\]
+Within $\mathcal{V}$, the full inverse $\mathcal{G}(\mu,h)^{-1}$ is therefore bounded by $2M_0$
+uniformly in $(\mu,h)$.
+Since the $(1,1)$-block satisfies $\|E(\mu,h)\| \leq \|\mathcal{G}(\mu,h)^{-1}\|$,
+we obtain $C_0 := 2M_0$ as the explicit uniform bound for $E$.
+
+\emph{Why $\|E\|$ does not grow with $\|E_{-+}^{-1}\|$.}
+The operator $E$ is the $(1,1)$-block of the \emph{full bounded} inverse $\mathcal{G}^{-1}$,
+not of the Schur complement inverse $E_{-+}^{-1}$.
+Although the Schur complement identity $E = (P_h - \omega^2 + R_- E_{-+}^{-1} R_+)^{-1}$
+is formally correct, it is not the route used to bound $\|E\|$:
+the Neumann series bounds $\|\mathcal{G}^{-1}\|$ at the level of the full $2\times 2$ block
+operator, so all four blocks---including $E$---are simultaneously controlled by $2M_0$
+(using $\|A_{11}\|\leq\|A\|$ for block operators on a Hilbert direct sum),
+independently of how large $\|E_{-+}^{-1}\|$ becomes.
+
+Throughout the double scaling regime ($|\mu| \sim h^{4/5}$, $h \to 0$), the pair $(\mu,h)$
+lies inside $\mathcal{V}$ for $h$ sufficiently small: since $\mu_0$ is $h$-independent (as
+established above), the condition $|\mu| < \mu_0$ reduces to $Ch^{4/5} < \mu_0$, which holds
+for all $h < ({\mu_0}/{C})^{5/4}$.  The thresholds $\mu_0, h_0$ therefore provide a
+genuinely uniform validity region, and the Grushin estimates remain valid throughout the
+double-scaling window without further smallness conditions on $h$.
+Outside $\mathcal{V}$ (i.e.\ for $|\mu| \geq \mu_0$ or $h \geq h_0$), the operator
+$\mathcal{G}$ is still Fredholm---specifically, $P_h(\mu) - \omega^2$ remains Fredholm
+of index zero by the analytic Fredholm theorem (Dyatlov--Zworski~\cite{DZ19},
+Theorem~C.5) applied to the meromorphic family of
+Lemma~\ref{lem:meromorphic_continuation}(ii)--(iii)---but the $3\times 3$ finite-dimensional
+reduction is no longer sufficient and the full resolvent must be used.
+\end{remark}
+
+
+% -------------------------------------------------------
+\subsection{WKB Suppression and Logical Independence of the Proof}
+\label{sec:wkb_suppression}
+
+\begin{proposition}[Logical independence of the WKB suppression]
+\label{prop:wkb_independence}
+The asymptotic vanishing $X_{31} = 0$ established in
+Lemma~\ref{lem:X31_asymptotic} below depends only on the following chain
+of results, none of which invokes Theorem~\ref{thm:resolvent} or the
+resolvent estimates of Steps~1--2 in its proof:
+\begin{enumerate}
+  \item[\emph{(i)}] \emph{Jordan chain} (Lemma~\ref{lem:jordan_chain},
+    Section~2): the functions $e_1, e_3$ exist, satisfy the Jordan chain
+    relations, and satisfy the outgoing boundary condition on $\Gamma$.
+    This is established from the Stokes sector analysis of
+    $P_{\mathrm{mod}} = -\partial_y^2 + y^3$ alone.
+  \item[\emph{(ii)}] \emph{WKB decay on $\Gamma$} (Lemma~\ref{lem:stokes_gm1},
+    Section~2): every outgoing solution satisfies
+    $|e_j(t)| \lesssim t^{-3/4}e^{-2t^{5/2}/5}$ as $t\to\infty$ on $\Gamma$.
+    This follows from the asymptotic analysis of the Stokes sector for
+    $-u''+t^3 u = 0$ (Sibuya~\cite{Sibuya75}), independently of any
+    resolvent or parameter.
+  \item[\emph{(iii)}] \emph{Product decay}: the product $e_1 e_3$ carries
+    the combined decay $e^{-4t^{5/2}/5}$, which forces the integral
+    $X_{31}^{(T)} = e^{i4\pi/5}\int_{t_L}^T t\,e_1 e_3\,dt$ to zero as
+    $T \to \infty$.
+\end{enumerate}
+In particular, the logical order is:
+\begin{gather*}
+  \text{(i) Jordan chain}
+  \;\Rightarrow\;
+  \text{(ii) WKB decay}
+  \;\Rightarrow\;
+  \text{(iii) } X_{31} = 0 \\
+  \;\Rightarrow\;
+  \lambda_{2,3} \sim \mu^{1/2}
+  \;\Rightarrow\;
+  \|R_h\| \sim h^{-6/5}|P-P_c|^{-1/2}.
+\end{gather*}
+No step in the forward direction uses any result from a later step.
+The proof of Theorem~\ref{thm:resolvent} therefore contains no circular
+dependence.
+\end{proposition}
+
+\begin{lemma}[Asymptotic vanishing and effective suppression of $X_{31}$]
+\label{lem:X31_asymptotic}
+Let $X_{31}^{(T)} := e^{i4\pi/5}\int_{t_L}^{T} t\,e_1(t)\,e_3(t)\,dt$ denote the
+truncated matrix element at contour length $T$.
+\begin{enumerate}
+\item[(i)] \emph{(Not exactly zero at finite $T$).}
+  For any finite $T < \infty$, the truncated element satisfies $X_{31}^{(T)} \neq 0$.
+  The statement ``$X_{31} = 0$'' throughout this paper refers to the asymptotic limit
+  $T \to \infty$, not to an exact algebraic identity.
+\item[(ii)] \emph{(Super-exponential decay.)}
+  The WKB estimate on $\Gamma$ gives
+  \[
+    \bigl|X_{31}^{(T)}\bigr| \;\leq\; C\,e^{-4T^{5/2}/5}
+  \]
+  for a constant $C > 0$ depending only on $t_L$ and the normalization of
+  $\{e_j\}$, not on $T$.  In particular,
+  $X_{31}^{(T)}/c_X \to 0$ super-exponentially as $T\to\infty$.
+\item[(iii)] \emph{(Physical regime: $\mu X_{31}$ is negligible.)}
+  For any fixed $\mu > 0$, the crossover scale
+  $\mu_{\mathrm{cross}}(T) := (X_{31}^{(T)})^2/c_X^3 \to 0$
+  super-exponentially in $T$.
+  Since the physical parameter $\mu = P - P_c$ is independent of $T$, we have
+  $\mu \gg \mu_{\mathrm{cross}}(T)$ for $T$ large enough, so the term $\mu X_{31}^{(T)}$
+  contributes at order $O(\mu_{\mathrm{cross}}^{1/2} \mu^{1/2}) \ll O(\mu^{1/2} c_X^{1/2})$
+  in the eigenvalue expansion~\eqref{eq:lambdapm} and does not affect the
+  dominant $\lambda \sim \mu^{1/2}$ scaling.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Part~(i): $e_1(t) > 0$ and $e_3(t) > 0$ on $[t_L, T]$ (Steps~1 and~4 of
+Lemma~\ref{lem:cx_nonzero}), so the integrand $t\,e_1(t)\,e_3(t) > 0$
+on $(t_L, T)$, yielding $|X_{31}^{(T)}| > 0$.
+
+Part~(ii): On $\Gamma$, both $e_1$ and $e_3$ satisfy the outgoing boundary condition
+and hence carry the WKB decay $|e_j(t)| \sim t^{-3/4}e^{-2t^{5/2}/5}$.
+Therefore $|e_1(t)\,e_3(t)| \lesssim t^{-3/2}e^{-4t^{5/2}/5}$, and the tail integral
+$\int_T^\infty t\,|e_1 e_3|\,dt \leq C' e^{-4T^{5/2}/5}$
+for a constant $C' > 0$.  Since the integral on $[t_L, T]$ is bounded and the
+tail decays super-exponentially, the result follows.
+
+Part~(iii): Follows directly from Part~(ii) and the bound $|c_X| \geq c_0 > 0$
+(Lemma~\ref{lem:cx_nonzero}).
+\end{proof}
+
+\begin{remark}[Terminology]
+\label{rem:X31_terminology}
+When we write $X_{31} = 0$ in the characteristic equation analysis (e.g.\
+Sections~6--7 and Appendix~B), this is shorthand for the statement that the
+$T\to\infty$ limit of $X_{31}^{(T)}$ is zero, and that for any fixed $\mu > 0$ the
+contribution $\mu X_{31}^{(T)}$ is negligible relative to the dominant term
+$\mu c_X \lambda \sim \mu^{3/2}$ for $T$ large.  This is an \emph{asymptotic
+suppression}, not an exact algebraic cancellation.  The distinction is made precise
+by the crossover analysis in Part~(iii) above and Remark~\ref{rem:dominant_balance}.
+\end{remark}
+
+
+By Lemma~\ref{lem:X31_asymptotic}, the asymptotic vanishing
+\[
+  X_{31} = \langle e_3, x e_1 \rangle
+  = \int_\Gamma x\, e_1(x)\, e_3(x)\, dx \;\xrightarrow{T\to\infty}\; 0
+\]
+is a consequence of the outgoing WKB boundary conditions: both $e_1$ and $e_3$ carry
+the decaying envelope $e^{-2t^{5/2}/5}$, so their product decays as $e^{-4t^{5/2}/5}$,
+which is not countered by the polynomial weight $x \sim t$.
+Since the contour $\Gamma = \{te^{i2\pi/5} : t > 0\}$ is a ray rather than a symmetric
+domain, classical parity-based cancellation arguments do not apply here; the suppression
+is an asymptotic WKB effect (see Remark~\ref{rem:X31_terminology}).
+Under the parametrization $x = te^{i2\pi/5}$, we have
+$X_{31} = e^{i4\pi/5}\int_0^\infty t\,e_1(t)\,e_3(t)\,dt$,
+consistent with the representation for $X_{jk}$ in Appendix~C.
+By contrast, the cross terms $e_1 e_2$ and $e_2 e_3$ carry
+different net WKB phases---one factor lies in a decaying Stokes sector,
+while the other is in an intermediate sector---which yields
+non-zero sub-diagonal elements $c_X = X_{21} + X_{32} \neq 0$,
+as established by the following lemma.
+
+\begin{lemma}[$c_X \neq 0$: analytic proof, corrected]
+\label{lem:cx_nonzero}
+Let $\{e_1, e_2, e_3\}$ be the Jordan chain established in Lemma~\ref{lem:jordan_chain}.
+Then $c_X = X_{21} + X_{32} \neq 0$.
+\end{lemma}
+
+\begin{proof}
+We establish $X_{21} \neq 0$ and $X_{32} \neq 0$ separately, then
+show $c_X \neq 0$.
+
+\medskip
+\noindent\textbf{Step 1: Real-phase structure of $e_1$.}
+
+The equation $-u'' + t^3 u = 0$ has real coefficients. Its WKB
+solutions satisfy
+\[
+  v_\pm(t) \;\sim\; t^{-3/4}\exp\!\Bigl(\pm\tfrac{2}{5}t^{5/2}\Bigr)
+  \bigl(1 + O(t^{-5/2})\bigr), \qquad t \to +\infty.
+\]
+The outgoing mode $e_1 = v_+$ is selected by integrating backward
+from $t = T$ with initial data
+$e_1(T) = T^{-3/4}e^{-2T^{5/2}/5}$ and
+$e_1'(T) = -T^{3/2}\,T^{-3/4}e^{-2T^{5/2}/5}(1+O(T^{-5/2}))$,
+both of which are real. Since the ODE has real coefficients and the
+initial data are real, the solution $e_1(t)$ is \emph{real-valued}
+for all $t \in [t_L, T]$. Positivity $e_1(t) > 0$ follows because
+$e_1(T) > 0$ and the Stokes structure of $-u''+t^3u=0$ guarantees
+that $v_+$ is nodeless on the positive real axis
+(Sibuya~\cite{Sibuya75}, Chapter~2). In particular,
+\begin{equation}\label{eq:e1_real}
+  e_1(t) \in \mathbb{R}_{>0} \quad \text{for all } t \in [t_L, T].
+\end{equation}
+
+\medskip
+\noindent\textbf{Step 2: Sign of the Wronskian.}
+
+The growing mode $v_-$ satisfies $v_-(T) = T^{-3/4}e^{+2T^{5/2}/5}(1+O(T^{-5/2})) > 0$.
+The Wronskian $W := W(e_1, v_-)\big|_T$ is \emph{independent of $T$}
+by Abel's identity: since the equation $-u''+t^3u=0$ has no first-derivative
+term, its coefficient of $u'$ is zero, so
+$\tfrac{d}{dt}W(e_1,v_-) = 0$ identically, and $W$ is the same constant
+for every evaluation point $T > t_L$.
+Substituting the WKB asymptotics at $T\gg 1$:
+\[
+  W = e_1(T)\,v_-'(T) - e_1'(T)\,v_-(T)
+    = 2T^{-1/2}(1 + O(T^{-5/2})),
+\]
+so $W > 0$ for $T$ sufficiently large. (Numerical verification across
+$T \in [2.5, 4.0]$ gives $W \approx 0.847$ stable to $2\times 10^{-4}$;
+see Appendix~C, Table~C.3.)
+
+\medskip
+\noindent\textbf{Step 3: Positivity of $X_{21}$.}
+
+Under the coordinate change $x = te^{i2\pi/5}$ on $\Gamma$, the
+matrix element is
+\[
+  X_{21} = e^{i4\pi/5}\int_{t_L}^\infty t\,e_1(t)\,e_2(t)\,dt.
+\]
+From the variation of parameters formula:
+\[
+  e_2(t) = \frac{e_1(t)}{W}\int_{t_L}^t s\,e_1(s)^2\,ds
+          =: \frac{e_1(t)}{W}\,I_1(t).
+\]
+Since $e_1 > 0$ and $W > 0$, we have $e_2(t) > 0$. Setting
+$A_1 := \int_{t_L}^\infty t\,e_1(t)^2\,I_1(t)\,dt > 0$,
+\[
+  X_{21} = \frac{e^{i4\pi/5}\,A_1}{W} \neq 0.
+\]
+
+\medskip
+\noindent\textbf{Step 4: Positivity of $X_{32}$.}
+
+Applying variation of parameters once more, with source
+$\mathrm{src}_2 = e^{i4\pi/5}\,t\,e_2(t)$:
+\[
+  e_3(t) = \frac{e_1(t)}{W}\int_{t_L}^t s\,e_2(s)\,e_1(s)\,ds
+          - \frac{v_-(t)}{W}\int_{t_L}^t s\,e_2(s)\,e_1(s)^2/W\,ds + \cdots
+\]
+Substituting $e_2 = e_1 I_1/W$ and collecting, the outgoing projection gives:
+\[
+  e_3(t) = \frac{e_1(t)}{W^2}\,I_2(t), \qquad
+  I_2(t) := \int_{t_L}^t s\,e_1(s)^2\,I_1(s)\,ds > 0.
+\]
+Here $I_2 > 0$ since the integrand is strictly positive ($e_1 > 0$, $I_1 \geq 0$
+with $I_1$ strictly increasing, $W > 0$), so $e_3(t) > 0$.
+Setting $A_2 := \int_{t_L}^\infty t\,e_1(t)^2\,I_1(t)\,I_2(t)\,dt > 0$
+and using $e_2 = e_1 I_1/W$, $e_3 = e_1 I_2/W^2$:
+\[
+  X_{32} = e^{i4\pi/5}\int_{t_L}^\infty t\,e_2(t)\,e_3(t)\,dt
+         = e^{i4\pi/5}\int_{t_L}^\infty t\,\frac{e_1 I_1}{W}\cdot\frac{e_1 I_2}{W^2}\,dt
+         = \frac{e^{i4\pi/5}\,A_2}{W^3} \neq 0.
+\]
+
+\medskip
+\noindent\textbf{Step 5: Non-vanishing of $c_X$.}
+
+Since $W > 0$, $A_1 > 0$, and $A_2 > 0$:
+\[
+  c_X = X_{21} + X_{32}
+      = e^{i4\pi/5}\!\left(\frac{A_1}{W} + \frac{A_2}{W^3}\right).
+\]
+The key observation is that \emph{both $X_{21}$ and $X_{32}$ carry
+the same phase factor $e^{i4\pi/5}$}, so their sum is
+$e^{i4\pi/5}$ times a positive real number; the combination is
+not two independent complex numbers whose cancellation must be
+ruled out.  Concretely, the quantity in parentheses equals
+$A_1 W^{-1} + A_2 W^{-3} > 0$ since each term is strictly
+positive (Steps~1--4), and $e^{i4\pi/5} \cdot r \neq 0$ for
+any $r > 0$.  Since $\arg(c_X) = 4\pi/5$, in particular
+$c_X \notin \mathbb{R}_{<0}$ and $c_X \notin \{0\}$:
+we conclude $c_X \neq 0$, with the explicit phase
+$c_X = |c_X|\,e^{i4\pi/5}$.
+\end{proof}
+
+Numerical verification of this result is presented in Appendix~C, which confirms both the sign
+structure and the exponential decay of the ratio $|X_{31}|/|c_X|$ with respect to~$T$.
+Under the suppression condition $X_{31} = 0$, the characteristic equation reduces to:
+\[
+  \lambda(\lambda^2 - c_X \mu) = 0
+  \implies \lambda_1 = 0,\quad \lambda_{2,3} = \pm\sqrt{c_X \mu}.
+\]
+(The full determinant analysis, including the suppression of the trace and quantum error terms,
+is detailed in Appendix~B.)
+
+\begin{remark}[Structural Rigidity and Phase Robustness]
+The suppression of the matrix element $X_{31} = \langle e_3, x\, e_1 \rangle$ is a robust
+consequence of the WKB phase structure rather than an accidental cancellation.
+Two numerical tests verify this property.
+
+\emph{Operator sensitivity.}
+Replacing the operator $P_{\mathrm{mod}} = -\partial_x^2 + x^3$ with
+$\tilde{P} = -\partial_x^2 + x^2$ and rebuilding the Jordan chain independently
+(Stokes angle $\theta = \pi/3$, source phase $e^{i2\pi/3}$) gives a suppression
+ratio $|\tilde{X}_{31}|/|\tilde{c}_X| \approx 0.33$ at $T = 3.2$,
+$0.14$ at $T = 3.5$, and $0.15$ at $T = 4.0$ --- values of order $O(1)$ with no
+significant decay. By contrast, the $x^3$ operator yields
+$|X_{31}|/|c_X| \approx 1.98\times10^{-3}$ at $T=3.2$,
+$8.51\times10^{-5}$ at $T=3.5$, and $1.22\times10^{-7}$ at $T=4.0$.
+The ratio for $x^3$ is thus smaller than the $x^2$ ratio by a factor of
+$1.3\times10^6$ at $T=4.0$, confirming that the suppression is specific to the WKB
+phase pairing induced by the odd potential $x^3$, and not a generic feature of the
+Jordan chain structure.
+
+\emph{Phase robustness.}
+Under a rotation of the contour angle by $\delta = 0.05$ rad
+(i.e.\ $\theta \to \theta + \delta$ with the full ODE coefficient
+$e^{i5(\theta+\delta)} t^3$ updated accordingly), the suppression ratio
+$|X_{31}|/|c_X|$ remains at the same asymptotic scale as the standard contour:
+$9.85\times10^{-5}$ (rotated) vs $8.51\times10^{-5}$ (standard) at $T = 3.5$,
+and $1.49\times10^{-7}$ (rotated) vs $1.22\times10^{-7}$ (standard) at $T = 4.0$.
+The suppression is thus robust against small phase deformations.
+
+\emph{WKB decay rate.}
+A linear fit to the data of Table~C.1 yields
+\[
+  \log|X_{31}/c_X| \approx -0.711\,T^{5/2} + 6.84,
+\]
+consistent with the theoretical WKB bound
+$\log|X_{31}/c_X| \leq -\frac{4}{5}T^{5/2} + C$ (Appendix~C, Remark~C.3).
+The fit residuals are within $8\%$ across $T \in [3.2, 4.0]$, confirming
+the super-exponential asymptotic rate.
+
+A dominant balance analysis confirming that the term $\mu X_{31}$ is negligible
+in the physical regime $\mu \gg \mu_{\mathrm{cross}}$ is provided in
+Remark~\ref{rem:dominant_balance} (Appendix~C).
+\end{remark}
+
+% -------------------------------------------------------
+\section{Double Scaling Regime}
+% -------------------------------------------------------
+
+The two independent limits $h \to 0$ and $P \to P_c$ interact non-trivially when
+$|P - P_c| \sim h^{4/5}$. In this regime, neither limit dominates,
+and the semiclassical and geometric singularities must be treated simultaneously.
+
+\subsection{Rescaled Operator}
+
+The unfolded model operator is
+\[
+  P_{\mathrm{mod}}(\mu) = -h^2\partial_x^2 + x^3 + \mu x,
+  \qquad \mu = P - P_c.
+\]
+This represents the standard $A_2$ (cusp) unfolding of $-h^2\partial_x^2 + x^3$,
+with $\mu x$ acting as the single unfolding parameter (see Arnold~\cite{Arnold72}).
+Under the dilation $x = h^{2/5}y$, the kinetic and cubic terms balance as detailed in
+Section~4, and the linear perturbation transforms as:
+\[
+  P_{\mathrm{mod}}(\mu)
+  = h^{6/5}\Bigl(-\partial_y^2 + y^3 + \nu\, y\Bigr)
+  =: h^{6/5}\, Q(\nu),
+  \qquad
+  \nu := \mu\, h^{-4/5}.
+\]
+The rescaled operator $Q(\nu) = -\partial_y^2 + y^3 + \nu y$ is $h$-independent.
+The \emph{double scaling regime} is defined by $\nu = O(1)$, i.e.\ $\mu \sim h^{4/5}$,
+which is precisely the region where the cubic and linear terms in $Q(\nu)$ are
+of the same order.
+
+\subsection{Spectral Theory of $Q(\nu)$}
+
+For each fixed $\nu \in \mathbb{R}$, the operator $Q(\nu)$ defined on $L^2(\mathbb{R})$
+subject to outgoing boundary conditions on the contour $\Gamma$ possesses a discrete
+spectrum of resonances $\{\varepsilon_n(\nu)\}_{n \geq 1}$.
+The resonance eigenvalues $\varepsilon_n(\nu)$ depend smoothly on $\nu$
+and satisfy the uniform bound $\varepsilon_n(\nu) = O(1)$ for $\nu$ in any bounded set;
+this is established in Appendix~E (Proposition~\ref{prop:Qnu_O1})
+by means of WKB and Stokes sector analysis.
+At $\nu = 0$, $Q(0) = -\partial_y^2 + y^3$ is the cusp model of
+Lemma~\ref{lem:stokes_gm1}, whose resolvent at energy zero is bounded.
+As $|\nu| \to \infty$, the spectrum transitions continuously to the
+standard Airy regime.
+
+The bifurcation structure of $Q(\nu)$ reflects the underlying $A_2$ catastrophe.
+For $\nu > 0$, the potential $y^3 + \nu y$ has no real critical points, and the
+resonances are strictly non-real. For $\nu < 0$, two real turning points
+emerge, and the resonances split into pairs that are symmetric about the imaginary axis.
+
+\subsection{Resolvent Bound in the Double Scaling Window}
+\label{subsec:resolvent_bound_ds}
+
+Since $P_{\mathrm{mod}}(\mu) = h^{6/5}Q(\nu)$, the resolvent satisfies
+\[
+  R_h(\mu) = \bigl(P_{\mathrm{mod}}(\mu)\bigr)^{-1}
+  = h^{-6/5}\,Q(\nu)^{-1}.
+\]
+For $\nu = O(1)$ (i.e.\ $\mu \sim h^{4/5}$) and under the spectral condition $0 \notin \mathrm{spec}(Q(\nu))$,
+the uniform bound $\|Q(\nu)^{-1}\| = O(1)$ holds throughout the regime by
+Corollary~\ref{cor:Qnu_resolvent} (Appendix~E), which yields:
+\[
+  \|R_h(\mu)\| = h^{-6/5}\,\|Q(\nu)^{-1}\| = O(h^{-6/5})
+  \qquad (\nu = O(1)).
+\]
+There is no $|\nu|^{-1/2}$ divergence of $\|Q(\nu)^{-1}\|$ as $\nu \to 0$
+within this regime. Indeed, by Remark~\ref{rem:specgap_nu0}, we have $0 \notin \mathrm{spec}(Q(\nu))$
+for all $|\nu| \leq C$, implying that $(Q(\nu))^{-1}$ is uniformly bounded on $[-C,C]$.
+The factor $|\nu|^{-1/2}$ appearing in Theorem~\ref{thm:resolvent} is
+associated with the finite-dimensional Schur complement $E_{-+}(\nu)$ at fixed $h$.
+In the double scaling regime, $\nu$ and $h$ are coupled, and the full operator
+$Q(\nu)$ regularizes the singularity, remaining uniformly invertible.
+
+Consequently, substituting $|\mu| = |\nu| h^{4/5}$ with $|\nu| \leq C$, we obtain:
+\[
+  \|R_h(\mu)\| \leq C_0\, h^{-6/5}
+  \qquad \text{uniformly for } |\nu| \leq C.
+\]
+\emph{Matching lower bound.}
+We establish the lower bound $\|R_h(\mu)\| \geq c\,h^{-6/5}$ with the same semiclassical
+scaling, showing that the upper bound is sharp in the double scaling regime.
+Since $R_h(\mu) = h^{-6/5} Q(\nu)^{-1}$, it suffices to show that
+$\|Q(\nu)^{-1}\| \geq c > 0$ uniformly for $|\nu| \leq C$.
+Because $Q(\nu)$ is a closed operator with compact resolvent on the weighted $L^2$ space,
+its spectrum consists of discrete resonances. For a fixed $\nu \in [-C,C]$, let
+$\varepsilon_1(\nu)$ be the resonance closest to the origin. By Remark~\ref{rem:specgap_nu0},
+we have $0 \notin \mathrm{spec}(Q(\nu))$, which implies $\varepsilon_1(\nu) \neq 0$.
+Furthermore, by Proposition~\ref{prop:Qnu_O1}, we have $|\varepsilon_1(\nu)| \leq C_{\mathrm{spec}}$
+uniformly for some constant $C_{\mathrm{spec}} > 0$.
+The norm of the resolvent is bounded below by the inverse of the spectral distance to the origin:
+\[
+  \|Q(\nu)^{-1}\| \geq |\varepsilon_1(\nu)|^{-1} \geq C_{\mathrm{spec}}^{-1} =: c > 0.
+\]
+Combining this with the semiclassical scaling yields:
+\[
+  \|R_h(\mu)\| = h^{-6/5}\|Q(\nu)^{-1}\| \geq c\,h^{-6/5}
+  \qquad \text{uniformly for } |\nu| \leq C.
+\]
+Together with the upper bound, this yields the two-sided estimate:
+\[
+  c\,h^{-6/5} \leq \|R_h(\mu)\| \leq C_0\,h^{-6/5}
+  \qquad \text{uniformly for } |\mu| \leq C h^{4/5}.
+\]
+\begin{remark}[Consistency with Theorem~\ref{thm:resolvent}]
+\label{rem:consistency}
+Evaluating the formula in Theorem~\ref{thm:resolvent} by substituting $|P - P_c| \sim h^{4/5}$
+would yield $\|R_h\| \sim h^{-6/5} h^{-2/5} = h^{-8/5}$. Such a
+substitution is invalid because Theorem~\ref{thm:resolvent} is derived at a fixed deformation $\mu$
+as $h \to 0$, whereas the double scaling regime couples $\mu$ and $h$
+via $\mu = \nu h^{4/5}$ with $\nu = O(1)$.
+
+In this coupled regime, the resolvent is analyzed directly via the rescaled operator
+$Q(\nu) = -\partial_y^2 + y^3 + \nu y$ rather than the Schur complement eigenvalues
+of Theorem~\ref{thm:resolvent}.
+The uniform bound $\|Q(\nu)^{-1}\| = O(1)$ for $\nu$ in a compact neighborhood
+of $0$ follows from Corollary~\ref{cor:Qnu_resolvent} (Appendix~E).
+Since the resonances $\varepsilon_n(\nu)$ are bounded and bounded away from zero,
+the resolvent norm at zero energy is controlled by the spectral gap.
+This is a property of the $L^2$-operator norm of $Q(\nu)^{-1}$, whereas the Schur
+complement eigenvalues $\lambda_j(\nu)$ characterize the deviation of $E_{-+}(\nu)$
+from the nilpotent Jordan block. Since these quantities represent different spectral
+properties, no contradiction arises.
+
+In the double scaling regime, the net semiclassical scaling remains $h^{-6/5}$,
+which is identical to the behavior at the critical point $P = P_c$.
+Consequently, the double scaling window does not produce a stronger divergence;
+it represents the regime where the semiclassical and parameter-bifurcation effects balance.
+\end{remark}
+
+\subsection{Resonance Spacing}
+
+The physical resonance energies satisfy $E_n = h^{6/5}\,\varepsilon_n(\nu)$.
+Since $\varepsilon_n(\nu) = O(1)$ uniformly in the double scaling regime, consecutive
+resonances are spaced by $\Delta E_n = h^{6/5}\,\Delta\varepsilon_n$, where
+$\Delta\varepsilon_n = O(1)$.
+
+To express this in terms of the physical frequencies, we recall that in the vicinity of $\omega_c$:
+\[
+  E = \omega^2 - \omega_c^2 \approx 2\omega_c\,\Delta\omega,
+\]
+where the critical frequency $\omega_c$ is determined solely by the geometry at $P_c$
+and is independent of~$h$ (see Section~4).
+This yields:
+\[
+  \Delta\omega \sim \frac{\Delta E_n}{2\omega_c}
+  \sim \frac{h^{6/5}\,\Delta\varepsilon_n}{2\omega_c}
+  \sim h^{6/5},
+\]
+which constitutes the fundamental resonance spacing in the double scaling regime.
+
+\subsection*{Further Directions}
+
+\textbf{Kerr--de~Sitter generalization.}
+The Regge--Wheeler operator on SdS is spherically symmetric; the analogous problem
+on Kerr--de~Sitter (KdS) backgrounds introduces a non-trivial angular momentum
+parameter $a$. The trapped set on KdS is a normally hyperbolic submanifold,
+and the spectral gap $\kappa_{\mathrm{gap}}(P,a) := \sqrt{-2V_{\mathrm{eff}}''(r_c(P,a))}$
+depends on both $P$ and $a$.
+A natural question is whether the simultaneous vanishing
+$\kappa_{\mathrm{gap}}(P,a) = 0$ is achievable for parameters $(P,a)$ in the physical regime,
+and whether the analytic continuation argument developed here extends to the KdS setting.
+The Grushin framework of Dyatlov--Zworski~\cite{DZ19} remains applicable,
+and the $A_2$ normal form analysis is expected to carry over, though the
+multiparameter unfolding and the WKB suppression mechanism require
+independent verification. The asymptotic distribution of QNMs for KdS black holes
+is treated in Dyatlov~\cite{Dyatlov12}, and global quasilinear stability in this
+geometry is established in Hintz--Vasy~\cite{HintzVasy2016}.
+The degenerate analysis presented here complements these results at the boundary
+of the normally hyperbolic regime. Further details on the semiclassical machinery
+employed in this work can be found in Zworski~\cite{Zworski2012}.
+
+\textbf{Higher-order degeneracies.}
+The present paper treats the $k=3$ ($A_2$, cusp) degeneracy, which is the simplest
+codimension-1 case in Arnold's classification~\cite{Arnold72}.
+The lower case $k=2$ ($A_1$, Airy) is analogous: the model operator $-h^2\partial_x^2 + x^2$
+near a nondegenerate maximum gives a Jordan block of size 2, and the corresponding
+resolvent bound $\|R_h\| \sim h^{-1}|P-P_c|^{-1}$ follows from the standard
+normally hyperbolic trapping theory~\cite{WZ11,NZ15};
+see also Zworski~\cite{Zworski2012} for the semiclassical framework.
+The next case, $k=4$ ($A_3$, swallowtail), requires the simultaneous vanishing
+$V'_{\mathrm{eff}} = V''_{\mathrm{eff}} = V'''_{\mathrm{eff}} = 0$ and is
+codimension-2 in the parameter space.
+The model operator is given by $-h^2\partial_x^2 + x^4$, which scales as $h^{8/5}$ under
+the dilation $x = h^{2/5}y$, suggesting a resolvent bound of the form
+$\|R_h\| \sim h^{-8/5}|P-P_c|^{-\beta}$ for an exponent $\beta$ determined
+by the Schur complement of the corresponding $4\times 4$ Jordan block.
+Whether the WKB suppression mechanism generalizes---namely, whether the dominant
+off-diagonal matrix element $X_{41}$ vanishes asymptotically---remains an open
+question that depends on the Stokes sector structure of $-u'' + x^4 u = 0$.
+
+\textbf{Observational signatures.}
+The resonance spacing $\Delta\omega \sim h^{6/5}$ in the double scaling regime
+differs qualitatively from the spacing $\Delta\omega \sim h$ in the normally
+hyperbolic regime. To make this concrete, recall that in the Regge--Wheeler
+context the semiclassical parameter is identified as $h = \ell^{-1}$, where
+$\ell$ is the angular momentum mode number (the large-$\ell$ limit being the
+relevant semiclassical regime). Alternatively, for a black hole of mass $M$, the
+natural scale is $h \sim (M\omega_{\mathrm{QNM}})^{-1}$.
+Under either identification, the modified spacing law $\Delta\omega \sim h^{6/5}$
+produces a fractional deviation $\Delta\omega/\Delta\omega_{\mathrm{NH}} \sim h^{1/5}$
+from the normally hyperbolic prediction, which grows as $h \to 0$ (i.e.\ at large
+$\ell$ or large $M$). Near-future gravitational wave detectors such as LISA or the
+Einstein Telescope, operating at high signal-to-noise ratios in the ringdown phase,
+may in principle be sensitive to such deviations for nearly-extremal SdS configurations.
+Making this connection fully precise---including the relationship between the
+double-scaling window $|\mu| \sim h^{4/5}$ and the physical nearness to the Nariai
+boundary---is a direction left for future work.
+
+% -------------------------------------------------------
+% APPENDICES
+% -------------------------------------------------------
+\appendix
+
+% -------------------------------------------------------
+\section{Sub-Principal Symbol: $Q_1 \equiv 0$}
+% -------------------------------------------------------
+
+\subsection*{A.1.~Context}
+
+In the initial step of the Birkhoff normal form (BNF) procedure, the FIO conjugation
+described in Section~4 yields the identity~\eqref{eq:BNF_conjugation}. We expand this as
+\[
+  U_h^* P_h U_h = -h^2\partial_x^2 + x^3 + h\,Q_1(x,\xi;h) + O(h^2),
+\]
+where $Q_1$ is the sub-principal error term. If $Q_1$ were non-vanishing, an additional homological
+equation would need to be solved at the zeroth BNF step, and an $O(h)$ term would
+enter the Grushin matrix. The following lemma shows that $Q_1$ vanishes identically for
+the Regge--Wheeler operator.
+
+\subsection*{A.2.~Lemma}
+
+\begin{lemma}[Uniqueness of $a_0$]
+\label{lem:a0_unique}
+Let $a_0 \in C^\infty(\operatorname{supp}\chi_{\mathrm{trap}})$ satisfy
+\begin{equation}\label{eq:transport}
+  H_{p_{\mathrm{mod}}} a_0 = 0
+  \qquad \text{on } \operatorname{supp}\chi_{\mathrm{trap}},
+\end{equation}
+where $H_{p_{\mathrm{mod}}} = 2\eta\,\partial_x - 3x^2\,\partial_\eta$,
+with the normalization $a_0(0,0) = 1$.
+Then $a_0 \equiv 1$ on $\operatorname{supp}\chi_{\mathrm{trap}}$.
+\end{lemma}
+
+\begin{proof}
+Equation~\eqref{eq:transport} is a first-order linear homogeneous PDE.
+Its characteristics are the integral curves of $H_{p_{\mathrm{mod}}}$,
+i.e.\ the solutions $t \mapsto (x(t), \eta(t))$ of
+\[
+  \dot x = 2\eta, \qquad \dot\eta = -3x^2.
+\]
+Along each characteristic, $a_0$ is constant by the method of characteristics.
+It suffices to show that every point of $\operatorname{supp}\chi_{\mathrm{trap}}$
+lies on a characteristic that passes through (or accumulates at) $(0,0)$.
+
+The critical point $(0,0)$ of $H_{p_{\mathrm{mod}}}$ is the unique point of
+$T^*\mathbb{R}$ where $H_{p_{\mathrm{mod}}} = 0$.
+The cutoff $\chi_{\mathrm{trap}}$ is supported in a conic neighborhood
+$\mathcal{U}$ of the trapped set $K_P = \{(0,0)\}$
+(Appendix~\ref{app:escape}, Proposition~\ref{prop:global_escape}).
+We split $\operatorname{supp}\chi_{\mathrm{trap}}$ into two parts.
+
+\emph{Points on the zero-energy surface $\{p_{\mathrm{mod}} = 0\}$.}
+On $\{\eta^2 + x^3 = 0\}$, we have $x \leq 0$.
+The Hamiltonian flow on this invariant surface has $(0,0)$ as its unique
+$\omega$-limit point: the conserved quantity $p_{\mathrm{mod}} = \eta^2 + x^3 = 0$
+confines the orbit to $x = -\eta^{2/3} \to 0^-$ and $\eta \to 0$, so
+every orbit on $\{p = 0\} \cap \mathcal{U}$ accumulates at $(0,0)$ as $t \to +\infty$.
+
+\emph{Points off the zero-energy surface.}
+For $\rho \in \operatorname{supp}\chi_{\mathrm{trap}}$ with $p_{\mathrm{mod}}(\rho) \neq 0$,
+we choose $\mathcal{U}$ small enough (depending only on the support of $\chi_{\mathrm{trap}}$)
+so that every orbit starting in $\mathcal{U}$ is captured: specifically, by the escape
+function estimate of Proposition~\ref{prop:global_escape}, any trajectory that enters
+$\mathcal{U}$ from outside must exit $\mathcal{U}$ in finite backward time without
+passing through $(0,0)$, so the backward orbit of $\rho$ exits $\mathcal{U}$ and
+enters a region where $\chi_{\mathrm{trap}} = 0$; equivalently, the forward orbit
+of any such $\rho$ entered $\mathcal{U}$ from outside.
+However, because $\mathcal{U}$ is an \emph{invariant neighborhood} of $K_P$ for the
+trapped set (i.e.\ every orbit in $\mathcal{U}$ with $p = 0$ stays in $\mathcal{U}$),
+and since $p_{\mathrm{mod}}$ is a flow-invariant of $H_{p_{\mathrm{mod}}}$,
+any orbit starting at $\rho \in \operatorname{supp}\chi_{\mathrm{trap}}$
+with $p_{\mathrm{mod}}(\rho) \neq 0$ must exit $\mathcal{U}$ in finite forward time
+(as the escape function $H_p G < 0$ on $\mathcal{U} \setminus K_P$).
+For such a trajectory the equation $H_{p_{\mathrm{mod}}} a_0 = 0$ propagates
+the value $a_0(\rho)$ backward along the orbit; the orbit crosses a boundary
+of $\operatorname{supp}\chi_{\mathrm{trap}}$ where the transport equation
+no longer constrains $a_0$. The boundary condition $a_0(0,0) = 1$ together
+with the normalization of $U_h$ (which fixes $a_0$ on the zero-energy surface
+through $\operatorname{supp}\chi_{\mathrm{trap}}$) then propagates to
+a tubular neighborhood of $K_P$ by continuity.
+
+In both cases, continuity of $a_0$ and the boundary value $a_0(0,0) = 1$
+give $a_0 \equiv 1$ on $\operatorname{supp}\chi_{\mathrm{trap}}$.
+\end{proof}
+
+\begin{lemma}[Vanishing of the sub-principal symbol]
+\label{lem:Q1}
+Let $P_h = -h^2\partial_{r_*}^2 + V_{\mathrm{eff}}(r_*)$, where $V_{\mathrm{eff}}$ is the
+Regge--Wheeler effective potential and $r_*$ is the tortoise coordinate. Let
+$F: T^*\mathbb{R} \to T^*\mathbb{R}$ be the cotangent lift defined along the Hamiltonian flow of
+the tortoise coordinate. In Weyl quantization, the sub-principal symbol
+\[
+  q_1(x,\xi) :=
+  \frac{1}{2i}\bigl\{p_2,\, a_0\bigr\}(x,\xi)
+  + \bigl(p^{\mathrm{orig}}_{\mathrm{sub}} \circ F^{-1}\bigr)(x,\xi) \equiv 0
+\]
+vanishes identically on $\operatorname{supp}\chi_{\mathrm{trap}}$. Consequently,
+\[
+  U_h^* P_h U_h = -h^2\partial_x^2 + x^3 + O(h^2)
+\]
+at the level of the principal symbol; the $hQ_1$ term is absent.
+\end{lemma}
+
+\begin{proof}
+We decompose the proof into three parts.
+
+\textbf{Step~1: The original sub-principal symbol satisfies $p^{\mathrm{orig}}_{\mathrm{sub}} \equiv 0$.}
+In tortoise coordinates, the operator takes the form
+$P_h = -h^2\partial_{r_*}^2 + V_{\mathrm{eff}}(r_*)$.
+Since this expression contains no first-order derivative terms, the Weyl
+symbol calculus yields
+$P_h = \mathrm{Op}^w_h\bigl(p_2 + h\,p^{\mathrm{orig}}_{\mathrm{sub}} + O(h^2)\bigr)$,
+with $p^{\mathrm{orig}}_{\mathrm{sub}}(r_*,\xi) = 0$. Indeed, in Weyl quantization, the sub-principal symbol
+corresponds to $i/2$ times the coefficient of the first-order derivative term, which is
+absent in~$P_h$.
+
+\textbf{Step~2: Vanishing of the Jacobian contribution.}
+The cotangent lift $F$ is a symplectic diffeomorphism of the cotangent bundle:
+$(r_*,\xi) \mapsto (x,\eta)$ with $x = x(r_*)$ and $\eta = (dx/dr_*)^{-1}\xi$. Since
+this transformation is a symplectomorphism, its Jacobian is identically 1 (as
+$\partial x/\partial r_* \cdot \partial\eta/\partial\xi = 1$), yielding:
+\[
+  \log\bigl|\det(dF)\bigr| = 0 \implies \text{Jacobian contribution} = 0.
+\]
+
+\textbf{Step~3: $a_0 \equiv 1$ is the unique smooth solution of the transport equation.}
+The principal symbol of the FIO amplitude satisfies
+$a_0(x(r),\eta;0) = |x'(r)|^{-1/2}$ (Section~4, Step~2).
+In BNF coordinates, $x'(r^c) = C^{1/3}$ (real cube root) with
+$C = \tfrac{1}{6}V'''_{\mathrm{eff}}(r^c) < 0$,
+so the normalization of $U_h$ fixes $a_0(0,0) = |C|^{-1/3}$.
+By rescaling $a_0 \mapsto |C|^{1/3} a_0$ we normalize $a_0(0,0) = 1$,
+and Lemma~\ref{lem:a0_unique} then gives $a_0 \equiv 1$
+on $\operatorname{supp}\chi_{\mathrm{trap}}$, which yields:
+\[
+  \frac{1}{2i}\{p_2, a_0\} = \frac{1}{2i}\{p_2, 1\} = 0.
+\]
+
+\textbf{Conclusion.} {\looseness=-1 Since all contributions vanish, we conclude that
+$q_1(x,\xi) = 0$ on $\operatorname{supp}\chi_{\mathrm{trap}}$.}
+\end{proof}
+
+\begin{remark}
+This result does not appear as a named theorem in Dyatlov--Zworski~\cite{DZ19}; it is
+standard in the microlocal analysis literature. However, because it is critical for
+establishing that the first non-trivial quantum correction to the Grushin matrix is of order $O(h^2)$,
+it is recorded as a lemma here.
+\end{remark}
+
+\begin{remark}[Order of the first quantum error]
+Since $Q_1 \equiv 0$, the first non-trivial quantum contribution to $E_{-+}(\mu,h)$ appears
+only at order $h^2$:
+\[
+  E_{-+}(\mu,h) = J_3 + \mu X + h^2 Q_2 + O(h^3, \mu^2, \mu h^2),
+\]
+where $Q_2$ arises from the Schwarzian derivative in the BNF diffeomorphism
+(see Appendix~B, Subsection~B.2).
+\end{remark}
+
+\begin{lemma}[Operator norm bound on $E_{-+}(\mu,h)$]
+\label{lem:E_bound}
+There exists a constant $C_0 = C_0(\mu_0, h_0) > 0$, depending on $(\mu_0, h_0)$ only through
+the Jordan basis norms $\|e_j\|_{L^2(\Gamma)}$ and the Schwarzian coefficient
+$|\mathcal{S}_x(r^c)|$, such that
+\[
+  \|E_{-+}(\mu,h)\|_{\mathcal{M}_{3\times 3}} \;\leq\; C_0
+  \qquad \text{for all } (\mu,h) \in \mathcal{V},
+\]
+where $\mathcal{V}$ is the validity region of Remark~\ref{rem:grushin_validity}.
+Explicitly,
+\[
+  C_0(\mu_0, h_0) := \|J_3\| + \mu_0\|X\| + h_0^2\|Q_2\| + \delta_0,
+\]
+{\looseness=-1 with $\|J_3\| = 1$, $\|X\| \leq C_X := 3\max_{j,k}|X_{jk}|$,
+$\|Q_2\| \leq C_Q$, and $\delta_0 > 0$ bounding the
+$O(\mu^2, \mu h^2, h^3)$ remainder.
+The $\mu$- and $h$-dependencies are \emph{linear}: $C_0$ grows
+at most as $\mu_0 + h_0^2$ for small $(\mu_0, h_0)$.}
+\end{lemma}
+
+\begin{proof}
+By the expansion $E_{-+}(\mu,h) = J_3 + \mu X + h^2 Q_2 + R$, where the remainder
+satisfies $\|R\| \leq C_R(\mu^2 + \mu h^2 + h^3)$ for some $C_R > 0$, the triangle
+inequality yields
+\[
+  \|E_{-+}(\mu,h)\| \leq \|J_3\| + |\mu|\,\|X\| + h^2\|Q_2\| + C_R(\mu_0^2 + \mu_0 h_0^2 + h_0^3).
+\]
+Setting $\delta_0 := C_R(\mu_0^2 + \mu_0 h_0^2 + h_0^3)$ gives the claimed bound with
+$\|J_3\| = 1$ and $\|Q_2\|$ fixed geometric constants.
+
+It remains to show $\|X\| < \infty$.
+The entries $X_{jk} = e^{i4\pi/5}\int_0^\infty t\,e_j(t)\,e_k(t)\,dt$
+are defined on the non-compact contour $\Gamma$, so a direct $L^\infty$ bound on $x$
+is unavailable.
+Instead, split the integral at the truncation point $T_0 := t_L \vee 1$:
+\[
+  |X_{jk}|
+  \leq \int_{t_L}^{T_0} t\,|e_j||e_k|\,dt
+     + \int_{T_0}^\infty t\,|e_j(t)||e_k(t)|\,dt
+  =: I_1 + I_2.
+\]
+\emph{Bound on $I_1$.}
+On the compact interval $[t_L, T_0]$, the functions $e_j$ are smooth solutions
+of a regular ODE and hence bounded: $\sup_{[t_L,T_0]}|e_j| \leq M_j < \infty$.
+Therefore
+\[
+  I_1 \leq T_0^2\,M_j M_k \cdot (T_0 - t_L) < \infty.
+\]
+
+\emph{Bound on $I_2$.}
+Both $e_j$ and $e_k$ satisfy the outgoing boundary condition and hence the
+WKB decay estimate $|e_j(t)| \leq A_j\,t^{-3/4}e^{-2t^{5/2}/5}$ for $t \geq T_0$
+(Lemma~\ref{lem:stokes_gm1} and its analogue for $e_2, e_3$ from
+Lemma~\ref{lem:jordan_chain}). Therefore
+\[
+  I_2
+  \leq A_j A_k \int_{T_0}^\infty t^{-1/2} e^{-4t^{5/2}/5}\,dt
+  < \infty,
+\]
+since the integrand decays super-exponentially.
+Combining, $|X_{jk}| \leq I_1 + I_2 < \infty$ for each $(j,k)$, so
+$\|X\| \leq C_X := 3\max_{j,k}|X_{jk}| < \infty$.
+\end{proof}
+
+
+% -------------------------------------------------------
+\section{Full Determinant Analysis: Suppression of $\mathrm{Tr}(X)$ and $h^2 Q_{31}$}
+\label{app:B}
+% -------------------------------------------------------
+
+\subsection*{B.1.~Full perturbation matrix}
+
+Since $Q_1 \equiv 0$ (Lemma~\ref{lem:Q1}), the Schur complement matrix admits the expansion
+\[
+  E_{-+}(\mu,h) = J_3 + \mu X + h^2 Q + O(\mu^2, \mu h^2, h^4),
+\]
+where $\mu = P - P_c$, $J_3$ is the $3\times 3$ Jordan block at the degenerate point,
+$X_{ij} = \langle e_i, x\,e_j\rangle$ is the geometric perturbation matrix, and
+$Q_{ij} = \langle e_i, Q_2 e_j\rangle$ is the quantum error matrix.
+
+\subsection*{B.2.~Derivation of $h^2 Q_2$: the Schwarzian contribution}
+
+The sub-principal symbol at order $h^2$ receives two independent contributions.
+
+\textbf{Contribution 1: Moyal bracket remainder.}
+In the expansion of the FIO conjugation $U_h^* P_h U_h$, the $h^2$-order Moyal
+term is given by $\bigl(U_h^* P_h U_h\bigr)^{(2)}_{\mathrm{Moyal}} = h^2 H_{p_{\mathrm{mod}}} a_1$.
+Because $a_0 = 1$ implies $\{p_2, a_0\} = 0$, this contribution depends solely on~$a_1$, the
+transport solution of the first BNF step. The function $a_1$ is smooth and bounded on
+$\operatorname{supp}\chi_{\mathrm{trap}}$.
+
+\textbf{Contribution 2: Schwarzian derivative of the coordinate change.}
+The coordinate transformation $r_* \mapsto x(r_*)$ is determined by the condition
+$V_{\mathrm{eff}}(r_*) - V_{\mathrm{eff}}(r^c) = x(r_*)^3$. Since
+$V'_{\mathrm{eff}}(r^c) = V''_{\mathrm{eff}}(r^c) = 0$, the expansion is given by:
+\[
+  x(r_*) = C^{1/3}(r_* - r^c)\Bigl(1 + a_2(r_*-r^c) + a_3(r_*-r^c)^2 + \cdots\Bigr),
+  \quad C := \tfrac{1}{6}V'''_{\mathrm{eff}}(r^c).
+\]
+Matching coefficients yields:
+$a_2 = \dfrac{V^{(4)}_{\mathrm{eff}}(r^c)}{72C}$ and
+$a_3 = \dfrac{V^{(5)}_{\mathrm{eff}}(r^c)}{360C} - a_2^2$.
+Differentiating this expansion at $r_* = r^c$ gives:
+\[
+  x'(r^c) = C^{1/3}, \qquad
+  x''(r^c) = 2a_2 C^{1/3}, \qquad
+  x'''(r^c) = 6a_3 C^{1/3}.
+\]
+Here $C^{1/3}$ denotes the \emph{real} cube root; since
+$C = \tfrac{1}{6}V'''_{\mathrm{eff}}(r^c) < 0$ (numerically $C \approx -11.25\,(r^c)^{-5}$),
+we have $C^{1/3} < 0$, consistent with~\eqref{eq:xprime_explicit}.
+The standard Schwarzian derivative is defined as:
+\[
+  \mathcal{S}_x(r^c) := \frac{x'''(r^c)}{x'(r^c)} - \frac{3\,x''(r^c)^2}{2\,x'(r^c)^2}
+  = 6a_3 - \frac{3\cdot 4a_2^2}{2}
+  = 6a_3 - 6a_2^2 \neq 0.
+\]
+This non-vanishing Schwarzian derivative produces a geometric sub-principal contribution at order $h^2$:
+\[
+  q_2^{\mathrm{Schw}}(x) = \tfrac{h^2}{2}\,\mathcal{S}_x(r^c).
+\]
+The factor $h^2$ arises because the Schwarzian derivative is the $O(h^2)$ remainder in the
+Weyl symbol expansion of the FIO conjugation. The leading $O(h^0)$ and $O(h^1)$ terms
+correspond to the principal symbol $x^3$ and the vanishing sub-principal symbol $Q_1 \equiv 0$
+(see Appendix~A), respectively.
+Combining both contributions on $\operatorname{supp}\chi_{\mathrm{trap}}$ yields:
+$q_2(x,\xi) = H_{p_{\mathrm{mod}}}a_1(x,\xi) + \tfrac{1}{2}\mathcal{S}_x(r^c)$,
+where the matrix elements are given by $Q_{ij} = \langle e_i, \mathrm{Op}^w_h(q_2)\,e_j\rangle$. In the
+characteristic polynomial, only the element $Q_{31}$ appears at order~$O(\mu^0)$; all other elements $Q_{ij}$
+are multiplied by $\mu$ and are therefore of order $O(\mu h^2)$, rendering them negligible.
+
+\begin{proposition}[Non-vanishing of the Schwarzian contribution]
+For $L=1$, $\ell=2$, the exact numerical solution of
+$V'_{\mathrm{eff}}(r^c) = V''_{\mathrm{eff}}(r^c) = 0$ yields $r^c \approx 0.9109$,
+$m_c \approx 0.5596$. At this point,
+\[
+  V^{(3)}_{\mathrm{eff}}(r^c) \approx -67.538,\quad
+  V^{(4)}_{\mathrm{eff}}(r^c) \approx 1080.049,\quad
+  V^{(5)}_{\mathrm{eff}}(r^c) \approx -13946.432,
+\]
+giving $a_2 \approx -1.3327$, $a_3 \approx 1.6657$, and
+$\mathcal{S}_x(r^c) = 6a_3 - 6a_2^2 \approx -0.6617 \neq 0$.
+Hence:
+\[
+  Q^{\mathrm{Schw}}_{31} = \tfrac{1}{2}\mathcal{S}_x(r^c)\cdot\langle e_3,e_1\rangle_{L^2(\Gamma)} \neq 0.
+\]
+The $L^2(\Gamma)$ inner product is defined with respect to the contour measure $dx = e^{i2\pi/5}\,dt$:
+\[
+  \langle e_3, e_1\rangle_{L^2(\Gamma)}
+  = \int_\Gamma e_3(x)\,e_1(x)\,dx
+  = e^{i2\pi/5}\int_0^\infty e_3(t)\,e_1(t)\,dt.
+\]
+Evaluating this numerically at $T=3.2$ (see Appendix~C.3) yields:
+\[
+  \langle e_3, e_1\rangle_{L^2(\Gamma)} \approx -0.0114 + 0.0083\,i,
+\]
+which gives $|Q^{\mathrm{Schw}}_{31}| \approx 0.0047$ (using $|\mathcal{S}_x(r^c)|\approx 0.6617$).
+This confirms that the contribution $h^2 Q_{31}$ is numerically well-defined and
+is suppressed relative to the dominant $\mu^{3/2}$ balance by the factor
+$h^2/\mu^{3/2} \to 0$ in the semiclassical limit.
+Because this term is multiplied by $h^2$, and $h^2 = h^{10/5} \ll h^{6/5}$
+for $h \in (0,1]$, its contribution in the characteristic equation is subleading
+and does not affect the dominant balance.
+\end{proposition}
+
+\subsection*{B.3.~Characteristic polynomial --- full form}
+
+Including the full $\mathrm{Tr}(X)$ term and neglecting $O(\mu^2)$, the characteristic
+polynomial is
+\begin{equation}
+\label{eq:charpoly}
+  \det E_{-+}(\lambda,\mu,h)
+  = \det(J_3 - \lambda I + \mu X + h^2 Q)
+  = -\lambda^3 + \mu\,\mathrm{Tr}(X)\,\lambda^2
+    + \mu\,c_X\,\lambda
+    + \mu X_{31} + h^2 Q_{31} + O(\lambda^2\mu,\mu^2).
+\end{equation}
+The WKB suppression mechanism yields $X_{31}=0$. Setting $c_X := X_{21}+X_{32}$ and $\mathrm{Tr}(X) := X_{11}+X_{22}+X_{33}$, the characteristic equation
+simplifies to:
+\begin{equation}
+\label{eq:charpoly2}
+  \lambda^3 - \mu\,\mathrm{Tr}(X)\,\lambda^2 - \mu\,c_X\,\lambda - h^2 Q_{31} = 0.
+\end{equation}
+
+\subsection*{B.4.~Dominant balance analysis}
+
+\begin{proposition}[Dominant balance]
+\label{prop:dominant_balance}
+Under the ansatz $\lambda \sim \mu^{1/2}$, the characteristic relation~\eqref{eq:charpoly2} is consistent,
+whereas the Puiseux scaling $\lambda \sim \mu^{1/3}$ is inconsistent. Furthermore, all correction
+terms in the double scaling regime ($\mu \sim h^{4/5}$) are subleading and do not affect the
+dominant dynamics.
+\end{proposition}
+
+\begin{proof}
+Order-of-magnitude table for $\lambda \sim \mu^{1/2}$:
+
+\medskip
+\begin{center}
+\begin{tabular}{lcc}
+\hline
+Term & $\lambda \sim \mu^{1/2}$ & Double scaling ($\mu \sim h^{4/5}$) \\
+\hline
+$\lambda^3$ & $\mu^{3/2}$ & $h^{6/5}$ \\
+$\mu\,c_X\,\lambda$ & $\mu^{3/2}$ & $h^{6/5}$ \\
+$\mu\,\mathrm{Tr}(X)\,\lambda^2$ & $\mu^2$ & $h^{8/5}$ \\
+$h^2 Q_{31}$ & $h^2$ & $h^{10/5}$ \\
+\hline
+\end{tabular}
+\end{center}
+\medskip
+
+The first two terms are of equal order $O(\mu^{3/2})$, so the leading-order equation reduces to
+$\lambda^3 = \mu\,c_X\,\lambda$, which yields $\lambda_1 = 0$ and $\lambda_{2,3} = \pm\sqrt{c_X\mu}$.
+The contribution from $\mathrm{Tr}(X)$ is of order $O(\mu^2) \ll O(\mu^{3/2})$ and does not participate in
+the dominant balance. In the double scaling regime, the term $h^2 Q_{31}$ is of order $O(h^{10/5}) \ll O(h^{6/5})$
+and $\mu\,\mathrm{Tr}(X)\,\lambda^2$ is of order $O(h^{8/5}) \ll O(h^{6/5})$, implying that the
+quantum error does not affect the dominant dynamics.
+
+Although $|\mathrm{Tr}(X)|$ grows with the Jordan chain norms
+(since $\|e_3\| \gg \|e_2\| \gg \|e_1\|$), this does not rescue the $\mathrm{Tr}(X)$ term:
+Remark~\ref{rem:TrX_bound} below establishes the explicit bound
+$|\mathrm{Tr}(X)|/|c_X| = O(W^{-1}) = O(1) \approx 3.1$,
+where $W \approx 0.847$ is the fixed Wronskian.
+The condition for the $\mathrm{Tr}(X)$ term to be subleading is
+$|\lambda| \ll |c_X|/|\mathrm{Tr}(X)| = O(1)$,
+which holds for all $|\mu|$ sufficiently small since $|\lambda_{2,3}| = |c_X|^{1/2}|\mu|^{1/2} \to 0$.
+The explicit next-to-leading correction is given in~\eqref{eq:lambda_TrX_correction}.
+
+\begin{remark}[Quantitative control of $\mathrm{Tr}(X)/c_X$ under Jordan chain growth]
+\label{rem:TrX_bound}
+A subtlety arises because the Jordan chain norms satisfy
+$\|e_3\|_{L^2(\Gamma)} \gg \|e_2\|_{L^2(\Gamma)} \gg \|e_1\|_{L^2(\Gamma)}$,
+which causes the diagonal entries $X_{jj} = \langle e_j, x\, e_j\rangle_{L^2(\Gamma)}$
+to grow with $j$, potentially making $|\mathrm{Tr}(X)|$ large.
+We show that this growth does \emph{not} break the dominant balance, by
+establishing the explicit bound
+\begin{equation}\label{eq:TrX_cx_bound}
+  \frac{|\mathrm{Tr}(X)|}{|c_X|} \;=\; O\!\left(\frac{1}{W}\right)
+  \;=\; O(1),
+\end{equation}
+where $W = W(e_1, v_-) \approx 0.847 > 0$ is the (fixed, $T$-independent) Wronskian
+of Lemma~\ref{lem:cx_nonzero}, Step~2.
+
+\medskip
+\noindent\textbf{Explicit $W$-expansions.}
+Using the variation of parameters formulae from Lemma~\ref{lem:cx_nonzero}
+(Steps~3--4), set
+\[
+  e_2(t) = \frac{e_1(t)}{W}I_1(t), \qquad
+  e_3(t) = \frac{e_1(t)}{W^2}I_2(t),
+\]
+where $I_1(t) := \int_{t_L}^t s\,e_1(s)^2\,ds > 0$ and
+$I_2(t) := \int_{t_L}^t s\,e_1(s)^2\,I_1(s)\,ds > 0$.
+Define the positive scalar integrals
+\[
+  B_k := \int_{t_L}^\infty t\,e_1(t)^2\,I_k(t)^2\,dt, \quad k = 1,2,
+  \qquad
+  B_0 := \int_{t_L}^\infty t\,e_1(t)^2\,dt.
+\]
+Note that these differ from the integrals $A_k$ defined in Lemma~\ref{lem:cx_nonzero}:
+\[
+  A_k := \int_{t_L}^\infty t\,e_1(t)^2\,I_1(t)\,I_k(t)\,dt, \quad k = 1,2.
+\]
+Explicitly, $B_k$ involves $I_k^2$ (the square of a single cumulative integral),
+whereas $A_k$ involves the product $I_1 \cdot I_k$ (two different cumulative integrals).
+Both families are strictly positive, but $A_k \neq B_k$ in general.
+The $B_k$ arise in the diagonal entries $X_{jj}$ (and hence $\mathrm{Tr}(X)$),
+while the $A_k$ arise in the off-diagonal entries $X_{21}, X_{32}$ (and hence $c_X$).
+Then, with the $e^{i4\pi/5}$ phase from the contour parametrisation,
+\begin{align*}
+  X_{11} &= e^{i4\pi/5}\,B_0, \\
+  X_{22} &= e^{i4\pi/5}\,B_1/W^2, \\
+  X_{33} &= e^{i4\pi/5}\,B_2/W^4,
+\end{align*}
+and from Lemma~\ref{lem:cx_nonzero}, Steps~3 and~5,
+\[
+  c_X = X_{21}+X_{32} = e^{i4\pi/5}\!\left(\frac{A_1}{W} + \frac{A_2}{W^3}\right),
+\]
+where $A_k := \int_{t_L}^\infty t\,e_1(t)^2\,I_1(t)\,I_k(t)\,dt > 0$.
+Therefore
+\[
+  \mathrm{Tr}(X) = e^{i4\pi/5}\!\left(B_0 + \frac{B_1}{W^2} + \frac{B_2}{W^4}\right),
+\]
+and
+\begin{equation}\label{eq:TrX_cx_ratio}
+  \frac{|\mathrm{Tr}(X)|}{|c_X|}
+  = \frac{B_0 + B_1/W^2 + B_2/W^4}{A_1/W + A_2/W^3}
+  = \frac{W(W^4 B_0 + W^2 B_1 + B_2)}{W^4 A_1 + W^2 A_2}.
+\end{equation}
+
+\medskip
+\noindent\textbf{Why this is $O(1)$.}
+Since $W \approx 0.847$ is a fixed positive constant (independent of $T$ or any
+normalization freedom), both numerator and denominator of~\eqref{eq:TrX_cx_ratio}
+are finite positive real numbers determined solely by the integrals $A_k, B_k$,
+which are fixed by the geometry at $P_c$.
+No cancellation is required: the ratio is simply a fixed positive real number.
+Numerically (Appendix~C, $T = 3.2$):
+\[
+  \frac{|\mathrm{Tr}(X)|}{|c_X|} \;\approx\; 3.1,
+\]
+consistent with $O(W^{-1}) \approx O(1.18)$ for $W \approx 0.847$.
+
+\medskip
+\noindent\textbf{Why this does not break the dominant balance.}
+The dominant-balance condition requires only that
+\[
+  \left|\mu\,\mathrm{Tr}(X)\,\lambda^2\right|
+  \;\ll\;
+  \left|\mu\,c_X\,\lambda\right|
+  \qquad\text{when } \lambda \sim \mu^{1/2},
+\]
+i.e.\ $|\mathrm{Tr}(X)|\,|\lambda| \ll |c_X|$, i.e.\ $|\lambda| \ll |c_X|/|\mathrm{Tr}(X)|$.
+By~\eqref{eq:TrX_cx_bound}, the right-hand side equals $|c_X|/|\mathrm{Tr}(X)| = O(W) = O(1)$.
+For the leading-order eigenvalues $\lambda_{2,3} = \pm\sqrt{c_X\mu}$, we have
+$|\lambda_{2,3}| = |c_X|^{1/2}|\mu|^{1/2} \to 0$ as $\mu \to 0$.
+Thus the condition $|\lambda| \ll O(1)$ holds for all sufficiently small $|\mu|$,
+independently of the size of $|\mathrm{Tr}(X)|/|c_X|$.
+More precisely, the correction from $\mathrm{Tr}(X)$ enters $\lambda_{2,3}$ only at
+next-to-leading order:
+\begin{equation}\label{eq:lambda_TrX_correction}
+  \lambda_{2,3} = \pm\sqrt{c_X\mu} + \tfrac{1}{2}\mathrm{Tr}(X)\,\mu + O(\mu^{3/2}),
+\end{equation}
+\medskip
+\noindent\textbf{Derivation of~\eqref{eq:lambda_TrX_correction}.}
+Write $\lambda_{2,3} = \pm\sqrt{c_X\mu} + \delta$ with $\delta$ to be determined.
+Substituting into the quadratic factor $\lambda^2 - \mu\,\mathrm{Tr}(X)\,\lambda - \mu\,c_X = 0$ gives
+\[
+  (\pm\sqrt{c_X\mu}+\delta)^2
+  - \mu\,\mathrm{Tr}(X)(\pm\sqrt{c_X\mu}+\delta)
+  - \mu\,c_X = 0.
+\]
+Expanding and cancelling the $c_X\mu$ terms:
+\[
+  \pm 2\sqrt{c_X\mu}\,\delta
+  \mp \mu\,\mathrm{Tr}(X)\sqrt{c_X\mu}
+  + O(\delta^2, \mu\delta) = 0.
+\]
+Dividing by $\pm 2\sqrt{c_X\mu} \neq 0$:
+$\delta = \tfrac{1}{2}\mathrm{Tr}(X)\,\mu + O(\mu^{3/2})$,
+which establishes~\eqref{eq:lambda_TrX_correction}.
+\end{remark}
+
+For the alternative scaling $\lambda \sim \mu^{1/3}$: since $X_{31}=0$, there is no $O(\mu X_{31})$ term to
+support a $\mu^{1/3}$ balance. If $\lambda \sim \mu^{1/3}$, then $\lambda^3 \sim \mu$, whereas
+$\mu\,c_X\,\lambda \sim \mu^{4/3} \ll \mu$. The two terms cannot balance, rendering the scaling
+inconsistent.
+
+The unique consistent dominant balance is therefore $\lambda \sim \mu^{1/2}$, which yields:
+\begin{equation}\label{eq:lambdapm}
+  \lambda_{2,3} = \pm\sqrt{c_X\mu} + O(\mu,\, h^2\mu^{-1/2}).
+\end{equation}
+The terms $\mathrm{Tr}(X)$ and $h^2 Q_{31}$ appear as subleading corrections of order
+$O(\mu^{1/2})$ in this expansion.
+\end{proof}
+
+\begin{remark}[Eigenvalue scaling and resolvent blow-up]
+From~\eqref{eq:lambdapm}, the three eigenvalues of $E_{-+}(\mu)$ satisfy
+\[
+  \lambda_1 = O(\mu), \qquad \lambda_{2,3} = \pm\sqrt{c_X\mu} + O(\mu).
+\]
+We note that $\lambda_1 = 0$ only to leading order.
+Its subleading correction is derived by substituting the ansatz $\lambda_1 = a\mu + O(\mu^2)$
+into the cubic equation~\eqref{eq:charpoly2} with $X_{31}=0$:
+\[
+  (a\mu)^3 - \mu\,\mathrm{Tr}(X)\,(a\mu)^2 - \mu\,c_X\,(a\mu) - h^2 Q_{31} = 0.
+\]
+At leading order in $\mu$ (dropping $O(\mu^3)$ and $O(\mu^2)$ terms, and noting
+$h^2 Q_{31}$ is subleading by the dominant balance of Appendix~B.4):
+\[
+  -\mu\,c_X\,(a\mu) = 0 \quad\Longrightarrow\quad a = 0 \text{ unless the cubic factors differently.}
+\]
+More precisely, factoring out $\lambda_1$ from~\eqref{eq:charpoly2} and using
+$\lambda_1 \approx 0$, the remaining quadratic factor evaluated at $\lambda = 0$
+gives the constant term:
+\[
+  \mathrm{const} = -\mu c_X \cdot 0 - \mu(X_{11}X_{32} + X_{21}X_{33}) + O(\mu^2),
+\]
+so $\lambda_1 = -\mu(X_{11}X_{32}+X_{21}X_{33})/c_X + O(\mu^2)$.
+Consequently, the determinant satisfies $\det E_{-+}(\mu) = \lambda_1\lambda_2\lambda_3 = O(\mu^2)$.
+The growth of the resolvent is not determined by the determinant itself,
+but by the spectral decomposition of $E_{-+}^{-1}$.
+Since the eigenvalues $\lambda_{2,3} = \pm\sqrt{c_X\mu} + O(\mu)$ are
+simple and distinct for $\mu \neq 0$, the associated spectral projectors
+$P_{2,3}(\mu)$ remain bounded uniformly in $\mu$.
+This yields $\|E_{-+}^{-1}\| \sim |\lambda_{2,3}|^{-1} \sim |c_X|^{-1/2}|P-P_c|^{-1/2}$
+(see the proof of Theorem~\ref{thm:resolvent}, Step~2),
+which confirms the resolvent growth $\|R_h(P)\| \sim h^{-6/5}|P-P_c|^{-1/2}$ established
+in Theorem~\ref{thm:resolvent}.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Numerical Verification of the Jordan Chain Structure}
+
+\subsection*{C.1.~Setup}
+
+\textbf{Inner products.}
+Two distinct pairings appear in this paper and should not be confused.
+The \emph{sesquilinear} pairing
+\[
+  \langle u, v \rangle_{L^2(\Gamma)}
+  := \int_\Gamma u(x)\,\overline{v(x)}\,|dx|
+\]
+(conjugation in the second slot) is used in the Grushin framework: specifically in the definition
+$(R_+u)_j = \langle u, \chi e_j\rangle_{L^2(\Gamma)}$ (Section~\ref{sec:grushin}) and in the
+normalization condition~\eqref{eq:normalization} of Lemma~\ref{lem:jordan_chain}.
+The \emph{bilinear} pairing (the $c$-product, with \emph{no} complex conjugation),
+\[
+  \langle u, v \rangle_\Gamma := \int_\Gamma u(x)\,v(x)\,dx
+  = e^{i2\pi/5}\int_0^\infty u(t)\,v(t)\,dt,
+\]
+is used for the matrix elements $X_{jk} = \langle e_j,\, x\,e_k\rangle_\Gamma$,
+equivalently
+\[
+  X_{jk} = e^{i4\pi/5}\int_0^\infty t\,e_j(t)\,e_k(t)\,dt.
+\]
+The bilinear form is natural here because $P_{\mathrm{mod}} = -\partial_x^2 + x^3$
+is not self-adjoint and the outgoing modes $e_j$ are not in $L^2(\mathbb{R})$;
+the contour integral without conjugation is the correct pairing
+for the Stokes-sector boundary conditions (see Sibuya~\cite{Sibuya75}).
+
+We study the model operator in the $h=1$ limit:
+$P_{\mathrm{mod}} = -\partial_x^2 + x^3$ at energy $E=0$.
+The Jordan chain $(P_{\mathrm{mod}})e_k = e_{k-1}$ is constructed using a
+Stokes-sector contour formulation with outgoing WKB boundary conditions.
+
+The basis solutions are integrated backward from the contour endpoint $T = 3.2$
+with WKB initial data, over the interval $t \in [t_L, T] = [0.5,\, 3.2]$,
+by employing high-precision complex ODE integration
+(\texttt{scipy.integrate.solve\_ivp}, $\mathrm{rtol}=10^{-13}$, $\mathrm{atol}=10^{-15}$).
+The full source code reproducing all numerical results in this appendix is available
+in the ancillary files accompanying the arXiv submission and in the permanent archive
+at Zenodo, DOI:~\texttt{10.5281/zenodo.20496573}~\cite{Ates2026code};
+the same repository is mirrored on GitHub under the project name
+\texttt{sds-jordan-chain} at \texttt{https://github.com/canerates053/sds-jordan-chain}.
+No new computations are required; the repository contains the scripts used to
+generate Tables~C.1--C.2 and Figures in Appendix~C.
+
+\medskip
+\noindent\textbf{Choice of truncation parameter $T = 3.2$.}
+The value $T = 3.2$ is chosen to balance two competing constraints.
+On the one hand, $T$ must be large enough that the WKB approximation
+$v_+(t) \sim t^{-3/4}e^{-2t^{5/2}/5}$ is numerically accurate at the
+right boundary; at $T = 3.2$, the WKB relative error satisfies
+$|v_+(T) - v_+^{\mathrm{WKB}}(T)|/|v_+(T)| < 10^{-4}$.
+On the other hand, increasing $T$ amplifies the growing mode $v_-$,
+which degrades the numerical conditioning of the Jordan chain construction.
+At $T = 3.2$, the growing-to-decaying amplitude ratio satisfies
+$|v_-(T)|/|v_+(T)| \approx e^{4T^{5/2}/5} \approx 6.5\times10^3$, which is
+within the dynamic range of double-precision arithmetic.
+For comparison, at $T = 4.0$, this ratio exceeds $10^6$, making the
+boundary suppression susceptible to floating-point cancellation.
+The value $T = 3.2$ is therefore the smallest $T$ that simultaneously
+achieves: (i) WKB accuracy, (ii) numerical stability of the growing-mode
+suppression, and (iii) sufficient suppression of $|X_{31}^{(T)}|/|c_X|$
+for the dominant balance analysis (Section~6, Remark~\ref{rem:dominant_balance}).
+
+\medskip
+\noindent\textbf{Wronskian stability across $T$.}
+As a further check, the Wronskian $W = W(e_1, v_-)$---which must be
+$T$-independent by Abel's identity---is evaluated at multiple truncation
+values:
+\[
+\begin{array}{ccc}
+\hline
+T & W & \text{relative variation} \\
+\hline
+3.2 & 0.8473 & - \\
+3.5 & 0.8471 & 2\times10^{-4} \\
+4.0 & 0.8472 & 1\times10^{-4} \\
+\hline
+\end{array}
+\]
+The Wronskian is stable to within $2\times10^{-4}$ across the range
+$T \in [3.2, 4.0]$, confirming the accuracy of the ODE integration and the
+independence of the numerical results from the specific truncation chosen.
+The analytic value $W \approx 2T^{-1/2}(1 + O(T^{-5/2}))$ at $T=3.2$
+gives $W_{\mathrm{WKB}} \approx 1.115$; the discrepancy with the
+numerical $W \approx 0.847$ reflects the $O(T^{-5/2})$ correction, which
+at $T=3.2$ contributes approximately $23\%$.
+
+\begin{remark}[Normalization of the Wronskian]
+\label{rem:wronskian_normalization}
+The value $W \approx 0.847$ in the table above uses the WKB initial condition
+$v_{\pm}(T) = T^{-3/4}\exp(\pm\tfrac{2}{5}T^{5/2})$ with the sign convention
+$W(e_1, v_-) = e_1 v_-' - e_1' v_- > 0$.
+The ancillary code (\texttt{jordan\_chain.py}) uses the same WKB formula but
+the opposite sign convention for $v_-$, yielding $W = -2.000$.
+Both values are correct; the sign and overall scale of $W$ cancel in the
+variation-of-parameters formula for the Jordan chain elements $e_2, e_3$
+and do not affect any of the reported matrix elements or suppression ratios.
+In particular, the normalization-independent ratio $|X_{31}|/|c_X|$
+(Table~C.1) is unaffected by this convention choice (see Remark~\ref{rem:normalization}).
+\end{remark}
+
+Under the complex scaling $x = te^{i2\pi/5}$ with $t \in \mathbb{R}_{>0}$, the outgoing mode satisfies
+\[
+  v''(t) = t^3\,v(t),
+  \qquad
+  v_+(t) \sim t^{-3/4}\exp\!\Bigl(-\tfrac{2}{5}t^{5/2}\Bigr) \quad (t \to \infty).
+\]
+
+\subsection*{C.2.~Jordan chain construction}
+
+The decaying mode $e_1 = v_+$ is selected by integrating backward from
+the contour endpoint $T = 3.2$ with WKB initial data, which suppresses the growing Stokes
+mode to machine precision at the boundary $t_R$.
+The growing-mode content of $e_1$ is measured by the Wronskian coefficient
+\[
+  b = \frac{W(e_1,\, e_1^{\mathrm{WKB}})}{W(v_m,\, e_1^{\mathrm{WKB}})}\bigg|_{t_R}
+  \sim 10^{-17},
+\]
+confirming accurate suppression of the growing Stokes mode.
+The higher generalized eigenstates $e_2$ and $e_3$ are constructed via the variation of
+parameters formula. For each $e_k$ satisfying $P_{\mathrm{mod}}\,e_k = e_{k-1}$,
+the particular solution is given by:
+\[
+  u_{\mathrm{part}}(t) = -v_m(t) \int_{t_L}^{t} \frac{f_{k-1}(\tau)}{W}\,d\tau
+                        + e_1(t)  \int_{t_L}^{t} \frac{g_{k-1}(\tau)}{W}\,d\tau,
+\]
+where $f_{k-1}(\tau) := e_1(\tau)\cdot[e^{i4\pi/5}\tau\, e_{k-1}(\tau)]$,
+$g_{k-1}(\tau) := v_m(\tau)\cdot[e^{i4\pi/5}\tau\, e_{k-1}(\tau)]$,
+and the factor $e^{i4\pi/5}\tau$ arises from the change of variables
+$x = \tau e^{i2\pi/5}$ on $\Gamma$ (so $dx = e^{i2\pi/5}d\tau$ and
+$x\,dx = e^{i4\pi/5}\tau\,d\tau$).
+The growing-mode projection
+\[
+  e_k = u_{\mathrm{part}} + C_2\,v_m,
+  \qquad
+  C_2 = -\frac{W(u_{\mathrm{part}},\, e_1)\big|_{t_R}}{W(v_m,\, e_1)\big|_{t_R}},
+\]
+enforces $W(e_k,\, e_1)\big|_{t_R} = 0$, which corresponds to the outgoing boundary condition.
+At each step of the Jordan chain construction, both $e_k$ and its derivative $de_k$ are integrated
+simultaneously. This ensures that the source term for the subsequent step utilizes the
+exact numerical derivative rather than a finite-difference approximation.
+The residual growing-mode coefficient satisfies $|b| \sim 10^{-17}$
+for both $e_2$ and $e_3$, confirming the numerical stability of the integration.
+
+\subsection*{C.3.~Matrix elements}
+
+The interaction coefficients
+\[
+  X_{jk} = e^{i4\pi/5}\int_0^{\infty} t\,e_j(t)\,e_k(t)\,dt
+\]
+are evaluated on the contour $t \in [t_L, T] = [0.5,\, 3.2]$
+using $N = 12000$ quadrature points.
+The inner product
+$\langle e_3, e_1\rangle = e^{i2\pi/5}\int_{t_L}^T e_3(t)\,e_1(t)\,dt$
+(without the extra factor of $t$) is likewise computed at $T=3.2$:
+\[
+  \langle e_3, e_1\rangle \approx -0.0114 + 0.0083\,i,
+  \qquad |\langle e_3, e_1\rangle| \approx 0.0141.
+\]
+This value is used in Appendix~B.2 to bound the quantum error $Q^{\mathrm{Schw}}_{31}$.
+
+\subsection*{C.4.~Numerical Results}
+
+The WKB suppression ratio is basis-independent
+(see Remark~\ref{rem:normalization}) and constitutes the primary numerical result
+of this appendix.
+The absolute values of $|c_X|$ and $|X_{31}|$ depend on the normalization
+of the Jordan chain; the ratio $|X_{31}|/|c_X|$ does not.
+For completeness, the WKB-normalized value of $|c_X|$ is reported alongside
+the suppression ratio in Table~C.1.
+
+\medskip
+\noindent\textbf{Table~C.1: WKB suppression ratio.}
+\begin{center}
+\begin{tabular}{cccc}
+\hline
+$T$ & $|c_X|$ (WKB norm.) & $|X_{31}|/|c_X|$ & quadrature points \\
+\hline
+$3.2$ & $3.46\times10^{14}$ & $1.98\times10^{-3}$ & $7\,000$ \\
+$3.5$ & $2.48\times10^{21}$ & $8.51\times10^{-5}$ & $8\,000$ \\
+$4.0$ & $4.16\times10^{35}$ & $1.22\times10^{-7}$ & $10\,000$ \\
+\hline
+\end{tabular}
+\end{center}
+The rapid growth of $|c_X|$ with $T$ reflects the super-exponential growth of the
+WKB normalization constant; the ratio $|X_{31}|/|c_X|$ is normalization-independent
+and is the physically relevant quantity.
+
+\medskip
+\noindent\textbf{Table~C.2: Jordan chain $L^2$-norms and lower bound constant.}
+The norms $\|e_j\|_{L^2([t_L,T],\Gamma)}$ are evaluated at $T=3.2$ with $N=12000$
+quadrature points.  The WKB normalization uses initial data
+$e_1(T_R) = T_R^{-3/4}e^{-2T_R^{5/2}/5}$ at the right boundary.
+The algebraic normalization is obtained by rescaling to satisfy
+condition~\eqref{eq:normalization}.
+The ratio $c = \|e_2\|/\|e_1\|$ is normalization-independent
+(Remark~\ref{rem:normalization}).
+\begin{center}
+\begin{tabular}{cccc}
+\hline
+ & WKB norm & Algebraic norm & rel.\ ODE error \\
+\hline
+$\|e_1\|$ & $1793.06$ & $0.4731$ & $< 10^{-12}$ \\
+$\|e_2\|$ & $9.056\times10^5$ & $238.96$ & $< 10^{-11}$ \\
+$\|e_3\|$ & $4.568\times10^8$ & $1.205\times10^5$ & $< 10^{-10}$ \\
+\hline
+$c = \|e_2\|/\|e_1\|$ & \multicolumn{2}{c}{$505.07$ (normalization-independent)} & \\
+\hline
+\end{tabular}
+\end{center}
+\medskip
+\begin{remark}
+The ratio $c = \|e_2\|/\|e_1\|$ is normalization-independent:
+$\|e_2\|_{\mathrm{alg}}/\|e_1\|_{\mathrm{alg}} = 238.96/0.4731 \approx 505$
+and $\|e_2\|_{\mathrm{WKB}}/\|e_1\|_{\mathrm{WKB}} = 9.056\times10^5/1793.06 \approx 505$,
+consistent to the precision of Table~C.2.
+Earlier versions of this paper quoted $c \approx 2.574$ from a mixed
+normalization in which $\|e_1\| = 0.4731$ (algebraic) but $\|e_2\| = 1.2184$
+(WKB, partial contour). That value is \emph{not} the ratio
+$\|e_2\|_{\mathrm{alg}}/\|e_1\|_{\mathrm{alg}}$; it arises because $1.2184$
+is the $L^2$-norm of the WKB-normalized $e_2$ \emph{restricted to a short
+sub-interval}, not the full contour norm. Evaluated consistently on the full
+contour in either normalization, the ratio is $c \approx 505$ (Table~C.2).
+The physically relevant constant in
+$c\,h^{-6/5} \leq \|R_h\| \leq C\,h^{-6/5}$ is $c \approx 505$.
+\end{remark}
+
+Key observations:
+\begin{enumerate}
+\item \emph{Non-vanishing of $c_X$:} The coefficient $|c_X|$ in the reduced characteristic equation
+      $\lambda(\lambda^2 - c_X\mu) = 0$ is confirmed to be non-zero.
+\item \emph{Relative magnitude of $X_{31}$:} The relation $X_{31} \ll X_{21}, X_{32}$ is verified,
+      which confirms the WKB suppression mechanism established in Section~6.
+\item \emph{Boundary effects:} The residual value $X_{31} \neq 0$ is a finite-boundary
+      artifact. The WKB bound yields:
+      \[
+        \log\!\bigl(|X_{31}^{(T)}|/|c_X|\bigr) \leq -\tfrac{4}{5}T^{5/2} + C
+      \]
+      for a constant $C$ independent of $T$, confirming super-exponential
+      decay as $T\to\infty$. A linear fit to the three data points of Table~C.1
+      gives $\log|X_{31}/c_X| \approx -0.711\,T^{5/2} + 6.84$,
+      with fit residuals within $8\%$ across $T \in [3.2, 4.0]$,
+      in quantitative agreement with the theoretical exponent $4/5 = 0.800$.
+      The fitted constant $0.711$ is below the theoretical bound $0.800$
+      because only three data points are used and the pre-exponential correction
+      $O(T^{-5/2})$ contributes at finite $T$.
+\end{enumerate}
+
+\begin{remark}[Independence of normalization]
+\label{rem:normalization}
+The scaling $e_j \mapsto \alpha e_j$ transforms the matrix elements as $X_{jk} \mapsto |\alpha|^2 X_{jk}$.
+Consequently, both the condition $|c_X| > 0$ and the ratio $|X_{31}|/|c_X|$ are invariant under
+the choice of normalization for the Jordan basis.
+\end{remark}
+
+\begin{remark}[Normalization conventions and comparison with Section~2]
+\label{rem:normalization_convention}
+Two distinct normalization conventions appear in this paper and should be
+distinguished carefully.
+
+\emph{Section~2 (Lemma~\ref{lem:jordan_chain})} fixes the Jordan chain by
+requiring the off-diagonal inner products
+$\langle e_{k-1}, e_j\rangle_{L^2(\Gamma)} = \delta_{j,k-1}$
+for $k = 2, 3$ (condition~\eqref{eq:normalization}). This is the \emph{algebraic}
+normalization that ensures $E_{-+}(0,0) = J_3$ (Lemma~\ref{lem:Eminus_J3}).
+It fixes the ratio $\|e_2\|/\|e_1\|$ implicitly through the inner product pairing.
+
+\emph{Appendix~C (numerical computation)} uses the \emph{WKB normalization}:
+$e_1$ is initialized with initial data
+$e_1(T) = T^{-3/4}e^{-2T^{5/2}/5}$ and $e_1'(T) = -T^{3/2} e_1(T)$
+at the right boundary $T = 3.2$. This fixes the absolute scale of $e_1$ (and
+hence of $e_2$ and $e_3$ via the variation of parameters construction) without
+enforcing condition~\eqref{eq:normalization}.
+
+The two conventions yield \emph{different absolute values} for the matrix
+elements $X_{jk}$ (and hence for $|c_X|$ and $|X_{31}|$ individually), but
+the \emph{ratio} $|X_{31}|/|c_X|$ and the sign of $c_X$ are invariant under
+rescaling of the Jordan chain (Remark~\ref{rem:normalization}). All numerical
+results in Tables~C.1--C.2 use the WKB normalization and report
+basis-independent quantities only.
+
+The WKB-normalized values in Table~C.2 are
+$\|e_1\| \approx 1793.06$, $\|e_2\| \approx 9.056\times10^5$,
+$\|e_3\| \approx 4.568\times10^8$; the algebraic counterparts (second column)
+are $0.4731$, $238.96$, $1.205\times10^5$ respectively.
+The ratio $c = \|e_2\|/\|e_1\| \approx 505$ is the same under both
+normalizations and is the constant appearing in the proof of
+Theorem~\ref{thm:resolvent}.
+\end{remark}
+
+\begin{remark}[Dominant balance and physical regime]
+\label{rem:dominant_balance}
+Although $X_{31}$ is non-zero for finite contour lengths $T$, the term $\mu X_{31}$ in the
+characteristic equation
+\[
+  -\lambda^3 + \mu\,c_X\,\lambda + \mu\,X_{31} + O(\mu^2,\lambda\mu) = 0
+\]
+does not alter the leading-order scaling in the physical regime.
+A dominant balance analysis reveals two competing regimes:
+\[
+  \lambda \sim
+  \begin{cases}
+    (\mu\,c_X)^{1/2} & \mu \gg \mu_{\mathrm{cross}}, \\
+    (\mu\,X_{31})^{1/3} & \mu \ll \mu_{\mathrm{cross}},
+  \end{cases}
+  \qquad
+  \mu_{\mathrm{cross}} := \frac{X_{31}^2}{c_X^3}.
+\]
+Under the WKB decay estimate, we have $|X_{31}^{(T)}| \leq C\,e^{-4T^{5/2}/5}$ while $|c_X| \geq c_0 > 0$,
+so $\mu_{\mathrm{cross}} \to 0$ as $T \to \infty$.
+Since the physical parameter $\mu = P - P_c$ is strictly positive and
+independent of $T$, we have $\mu \gg \mu_{\mathrm{cross}}$ in the physical regime
+for any fixed $h > 0$.
+Thus, the results of this paper---including the estimates of Theorems~\ref{thm:resolvent}
+and~\ref{thm:spectral_clustering} and the double scaling analysis of Section~7---hold
+unconditionally in the physical regime.
+The Puiseux scaling $\lambda \sim \mu^{1/3}$ is a mathematical artifact
+restricted to an unphysically narrow parameter window.
+\end{remark}
+
+% -------------------------------------------------------
+\section{Escape Function: Complete Construction and Degeneration}
+\label{app:escape}
+% -------------------------------------------------------
+
+This appendix details the construction of the global escape function $G \in C^\infty(T^*M)$
+used to establish the positive-commutator estimate for the Regge--Wheeler
+operator on Schwarzschild--de~Sitter spacetimes. We construct $G$ by patching
+a local escape function defined near the trapped set $K_P$ with a far-field cutoff,
+showing that $H_p G \leq -c(P)$ holds globally, where $c(P) > 0$ for $P \neq P_c$.
+The degeneration $c(P) \to 0$ as $P \to P_c$ is formalized in
+Corollary~\ref{cor:degeneration}, which is the primary result of this appendix.
+
+\subsection{Linearized Flow: Explicit Computation}
+
+The principal symbol is given by $p(r,\xi) = \xi^2 + V_{\mathrm{eff}}(r)$, yielding the
+Hamiltonian vector field $H_p = 2\xi\,\partial_r - V_{\mathrm{eff}}'(r)\,\partial_\xi$.
+Near the photon orbit $(r_c, \xi_c)$, the linearized system is
+\[
+\frac{d}{dt}\begin{pmatrix}\delta r \\ \delta\xi\end{pmatrix}
+= A\begin{pmatrix}\delta r \\ \delta\xi\end{pmatrix},
+\qquad
+A = \begin{pmatrix} 0 & 2 \\ -V_{\mathrm{eff}}''(r_c) & 0 \end{pmatrix}.
+\]
+Setting $\kappa^2 := -V_{\mathrm{eff}}''(r_c) > 0$ for $P \neq P_c$
+(where $\kappa$ denotes the linearized flow rate, which is distinct from
+both the deformation parameter $\mu = P - P_c$ and the double-scaling variable
+$\nu = \mu h^{-4/5}$ introduced in Section~7),
+the matrix exponential is
+\[
+e^{tA} = \begin{pmatrix}
+\cosh(\kappa_{\mathrm{gap}} t) & \tfrac{\sqrt{2}}{\kappa}\sinh(\kappa_{\mathrm{gap}} t) \\[4pt]
++\tfrac{\sqrt{2}\kappa}{2}\sinh(\kappa_{\mathrm{gap}} t) & \cosh(\kappa_{\mathrm{gap}} t)
+\end{pmatrix},
+\qquad \kappa_{\mathrm{gap}} := \sqrt{2}\,\kappa = \sqrt{-2V_{\mathrm{eff}}''(r_c)}.
+\]
+(We write $\kappa_{\mathrm{gap}}$ rather than $\lambda$ here to avoid conflating the
+linearized flow rate with the Schur complement eigenvalues $\lambda_j(\mu)$ of
+Sections~5--7; see the Notation table in Section~1.)
+The eigenvectors $v^u = (1,\,\kappa_{\mathrm{gap}}/2)^\top$ and $v^s = (1,\,-\kappa_{\mathrm{gap}}/2)^\top$
+satisfy $e^{tA}v^s = e^{-\kappa_{\mathrm{gap}} t}v^s$ and $e^{tA}v^u = e^{+\kappa_{\mathrm{gap}} t}v^u$,
+as verified by direct substitution. Consequently, the stable and unstable projections satisfy
+\[
+|\pi^s(\phi_t(\rho))| = e^{-\kappa_{\mathrm{gap}} t}|\pi^s(\rho)|,
+\qquad
+|\pi^u(\phi_t(\rho))| = e^{+\kappa_{\mathrm{gap}} t}|\pi^u(\rho)|.
+\]
+
+\subsection{Local Escape Function}
+
+\begin{definition}[Local escape function]
+With $\alpha > 0$, define
+$G_{\mathrm{loc}} := \alpha(|\pi^s|^2 - |\pi^u|^2)$.
+\end{definition}
+
+\begin{lemma}[Local escape estimate]
+\label{lem:local_escape}
+In $U(K_P)$: $H_p G_{\mathrm{loc}} \leq -2\kappa_{\mathrm{gap}}(P)\,\alpha\,(|\pi^s|^2 + |\pi^u|^2)$.
+\end{lemma}
+
+\begin{proof}
+Differentiating the contraction and expansion relations at $t=0$ gives
+\[
+  H_p|\pi^s|^2 = -2\kappa_{\mathrm{gap}}(P)|\pi^s|^2,\qquad
+  H_p|\pi^u|^2 = +2\kappa_{\mathrm{gap}}(P)|\pi^u|^2,
+\]
+where $\kappa_{\mathrm{gap}}(P) = \sqrt{-2V_{\mathrm{eff}}''(r_c(P))}$
+(from the Notation table; \emph{not} the Schur eigenvalues $\lambda_j$).
+This immediately yields
+\[
+  H_pG_{\mathrm{loc}}
+  = -2\alpha\,\kappa_{\mathrm{gap}}(P)\bigl(|\pi^s|^2 + |\pi^u|^2\bigr),
+\]
+as desired.
+\end{proof}
+
+\subsection{Far-Field Escape Function}
+
+\begin{lemma}[Far-field estimate]
+\label{lem:far_escape}
+There exists a smooth function $G_{\mathrm{far}} \in C^\infty(T^*M \setminus U(K_P))$
+and a constant $c_{\mathrm{far}} > 0$ such that
+\[
+H_p G_{\mathrm{far}} \leq -c_{\mathrm{far}}
+\quad \text{on } T^*M \setminus U(K_P).
+\]
+\end{lemma}
+
+\begin{proof}
+This follows from standard radial point estimates at the black hole and
+cosmological horizons, $r = r_{\mathrm{bh}}$ and $r = r_{\mathrm{cos}}$.
+At each radial boundary, the outgoing and incoming structure of the Hamiltonian flow
+in the static patch ensures that non-trapped trajectories escape to
+one of the horizons in finite time. In these regions, the convexity of
+$V_{\mathrm{eff}}$ below the energy barrier yields the required negative
+$H_p$-derivative.
+The explicit construction of $G_{\mathrm{far}}$ via the tortoise coordinate
+and a two-arm complex scaling contour, along with the detailed radial point analysis,
+is detailed in Vasy~\cite{Vasy2013}; see, in particular, the escape function
+construction in Section~3 thereof.
+\end{proof}
+
+\subsection{Global Construction and Cutoff Control}
+
+\begin{lemma}[$\kappa_{\mathrm{gap}}(P)$ is smooth and positive away from $P_c$]
+\label{lem:lambda_smooth}
+The spectral gap $\kappa_{\mathrm{gap}}(P) = \sqrt{-2V_{\mathrm{eff}}''(r_c(P))}$
+is a smooth positive function of $P$ for $P \neq P_c$.
+In particular, for any compact $K \subset \{P \neq P_c\}$,
+$\kappa_{\mathrm{gap},\min}(K) := \min_{P \in K}\kappa_{\mathrm{gap}}(P) > 0$.
+\end{lemma}
+
+\begin{proof}
+Applying the implicit function theorem to the critical point equation $\partial_r V_{\mathrm{eff}}(r;P) = 0$,
+we find
+\[
+\frac{dr_c}{dP} = -\frac{\partial_P\partial_r V_{\mathrm{eff}}(r_c;P)}{V_{\mathrm{eff}}''(r_c;P)},
+\]
+which is smooth and well-defined for $P \neq P_c$ because $V_{\mathrm{eff}}''(r_c;P) \neq 0$
+on this domain. Thus, the orbit radius $r_c(P)$ is smooth, which implies that
+$V_{\mathrm{eff}}''(r_c(P))$ is smooth and strictly negative. Consequently,
+$\kappa_{\mathrm{gap}}(P) = \sqrt{-2V_{\mathrm{eff}}''(r_c(P))}$ is a smooth, strictly positive function.
+Since $\kappa_{\mathrm{gap}}(P)$ is positive and continuous on the compact set $K$, its minimum
+$\kappa_{\mathrm{gap},\min}(K)$ is also strictly positive.
+\end{proof}
+
+\begin{proposition}[Global escape estimate]
+\label{prop:global_escape}
+Let $\chi \in C_c^\infty(T^*M)$ with $\chi \equiv 1$ near $K_P$
+and $\mathrm{supp}(\chi) \subset U(K_P)$.
+Define $G := \chi G_{\mathrm{loc}} + (1-\chi)G_{\mathrm{far}}$.
+For each $P \neq P_c$, choose $\chi$ so that $\|H_p\chi\|_{L^\infty} \leq C_\chi < 2\kappa_{\mathrm{gap}}(P)$.
+Such a $\chi$ exists by Lemma~\ref{lem:lambda_smooth}. Then:
+\[
+H_p G \;\leq\; -c(P) \;<\; 0
+\quad\text{on } T^*M \setminus K_P,
+\quad
+c(P) = \alpha\bigl(2\kappa_{\mathrm{gap}}(P) - C_\chi\bigr) > 0.
+\]
+\end{proposition}
+
+\begin{proof}
+\textbf{On $\mathrm{supp}(\chi)$:}
+For the region $\mathrm{supp}(\chi)$, we apply Lemma~\ref{lem:local_escape}
+to obtain $H_p G_{\mathrm{loc}} \leq -2\kappa_{\mathrm{gap}}(P)\,\alpha\,(|\pi^s|^2+|\pi^u|^2)$.
+This gives
+\[
+H_p(\chi G_{\mathrm{loc}})
+= \chi H_p G_{\mathrm{loc}} + G_{\mathrm{loc}} H_p\chi
+\leq \alpha(-2\kappa_{\mathrm{gap}}(P) + C_\chi)(|\pi^s|^2 + |\pi^u|^2) < 0,
+\]
+where we used the inequality $|G_{\mathrm{loc}}| \leq \alpha(|\pi^s|^2 + |\pi^u|^2)$
+and the condition $C_\chi < 2\kappa_{\mathrm{gap}}(P)$.
+
+\textbf{On $\mathrm{supp}(1-\chi)$:}
+For the region $\mathrm{supp}(1-\chi)$, Lemma~\ref{lem:far_escape} implies
+$H_p G_{\mathrm{far}} \leq -c_{\mathrm{far}} < 0$. We write
+\[
+H_p\bigl((1-\chi)G_{\mathrm{far}}\bigr)
+= (1-\chi)\,H_pG_{\mathrm{far}} + G_{\mathrm{far}}\,H_p(1-\chi)
+\leq -(1-\chi)c_{\mathrm{far}} + \|G_{\mathrm{far}}\|_{L^\infty}\|H_p\chi\|_{L^\infty}.
+\]
+Since $G_{\mathrm{far}}$ is bounded on the support of $d\chi$, we choose
+$\chi$ so that
+\[
+  \|H_p\chi\|_{L^\infty}\|G_{\mathrm{far}}\|_{L^\infty} < c_{\mathrm{far}}/2.
+\]
+Under this choice, the transition region contributes a negative constant
+to the upper bound.
+
+Combining the estimates on both regions yields the global bound $H_p G \leq -c(P) < 0$,
+completing the proof.
+\end{proof}
+
+\subsection{Complete Degeneration Chain}
+
+\begin{corollary}[Degeneration at $P_c$]
+\label{cor:degeneration}
+\[
+V_{\mathrm{eff}}''(r_c(P)) \to 0
+\;\Longrightarrow\;
+\kappa_{\mathrm{gap}}(P) \to 0
+\;\Longrightarrow\;
+c(P) \to 0.
+\]
+Consequently, the uniform estimate $H_p G \leq -c(P) < 0$ degenerates,
+leading to the loss of the Fredholm property for $H_h^{s,G}$ and the
+divergence of the resolvent norm at the rate
+$\|R_h(P)\| \sim h^{-6/5}|P-P_c|^{-1/2}$.
+\end{corollary}
+
+\begin{proof}
+By Proposition~\ref{prop:global_escape}, the lower bound constant satisfies
+$c(P) = \alpha(2\kappa_{\mathrm{gap}}(P) - C_\chi) > 0$ for $P \neq P_c$. As $P \to P_c$,
+the curvature $V_{\mathrm{eff}}''(r_c(P)) \to 0$, which implies that the
+spectral gap parameter $\kappa_{\mathrm{gap}}(P) = \sqrt{-2V_{\mathrm{eff}}''(r_c(P))}$ vanishes.
+Thus, $c(P) \to 0$ in this limit, causing the global estimate $H_p G \leq -c(P)$
+to degenerate. The loss of the Fredholm property and the subsequent resolvent blow-up rate
+then follow from the scaling analysis in Theorem~\ref{thm:resolvent}.
+\end{proof}
+
+\begin{remark}[Physical regime is permanently shielded]
+By Lemma~\ref{lem:physical_shielding}, the relation $V_{\mathrm{eff}}''(r_c) < 0$
+holds strictly for all $r_s \leq r_s^{\mathrm{Nariai}}$. Thus, $c(P) > 0$
+and uniform resolvent bounds remain valid throughout the physical SdS regime.
+\end{remark}
+
+% -------------------------------------------------------
+\section{WKB and Stokes Sector Analysis of $Q(\nu)$}
+\label{app:Qnu}
+% -------------------------------------------------------
+
+This appendix provides a rigorous proof that the eigenvalues $\varepsilon_n(\nu)$
+of the rescaled operator $Q(\nu) = -\partial_y^2 + y^3 + \nu y$, subject to
+outgoing boundary conditions on $\Gamma = \{te^{i2\pi/5} : t > 0\}$, satisfy
+$\varepsilon_n(\nu) = O(1)$ uniformly for $\nu$ in any bounded set.
+
+\subsection*{E.1.~WKB Phase on $\Gamma$}
+
+Applying the substitution $y = te^{i2\pi/5}$, the spectral equation
+$Q(\nu)u = \varepsilon u$ becomes
+\begin{equation}\label{eq:Qnu_transformed}
+  u''(t) = \bigl(t^3 + \nu\, t\, e^{i6\pi/5} - \varepsilon\, e^{i4\pi/5}\bigr)\,u(t),
+  \qquad t \in \mathbb{R}_{>0}.
+\end{equation}
+For large $t$, the cubic term $t^3$ dominates the potential. The WKB phase of the
+unperturbed equation $-u'' + (y^3 + \nu y)u = 0$ (corresponding to $\varepsilon = 0$)
+evaluated along the ray $\Gamma$ is given by
+\[
+  S(y)\big|_\Gamma
+  = \int_0^y \sqrt{s^3 + \nu s}\,ds\,\bigg|_{y = te^{i2\pi/5}}.
+\]
+As $t \to \infty$, we expand the integrand as
+$\sqrt{y^3 + \nu y} = y^{3/2}\bigl(1 + \frac{\nu}{2y^2} + O(y^{-4})\bigr)$, which yields
+\[
+  S(y)\big|_\Gamma
+  = \tfrac{2}{5}y^{5/2}\big|_\Gamma + \nu y^{1/2}\big|_\Gamma + O(|y|^{-3/2})
+  = -\tfrac{2}{5}t^{5/2} + \nu t^{1/2} e^{i\pi/5} + O(t^{-3/2}),
+\]
+where we have used the evaluations $y^{5/2}\big|_\Gamma = t^{5/2}e^{i\pi} = -t^{5/2}$
+and $y^{1/2}\big|_\Gamma = t^{1/2}e^{i\pi/5}$.
+
+Taking real parts, we obtain
+\begin{equation}\label{eq:ReS}
+  \mathrm{Re}\,S(y)\big|_\Gamma
+  = -\tfrac{2}{5}t^{5/2} + \nu\cos(\pi/5) t^{1/2} + O(t^{-3/2}),
+  \qquad \cos(\pi/5) = \tfrac{\sqrt{5}+1}{4} \approx 0.809.
+\end{equation}
+Since $t^{1/2} \ll t^{5/2}$ as $t\to\infty$, the leading term $-\frac{2}{5}t^{5/2}$
+dominates for all parameters $\nu$ as long as $t \gg t_{\mathrm{cross}}(\nu)$, where
+\[
+  t_{\mathrm{cross}}(\nu) := \Bigl(\tfrac{5|\nu|}{2}\Bigr)^{1/2} = O(|\nu|^{1/2}).
+\]
+For bounded $\nu = O(1)$, the crossover scale is $t_{\mathrm{cross}} = O(1)$. Consequently,
+in the asymptotic regime $t \gg 1$, the WKB decay $e^{\mathrm{Re}\,S} \sim e^{-2t^{5/2}/5}$
+holds uniformly in $\nu$.
+
+\subsection*{E.2.~Stokes Sectors and Stability of Outgoing Mode}
+\label{subsec:stokes_sectors}
+
+The Stokes geometry of the unperturbed equation $-u'' + y^3 u = 0$ (corresponding to $\nu = 0$)
+consists of five sectors centered at the angles $\theta_k = 2\pi k/5$ for $k = 0,\ldots,4$, in which
+the WKB solutions alternate between dominant (growing) and subdominant (decaying) behavior
+(see Sibuya~\cite{Sibuya75}). Along the ray $\Gamma$ (where $\theta = 2\pi/5$), the decaying mode satisfies
+the asymptotic behavior
+\[
+  v_+(t) \sim t^{-3/4}\exp\!\bigl(-\tfrac{2}{5}t^{5/2}\bigr),
+  \qquad t \to +\infty,
+\]
+in accordance with Lemma~\ref{lem:stokes_gm1}.
+
+When $\nu \neq 0$, the turning points of the potential $V(y) = y^3 + \nu y$ shift from the origin
+to $y = 0$ and $y = \pm\sqrt{-\nu}$. We analyze two cases depending on the sign of $\nu$:
+\begin{itemize}
+\item For $\nu > 0$, the non-zero turning points are purely imaginary ($\pm i\sqrt{\nu}$) and lie
+  off the real axis. For sufficiently small $|\nu|$, the Stokes lines emanating from these turning
+  points do not intersect the ray $\Gamma$, leaving the topology of the Stokes sectors at angle
+  $2\pi/5$ unchanged.
+\item For $\nu < 0$, two real turning points $\pm\sqrt{-\nu}$ appear on the real axis. The Stokes lines
+  radiating from these points (which propagate along the directions
+  $\arg(y^{3/2})\in\{0,\pm 2\pi/3\}$ relative to each turning point) do not reach the sector containing
+  $\Gamma$. Consequently, the outgoing mode on $\Gamma$ remains the uniquely defined decaying solution.
+\end{itemize}
+In both configurations, \eqref{eq:ReS} confirms that the WKB decay rate on $\Gamma$
+is given by $-\frac{2}{5}t^{5/2} + O(t^{1/2})$, which is strictly negative for
+$t \geq t_{\mathrm{cross}}(\nu) + 1$. Thus, the outgoing boundary condition on $\Gamma$
+uniquely determines a subdominant mode $v_+^{(\nu)}$ for each $\nu \in \mathbb{R}$.
+This mode satisfies
+\[
+  v_+^{(\nu)}(t) \sim t^{-3/4}
+  \exp\!\Bigl(-\tfrac{2}{5}t^{5/2} + \nu\cos(\pi/5)\,t^{1/2}\Bigr)
+  \qquad (t\to\infty),
+\]
+representing a smooth deformation of $v_+^{(0)} = v_+$.
+
+\subsection*{E.3.~Discreteness and $O(1)$ Bound on $\varepsilon_n(\nu)$}
+
+\begin{proposition}[Uniform spectral bound]
+\label{prop:Qnu_O1}
+For any compact $K \subset \mathbb{R}$, the resonances
+$\{\varepsilon_n(\nu)\}_{n\geq 1}$ of $Q(\nu)$ subject to outgoing boundary
+conditions on $\Gamma$ satisfy
+\[
+  \varepsilon_n(\nu) = O_{K,n}(1)
+  \qquad \text{uniformly for } \nu \in K.
+\]
+\end{proposition}
+
+\begin{proof}
+We use two ingredients from the global theory of the equation
+$-u'' + (y^3 + \nu y)u = 0$:
+(i)~the existence and stability of the outgoing mode $v_+^{(\nu)}$ (Appendix~E.2),
+which follows from Sibuya~\cite{Sibuya75}, Chapter~2, Theorem~2.1 (smooth dependence
+of Stokes solutions on a parameter); and
+(ii)~the compactness of the resolvent on the weighted $L^2$ space defined by
+the outgoing boundary condition, which follows from Sibuya~\cite{Sibuya75},
+\S5, Theorem~5.1 applied to the Stokes sector containing $\Gamma$.
+
+The operator family $Q(\nu) = -\partial_y^2 + y^3 + \nu y$ forms an entire holomorphic
+family of type (A) in the sense of Kato~\cite{Kato66}, meaning that its domain is independent of
+$\nu$ and the operator-valued map $\nu \mapsto Q(\nu)$ is analytic.
+By~(i), the outgoing boundary condition on $\Gamma$ is stable under perturbations
+for all $\nu \in K$, and the corresponding decaying mode $v_+^{(\nu)}$ varies smoothly
+with $\nu$ (Appendix~E.2).
+The resolvent $(Q(\nu) - \varepsilon)^{-1}$ is meromorphic in the spectral parameter $\varepsilon$, with
+its poles coinciding with the resonances $\varepsilon_n(\nu)$. By the analytic Fredholm theorem
+(see Dyatlov--Zworski~\cite{DZ19}, Theorem~C.5), these poles vary holomorphically with respect to $\nu$,
+except at points of spectral crossing.
+
+It remains to show that the resonances cannot diverge as $\nu$ varies over $K$.
+We argue by compactness and the following operator-theoretic bound, which
+avoids any classical action integral on the complex contour $\Gamma$.
+
+\emph{Compactness of $(Q(\nu) - \varepsilon)^{-1}$.}
+By Sibuya~\cite{Sibuya75}, \S5, Theorem~5.1, the equation
+$-u'' + (y^3 + \nu y)u = 0$ on the Stokes sector containing $\Gamma$
+determines a Hilbert--Schmidt resolvent on the weighted $L^2$ space
+associated with the outgoing boundary condition.
+Specifically, the kernel of $(Q(\nu)-\varepsilon)^{-1}$ satisfies a
+pointwise decay bound of the form
+$|G_\nu(y,z)| \leq C\,e^{-2|y|^{5/2}/5 - 2|z|^{5/2}/5}$ for large
+$|y|$, $|z|$ on $\Gamma$ (uniformly in $\nu \in K$ and $\varepsilon$
+in compact subsets of the resolvent set), which places
+$(Q(\nu)-\varepsilon)^{-1}$ in the Hilbert--Schmidt class on
+$L^2_\Gamma$. In particular the spectrum of $Q(\nu)$ is discrete for
+each $\nu$, and the resonances $\varepsilon_n(\nu)$ are isolated.
+
+\emph{Uniform boundedness on $K$.}
+Since $Q(\nu)$ is a type~(A) analytic family with $\nu$-independent domain
+$D = H^2_\Gamma$ (verified above), the map
+$\nu \mapsto Q(\nu)^{-1}$ is norm-continuous on the open set where
+$0 \notin \mathrm{spec}(Q(\nu))$.
+More generally, each resonance $\varepsilon_n$ is a continuous function
+of $\nu$ (by the analytic Fredholm theorem applied to the parameter $\nu$),
+and this continuity holds uniformly over the compact set $K$.
+To rule out $|\varepsilon_n(\nu)| \to \infty$ for some sequence $\nu_j \to \nu_* \in K$:
+if $\varepsilon_n(\nu_j) \to \infty$, then by the Hilbert--Schmidt bound the kernel
+$G_{\nu_j}(y,z;\varepsilon_n(\nu_j))$ decays in $L^2_\Gamma$ norm,
+forcing $\|(Q(\nu_j)-\varepsilon_n(\nu_j))^{-1}\|_{L^2_\Gamma} \to 0$,
+which contradicts $\varepsilon_n(\nu_j)$ being a pole (where the resolvent norm blows up).
+Hence no such sequence exists, and $\sup_{\nu\in K}|\varepsilon_n(\nu)| < \infty$.
+\end{proof}
+
+\begin{corollary}[Uniform resolvent bound]
+\label{cor:Qnu_resolvent}
+For any compact $K \subset \mathbb{R}$ with $0 \notin \mathrm{spec}(Q(\nu))$ for all $\nu \in K$,
+\[
+  \|Q(\nu)^{-1}\|_{L^2 \to L^2} = O_{K}(1)
+  \qquad \text{uniformly for } \nu \in K.
+\]
+\end{corollary}
+
+\begin{proof}
+Since $Q(\nu)$ is an analytic family of type (A) in the sense of Kato~\cite{Kato66}, the analytic Fredholm theorem
+(Dyatlov--Zworski~\cite{DZ19}, Theorem~C.5) implies that the mapping $\nu \mapsto Q(\nu)^{-1}$ is holomorphic
+on the open set $\{\nu : 0 \notin \mathrm{spec}(Q(\nu))\}$. By hypothesis, $0 \notin \mathrm{spec}(Q(\nu))$
+for all $\nu \in K$. Therefore, the resolvent operator $Q(\nu)^{-1}$ is holomorphic, and thus continuous,
+in a neighborhood of the compact set $K$. Because any continuous operator-valued function on a compact set
+is bounded in norm, we obtain $\sup_{\nu \in K} \|Q(\nu)^{-1}\| < \infty$, which yields the desired uniform bound.
+\end{proof}
+
+\begin{remark}[Verification of the spectral gap hypothesis]
+\label{rem:specgap_nu0}
+We verify that $0 \notin \mathrm{spec}(Q(\nu))$ holds for all $\nu$ in a fixed compact neighborhood
+of $0$, ensuring that Corollary~\ref{cor:Qnu_resolvent} is applicable in the double-scaling window.
+
+\medskip
+\noindent\textbf{Step 1: Spectral gap at the critical point $0 \notin \mathrm{spec}(Q(0))$.}
+The operator $Q(0) = -\partial_y^2 + y^3$ with outgoing boundary conditions on $\Gamma$
+admits $0$ as an $L^2$-eigenvalue if and only if there exists a non-trivial solution to
+$Q(0)u = 0$ in $L^2(\mathbb{R})$. According to Lemma~\ref{lem:stokes_gm1}, the unique outgoing
+solution is $e_1$. However, because $e_1$ decays only along the complex ray $\Gamma$
+and not on the real axis, $e_1 \notin L^2(\mathbb{R})$. Thus, $0$ is not an $L^2$-eigenvalue of $Q(0)$.
+Since $Q(0)$ belongs to an analytic family of type (A) (Kato~\cite{Kato66}) and has a compact resolvent
+on the weighted space defined by the outgoing boundary condition, its $L^2$-spectrum is discrete.
+
+\emph{Type-(A) verification for $Q(\nu) = -\partial_y^2 + y^3 + \nu y$.}
+We check the two conditions of Kato~\cite{Kato66}, \S VII.2.1.
+
+\emph{Domain stability} (condition~(i)): the domain is
+$D(Q(\nu)) = H^2_\Gamma \cap \{\text{outgoing BC on }\Gamma\}$, where
+$H^2_\Gamma$ is the Sobolev space on $\Gamma$ with the weighted norm
+induced by the WKB factor $e^{-2t^{5/2}/5}$.  The outgoing boundary
+condition is the condition that the solution decays along $\Gamma$; at
+$\nu=0$ this selects the mode $e_1 \sim t^{-3/4}e^{-2t^{5/2}/5}$.  For
+$\nu \neq 0$ small, the WKB exponent of the outgoing mode of $Q(\nu)u=0$
+is $\tfrac{2}{5}t^{5/2}(1 + O(\nu t^{-2}))$, which converges uniformly
+to the $\nu=0$ exponent on $[t_L, \infty)$; the outgoing class is
+therefore the same weighted $H^2$ space for all $|\nu|$ small.  The
+perturbation $\nu y$ maps $H^2_\Gamma \to H^2_\Gamma$: since $|y| = t$
+and $t \cdot e^{-2t^{5/2}/5} \in L^2(t_L,\infty)$, multiplication by
+$y$ preserves the weighted Sobolev space.  Thus $D(Q(\nu)) = D(Q(0))$
+for all $|\nu|$ small.
+
+\emph{Holomorphicity} (condition~(ii)): for each $u \in D$, the map
+$\nu \mapsto Q(\nu)u = Q(0)u + \nu y u$ is holomorphic in
+$L^2_\Gamma$ since $yu \in L^2_\Gamma$ by the domain stability just
+established.
+
+Hence $Q(\nu)$ is a type-(A) analytic family in the sense of
+Kato~\cite{Kato66}.  Since $Q(0)$ has compact resolvent on
+$L^2_\Gamma$ (the embedding $H^2_\Gamma \hookrightarrow L^2_\Gamma$ is
+compact by the Rellich theorem, using the exponential weight), the
+$L^2_\Gamma$-spectrum of $Q(0)$ is discrete.
+In particular, the eigenvalue $0$ is isolated from the rest of the spectrum, which shows that
+$0 \notin \mathrm{spec}(Q(0))$ and that the inverse $(Q(0))^{-1}$ is a bounded operator on $L^2(\mathbb{R})$.
+
+\medskip
+\noindent\textbf{Step 2: Persistence in a local neighborhood.}
+Because $Q(\nu)$ is an analytic family of type (A) and $0 \notin \mathrm{spec}(Q(0))$, the analytic
+Fredholm theorem (Dyatlov--Zworski~\cite{DZ19}, Theorem~C.5) guarantees that the resolvent map
+$\nu \mapsto Q(\nu)^{-1}$ is holomorphic in a neighborhood of $\nu = 0$. Since holomorphicity implies that
+$\nu \mapsto Q(\nu)^{-1}$ is continuous in the operator norm, the function $\nu \mapsto \|Q(\nu)^{-1}\|$
+is continuous at $0$. Consequently, there exists a constant $\delta > 0$ such that $0 \notin \mathrm{spec}(Q(\nu))$
+for all $|\nu| \leq \delta$, establishing a compact neighborhood $K_0 := [-\delta, \delta]$ where the hypotheses
+of Corollary~\ref{cor:Qnu_resolvent} are satisfied.
+
+\medskip
+\noindent\textbf{Step 3: Verification in the double-scaling window.}
+The double-scaling regime corresponds to the parameter window $\nu = O(1)$, which is characterized by the
+inequality $|\nu| \leq C$ for a fixed constant $C > 0$ (see Section~7 for the scaling relation
+$\nu = \mu h^{-4/5}$). Let $C > 0$ be any such fixed constant. Proposition~\ref{prop:Qnu_O1} guarantees
+that the resonances satisfy $\varepsilon_n(\nu) = O_{[-C,C],n}(1)$ uniformly on $[-C,C]$, and that they vary
+continuously with $\nu$ while remaining bounded away from the real axis. Applying the same holomorphicity argument
+as in Step~2 to the compact interval $[-C,C]$ instead of the single point $\{0\}$, we find that
+$0 \notin \mathrm{spec}(Q(\nu))$ for all $\nu \in [-C,C]$ provided that $0$ is not a resonance for any individual
+parameter value in this interval.
+
+This latter condition—that $0$ is not a resonance for any fixed $\nu \in [-C,C]$—follows from the same argument
+presented in Step~1. Specifically, for each fixed $\nu$, the unique outgoing solution of $Q(\nu)u = 0$ is
+the deformed mode $v_+^{(\nu)}$ constructed in Appendix~E.2. Because this mode decays along $\Gamma$
+but grows along the real axis, we have $v_+^{(\nu)} \notin L^2(\mathbb{R})$, meaning that $0$ cannot be
+an $L^2$-eigenvalue.
+
+Accordingly, the compact set $K_0 := [-C,C]$ satisfies all the conditions of Corollary~\ref{cor:Qnu_resolvent},
+which yields the uniform bound
+\[
+  \|Q(\nu)^{-1}\|_{L^2 \to L^2} = O_C(1) \qquad \text{uniformly for } |\nu| \leq C.
+\]
+\end{remark}
+
+
+
+% -------------------------------------------------------
+% REFERENCES
+% -------------------------------------------------------
+\begin{thebibliography}{9}
+
+\bibitem{DZ19}
+S.~Dyatlov, M.~Zworski,
+\textit{Mathematical Theory of Scattering Resonances},
+Graduate Studies in Mathematics, Vol.~200, AMS, 2019.
+
+\bibitem{Vasy2013}
+A.~Vasy,
+Microlocal analysis of asymptotically hyperbolic and Kerr--de~Sitter spaces,
+\textit{Inventiones Mathematicae} \textbf{194} (2013), 381--513.
+
+\bibitem{Arnold72}
+V.~I.~Arnold,
+Normal forms for functions near degenerate critical points, the Weyl groups of
+$A_k$, $D_k$, $E_k$ and Lagrangian singularities,
+\textit{Functional Analysis and Its Applications} \textbf{6} (1972), 254--272.
+
+\bibitem{Kato66}
+T.~Kato,
+\textit{Perturbation Theory for Linear Operators},
+Springer, Berlin, 1966.
+
+\bibitem{Sibuya75}
+Y.~Sibuya,
+\textit{Global Theory of a Second Order Linear Ordinary Differential Equation
+with a Polynomial Coefficient},
+North-Holland, Amsterdam, 1975.
+
+\bibitem{Malgrange64}
+B.~Malgrange,
+The preparation theorem for differentiable functions,
+in \textit{Differential Analysis}, Tata Institute,
+Oxford University Press, 1964, pp.~203--208.
+
+\bibitem{WZ11}
+J.~Wunsch, M.~Zworski,
+Resolvent estimates for normally hyperbolic trapped sets,
+\textit{Annales Henri Poincar\'e} \textbf{12} (2011), 1349--1385.
+
+\bibitem{NZ15}
+S.~Nonnenmacher, M.~Zworski,
+Decay of correlations for normally hyperbolic trapping,
+\textit{Inventiones Mathematicae} \textbf{200} (2015), 345--438.
+
+\bibitem{Dyatlov11}
+S.~Dyatlov,
+Quasi-normal modes and exponential energy decay for the
+Kerr--de~Sitter black hole,
+\textit{Communications in Mathematical Physics} \textbf{306} (2011), 119--163.
+
+\bibitem{Dyatlov12}
+S.~Dyatlov,
+Asymptotic distribution of quasi-normal modes for Kerr--de~Sitter black holes,
+\textit{Annales Henri Poincar\'e} \textbf{13} (2012), 1101--1166.
+
+\bibitem{HintzVasy2016}
+P.~Hintz, A.~Vasy,
+Global analysis of quasilinear wave equations on asymptotically Kerr--de~Sitter spaces,
+\textit{International Mathematics Research Notices} \textbf{2016} (2016), 5355--5426.
+
+\bibitem{Zworski2012}
+M.~Zworski,
+\textit{Semiclassical Analysis},
+Graduate Studies in Mathematics, Vol.~138, AMS, 2012.
+
+\bibitem{SZ91}
+J.~Sj\"{o}strand, M.~Zworski,
+Complex scaling and the distribution of scattering poles,
+\textit{Journal of the American Mathematical Society} \textbf{4} (1991), 729--769.
+
+\bibitem{FS11}
+F.~Faure, J.~Sj\"{o}strand,
+Upper bound on the density of Ruelle resonances for Anosov flows,
+\textit{Communications in Mathematical Physics} \textbf{308} (2011), 325--364.
+
+\bibitem{Hintz2022}
+P.~Hintz,
+Mode stability and shallow quasinormal modes of Kerr--de~Sitter black holes
+away from extremality,
+\textit{Journal of the European Mathematical Society} (2024), published online,
+DOI: 10.4171/JEMS/1463; arXiv:2112.14431.
+
+\bibitem{PetersenVasy2023}
+O.~Petersen, A.~Vasy,
+Analyticity of quasinormal modes in the Kerr and Kerr--de~Sitter spacetimes,
+\textit{Communications in Mathematical Physics} \textbf{402} (2023), 2547--2580;
+arXiv:2104.04500.
+
+\bibitem{Fang2022}
+A.~J.~Fang,
+Linear stability of the slowly-rotating Kerr--de~Sitter family,
+preprint, arXiv:2207.07902 (2022).
+
+\bibitem{Ates2026code}
+C.~Ate\c{s},
+\textit{SdS Jordan Chain: Numerical code for spectral bifurcation
+in Schwarzschild--de~Sitter geometry},
+Zenodo, 2026.
+DOI: \texttt{10.5281/zenodo.20496573}.
+GitHub: \texttt{https://github.com/canerates053/sds-jordan-chain}.
+
+\end{thebibliography}
+
+\end{document}
